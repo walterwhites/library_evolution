@@ -34,4 +34,7 @@ batch : modules contenant les batchs pour la création de la base de données Po
 
 ## Diagrams
 #### Class diagram
+
+![alt class_diagram](diagrams/class_diagram.png?raw=true "Class diagram")
+
 #### Use case diagram
