@@ -19,12 +19,12 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 
 
 ## Stucture du projet Maven
-Ce projet maven est basé sur une architecture multi-tiers, en voici les différents modules:
-business : module contenant la logique métier (couche métier)
-consumer : module contenant les dépendances externes et le DAO (couche de persistance)
-model : module contenant les entités
-webapp : module contenant les vues et ses contrôleurs (couche présentation)
-webservice: module contenant le webservice
+Ce projet maven est basé sur une architecture multi-tiers, en voici les différents modules:</br>
+business : module contenant la logique métier (couche métier) </br>
+consumer : module contenant les dépendances externes et le DAO (couche de persistance) </br>
+model : module contenant les entités</br>
+webapp : module contenant les vues et ses contrôleurs (couche présentation) </br>
+webservice: module contenant le webservice</br>
 batch : modules contenant les batchs pour la création de la base de données PostgreSQL
 
 
