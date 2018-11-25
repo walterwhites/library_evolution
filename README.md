@@ -14,8 +14,9 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 - Java jre: Java(TM) SE Runtime Environment 18.3
 - Apache Maven 3.5.4 
 - Apache Tomcat 9.0.12
-- PostgreSQL 9.6
 - psql (PostgreSQL) 10.5
+- Spring boot (Spring framework to get AutoConfiguration and starters)
+- Hibernate (persistence framework)
 
 
 ## Stucture du projet Maven
