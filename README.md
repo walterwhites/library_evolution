@@ -38,11 +38,11 @@ batch : modules contenant les batchs pour la création de la base de données Po
 ![alt class_diagram](diagrams/class_diagram.png?raw=true "Class diagram")
 
 #### Description
-- one Admin WORK at 0 or 1 Library <b>many to one</b>
-- one Library can be associated with 0 or many Admin <b>one to many</b>
-- one Client HAVE 0 or many Loan  <b>one to many</b>
-- one Loan can be associated with just 1 Client <b>many to one</b>
-- one Loan CONTAINS 1 or many Book <b>many to many</b>
-- one Book can be associated with 0 or many Loan <b>many to many</b>
-- one Library HAVE 0 or many Book <b>many to many</b>
-- one Book is associated with 1 or many Library <b>many to many</b>
+- one Admin WORK at 0 or 1 Library <b>(it's a many to one relation)</b>
+- one Library can be associated with 0 or many Admin <b>(it's a one to many relation)</b>
+- one Client HAVE 0 or many Loan  <b>(it's a one to many relation)</b>
+- one Loan can be associated with just 1 Client <b>(it's a many to one relation)</b>
+- one Loan CONTAINS 1 or many Book <b>(it's a many to many relation)</b>
+- one Book can be associated with 0 or many Loan <b>(it's a many to many relation)</b>
+- one Library HAVE 0 or many Book <b>(it's a many to many relation)</b>
+- one Book is associated with 1 or many Library <b>(it's a many to many relation)</b>
