@@ -30,8 +30,10 @@ batch : modules contenant les batchs pour la création de la base de données Po
 
 
 ## How to run the App
-1) Clone this repo: git clone git@github.com:walterwhites/library_information_system.git
-
+1) Clone this repo: git clone git@github.com:walterwhites/library.git
+2) Go inside the project directory: cd library/
+3) Run the maven goal: mvn spring-boot:run
+4) Navigate on your browser to http://localhost:8080/
 
 ## Diagrams
 #### Class diagram
