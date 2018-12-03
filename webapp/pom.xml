@@ -10,7 +10,7 @@
 
     <!--The identifier of the parent POM-->
     <parent>
-        <groupId>com.walterwhites.walterwhites</groupId>
+        <groupId>com.walterwhites.library</groupId>
         <artifactId>library</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
