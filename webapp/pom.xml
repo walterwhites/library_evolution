@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.walterwhites.walterwhites</groupId>
     <artifactId>webapp</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
@@ -55,17 +54,17 @@
 
         <!-- modules dependencies -->
         <dependency>
-            <groupId>com.walterwhites.walterwhites</groupId>
+            <groupId>com.walterwhites.library</groupId>
             <artifactId>business</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.walterwhites.walterwhites</groupId>
+            <groupId>com.walterwhites.library</groupId>
             <artifactId>webservice</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.walterwhites.walterwhites</groupId>
+            <groupId>com.walterwhites.library</groupId>
             <artifactId>model</artifactId>
             <version>${project.version}</version>
         </dependency>
