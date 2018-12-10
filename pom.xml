@@ -22,7 +22,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-<<<<<<< HEAD
         <spring-boot-devtools.version>2.1.1.RELEASE</spring-boot-devtools.version>
         <spring-session-core.version>2.1.1.RELEASE</spring-session-core.version>
         <spring-boot-admin-starter-server.version>2.1.1</spring-boot-admin-starter-server.version>
@@ -36,17 +35,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <start-class>com.walterwhites.library.LibraryApplication</start-class>
-=======
-        <spring-boot-devtools.version>2.1.2</spring-boot-devtools.version>
-        <spring-session-core.version>2.1.2</spring-session-core.version>
-        <spring-boot-admin-starter-server.version>1.2.0</spring-boot-admin-starter-server.version>
-        <spring-boot-admin-starter-client.version>1.2.0</spring-boot-admin-starter-client.version>
-        <spring-boot-starter-web-services.version>2.1.1</spring-boot-starter-web-services.version>
-        <spring-boot-starter-web.version>2.1.1</spring-boot-starter-web.version>
-        <spring-boot-starter-thymeleaf.version>2.1.1</spring-boot-starter-thymeleaf.version>
-        <spring-boot-admin.version>2.1.1</spring-boot-admin.version>
-        <postgresql.version>42.2.5</postgresql.version>
->>>>>>> b1c0b1ba9ebe821571fea60f42ffd24e7f9a7a03
     </properties>
 
     <modules>
