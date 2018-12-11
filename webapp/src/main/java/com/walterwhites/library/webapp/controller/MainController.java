@@ -1,4 +1,4 @@
-package com.walterwites.library.controller;
+package com.walterwhites.library.webapp.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ public class MainController {
 
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-
     public String index(Model model) {
         model.addAttribute("message", message);
         return "index";
