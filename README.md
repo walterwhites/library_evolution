@@ -35,6 +35,18 @@ batch : modules contenant les batchs pour la création de la base de données Po
 3) Run the maven goal: mvn spring-boot:run
 4) Navigate on your browser to http://localhost:8080/
 
+## Deploy the app manually
+1) start tomcat server, running
+```startup.sh```
+  
+2) build your project:
+```mvn clean package```
+
+3) Copy war file of the app inside tomcat/webapps dir
+```cp webapp/target/warfile.war usr/local/env/tomcat-9/webapps/warfile.war```
+
+4) Navigate on your browser to http://localhost:8080/webapp
+
 ## Diagrams
 #### Class diagram
 
