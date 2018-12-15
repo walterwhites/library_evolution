@@ -29,11 +29,44 @@ webservice: module contenant le webservice</br>
 batch : modules contenant les batchs pour la création de la base de données PostgreSQL
 
 
-## How to run the App
-1) Clone this repo: git clone git@github.com:walterwhites/library.git
-2) Go inside the project directory: cd library/
-3) Run the maven goal: mvn spring-boot:run
-4) Navigate on your browser to http://localhost:8080/
+## How to run the App, there have 2 choices:
+the first choice:
+1) Clone this repo: 
+```
+git clone git@github.com:walterwhites/library.git
+```
+2) Go inside the project directory
+```
+cd library/
+```
+3) Run the maven goals:
+```
+./mvnw install && ./mvnw spring-boot:run -pl webapp/
+```
+4) Navigate on your browser to http://localhost:8080/ (or maybe it's one other the port)
+
+the second one:
+1) Clone this repo:
+```
+git clone git@github.com:walterwhites/library.git
+```
+2) Go inside the project directory
+```
+cd library/
+```
+3) Run the maven goal:
+```
+./mvnw clean package
+```
+4) copy you webapp .war file on tomcat dir tomcat/:
+```
+cp -R webapp/target/webapp-0.0.1-SNAPSHOT.war /usr/local/env/tomcat/apache-tomcat-9.0.12/webapps/
+```
+5) start tomcat server:
+```
+catalina.sh start
+```
+6) Navigate on your browser to http://localhost:8080/webapp-0.0.1-SNAPSHOT/index (or maybe it's one other the port)
 
 ## Deploy the app manually
 1) start tomcat server, running
