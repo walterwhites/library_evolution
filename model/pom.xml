@@ -6,6 +6,13 @@
     <artifactId>model</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.1.2.RELEASE</version>
+        </dependency>
+    </dependencies>
 
     <!--The identifier of the parent POM-->
     <parent>

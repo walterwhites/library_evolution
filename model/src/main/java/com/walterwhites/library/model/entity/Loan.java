@@ -1,5 +1,6 @@
 package com.walterwhites.library.model.entity;
 
+
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.Date;

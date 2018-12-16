@@ -54,7 +54,7 @@
             <version>${spring-boot-admin.version}</version>
             <type>pom</type>
         </dependency>
-
+        
         <!-- modules dependencies -->
         <dependency>
             <groupId>com.walterwhites.library</groupId>
