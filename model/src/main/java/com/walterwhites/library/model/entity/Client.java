@@ -1,32 +1,19 @@
 package com.walterwhites.library.model.entity;
 
-public class Client extends AbstractUser {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Client")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Client extends AbstractUser {
     private String firstname;
     private String lastname;
     private String language;
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
 }
