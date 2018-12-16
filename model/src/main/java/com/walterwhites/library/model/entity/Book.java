@@ -13,7 +13,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,4 +25,15 @@ public class Book {
     private Library library;
     private Client client;
 
+    public Book(String title, String author, String language, String state, Date loan_start_date, Date loan_end_date, Library library, Client client) {
+        super();
+        this.title = title;
+        this.author = author;
+        this.language = language;
+        this.state = state;
+        this.loan_start_date = loan_start_date;
+        this.loan_end_date = loan_end_date;
+        this.library = library;
+        this.client = client;
+    }
 }
