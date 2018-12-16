@@ -15,6 +15,8 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 - Apache Maven 3.5.4 
 - Apache Tomcat 9.0.12
 - psql (PostgreSQL) 10.5
+- ElephantSQL (SAAS of postgreSQL)
+- CloudFoundry (PAAS which contains ElephantSQL)
 - Spring boot (Spring framework to get AutoConfiguration and starters)
 - Hibernate (persistence framework)
 
