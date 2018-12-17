@@ -82,6 +82,16 @@ catalina.sh start
 
 4) Navigate on your browser to http://localhost:8080/webapp
 
+## Deploy the app on cloudfoundry
+1) this CLI command below reads manifest.yml file which contains all informations
+ about the cloud instance, just run
+```cf push webapp -p webapp/target/webapp-0.0.1-SNAPSHOT.war -b java_buildpack```
+- webapp is the name of the application on cloud foundry
+- option b is to specified which buildpack cf will use to build the app,
+so we use Java buildpack https://github.com/cloudfoundry/java-buildpack
+
+
+
 ## Diagrams
 #### Class diagram
 

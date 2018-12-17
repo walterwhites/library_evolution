@@ -1,0 +1,6 @@
+applications:
+  - name: webapp
+    memory: 768M
+    instances: 1
+    space: development
+    route: webapp-library.cfapps.io
