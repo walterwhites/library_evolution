@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webservice</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
     <!--The identifier of the parent POM-->

@@ -1,0 +1,3 @@
+INSERT INTO Book(title, author, language, state, loan_start_date, loan_end_date, library, client) VALUES("Harry Potter", "JK Rowling", "en", "december", "december", "paris", "flo");
+INSERT INTO Book(title, author, language, state, loan_start_date, loan_end_date, library, client) VALUES("Eragon", "Christopher Paolini", "en", "december", "december", "paris", "flo");
+INSERT INTO Book(title, author, language, state, loan_start_date, loan_end_date, library, client) VALUES("Le seigneur des anneaux", "J. R. R. Tolkien", "en", "december", "december", "paris", "flo");
