@@ -32,14 +32,6 @@
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-server</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
         </dependency>
@@ -64,7 +56,7 @@
         <dependency>
             <groupId>com.walterwhites.library</groupId>
             <artifactId>webservice</artifactId>
-            <version>${project d.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.walterwhites.library</groupId>
@@ -98,6 +90,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-dependencies</artifactId>
+            <version>${spring-boot-admin.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin-starter-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <version>${spring-boot-admin-starter-server.version}</version>
         </dependency>
     </dependencies>
 

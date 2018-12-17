@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MainController {
+
     @Value("${welcome.message}")
     private String message;
 
     @Value("${error.message}")
     private String errorMessage;
+
+    @Value("${spring.application.name}")
+    private String appName;
 
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
