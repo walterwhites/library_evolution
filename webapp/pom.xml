@@ -5,7 +5,6 @@
 
     <artifactId>webapp</artifactId>
     <packaging>war</packaging>
-    <version>0.0.1-SNAPSHOT</version>
 
     <!--The identifier of the parent POM-->
     <parent>

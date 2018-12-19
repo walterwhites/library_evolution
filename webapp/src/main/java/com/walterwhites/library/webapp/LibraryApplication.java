@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.walterwhites.library"})
 public class LibraryApplication extends SpringBootServletInitializer {
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(LibraryApplication.class);

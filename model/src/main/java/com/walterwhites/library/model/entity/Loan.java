@@ -1,7 +1,6 @@
 package com.walterwhites.library.model.entity;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +20,7 @@ public class Loan {
     private Date start_date;
     private Date end_date;
     private Client client;
-    private Bool renewed;
+    private Boolean renewed;
     private List<Book> books;
     private String state;
     private Date updated_date;

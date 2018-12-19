@@ -32,9 +32,9 @@
     </properties>
 
     <modules>
+        <module>model</module>
         <module>business</module>
         <module>consumer</module>
-        <module>model</module>
         <module>webapp</module>
         <module>webservice</module>
         <module>batch</module>
