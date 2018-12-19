@@ -31,7 +31,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -45,8 +44,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.walterwhites.library.batch.BatchApplication</mainClass>
-                    <classifier>exec</classifier>
+                    <mainClass>com.walterwhites.library.batch.Batch</mainClass>
                 </configuration>
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>

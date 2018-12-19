@@ -2,8 +2,10 @@ package com.walterwhites.library.batch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.walterwhites.library"})
 public class Batch {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello World");
