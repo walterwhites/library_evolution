@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.walterwhites.library"})
 public class Batch {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello World");
+        System.out.println("Batch is running");
         SpringApplication.run(Batch.class, args);
     }
 }

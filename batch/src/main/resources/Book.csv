@@ -1,3 +1,4 @@
-Harry Potter, JK Rowling, en, december, december, paris, flo
-Eragon, Christopher Paolini, en, december, december, paris, flo
-Le seigneur des anneaux, J. R. R. Tolkien, en, december, december, paris, flo
+title,author,language,state,loan_start_date,loan_end_date,library,client
+Harry Potter,JK Rowling,en,active,2017-07-20 04:15,2017-07-20 04:15,library,client
+Eragon,Christopher Paolini,en,active,2017-07-20 04:15,2017-07-20 04:15,library,client
+Le seigneur des anneaux,J.R.R.Tolkien,en,active,2017-07-20 04:15,2017-07-20 04:15,library,client
