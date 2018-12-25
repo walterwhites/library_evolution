@@ -12,8 +12,8 @@ import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourc
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,23 +33,16 @@ public class BatchConfiguration {
 
     // tag::readerwriterprocessor[]
     @Bean
-    FlatFileItemReader<Book> bookFlatFileItemReader() {
-        FlatFileItemReader<Book> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new ClassPathResource("Book.csv"));
-        flatFileItemReader.setLinesToSkip(1);
-        DefaultLineMapper defaultLineMapper = new DefaultLineMapper();
-        DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
-        delimitedLineTokenizer.setNames(new String[]{"title", "author", "language", "state", "loan_start_date", "loan_end_date", "library", "client"});
-
-        BeanWrapperPersonalized<Book> fieldSetMapper = new BeanWrapperPersonalized<>();
-        fieldSetMapper.setTargetType(Book.class);
-
-        defaultLineMapper.setLineTokenizer(delimitedLineTokenizer);
-        defaultLineMapper.setFieldSetMapper(fieldSetMapper);
-        flatFileItemReader.setLineMapper(defaultLineMapper);
-
-        return flatFileItemReader;
-
+    public FlatFileItemReader<Book> reader() {
+        return new FlatFileItemReaderBuilder<Book>()
+                .name("personItemReader")
+                .resource(new ClassPathResource("Book.csv"))
+                .delimited()
+                .names(new String[]{"title", "author", "language", "state", "loan_start_date", "loan_end_date", "library", "client"})
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<Book>() {{
+                    setTargetType(Book.class);
+                }})
+                .build();
     }
 
     @Bean
@@ -62,7 +55,7 @@ public class BatchConfiguration {
         return new JdbcBatchItemWriterBuilder<Book>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
                 .sql("INSERT INTO book (title, author, language, state, loan_start_date, loan_end_date, library, client) VALUES (" +
-                        ":title, :author, :language, :state, :loan_start_date, :loan_end_date, :library, client)")
+                        ":title, :author, :language, :state, :loan_start_date, :loan_end_date, :library, :client)")
                 .dataSource(dataSource)
                 .build();
     }
@@ -83,7 +76,7 @@ public class BatchConfiguration {
     public Step step1(JdbcBatchItemWriter<Book> writer) {
         return stepBuilderFactory.get("step1")
                 .<Book, Book> chunk(10)
-                .reader(bookFlatFileItemReader())
+                .reader(reader())
                 .processor(processor())
                 .writer(writer)
                 .build();
