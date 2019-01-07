@@ -14,11 +14,11 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
     private static final Logger log = LoggerFactory.getLogger(BookItemProcessor.class);
 
     @Override
-    public Book process(final Book book) throws Exception {
-        final String title = book.getTitle().toLowerCase();
-        final String author = book.getAuthor().toLowerCase();
-        final String language = book.getLanguage().toLowerCase();
-        final String state = book.getState().toLowerCase();
+    public Book process(Book item) throws Exception {
+        final String title = item.getTitle().toLowerCase();
+        final String author = item.getAuthor().toLowerCase();
+        final String language = item.getLanguage().toLowerCase();
+        final String state = item.getState().toLowerCase();
 
         final Date loan_start_date = new Date();
         final Date loan_end_date = new Date();
@@ -27,7 +27,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
         final Book transformedBook = new Book(title, author, language, state, loan_start_date, loan_end_date, library, clients);
 
-        log.info("Converting (" + book + ") into (" + transformedBook + ")");
+        log.info("Converting (" + item + ") into (" + transformedBook + ")");
 
         return transformedBook;
     }
