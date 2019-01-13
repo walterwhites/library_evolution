@@ -1,0 +1,6 @@
+applications:
+  - name: webapp-231122
+    memory: 2GB
+    disk_quota: 2GB
+    instances: 1
+    space: development

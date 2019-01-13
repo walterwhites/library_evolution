@@ -1,83 +1,29 @@
 package com.walterwhites.library.model.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name = "Loan")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Loan {
-
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Date start_date;
     private Date end_date;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Client client;
-    private Bool renewed;
-    private List<Book> books;
+    private Boolean renewed;
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    private Set<Book> books;
     private String state;
     private Date updated_date;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Bool getRenewed() {
-        return renewed;
-    }
-
-    public void setRenewed(Bool renewed) {
-        this.renewed = renewed;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Date getUpdated_date() {
-        return updated_date;
-    }
-
-    public void setUpdated_date(Date updated_date) {
-        this.updated_date = updated_date;
-    }
 }

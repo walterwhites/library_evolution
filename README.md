@@ -7,6 +7,7 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 * [What technologies project uses](#what-technologies-project-uses)
 * [Stucture du projet Maven](#stucture-du-projet-maven)
 * [How to run the App](#how-to-run-the-app)
+* [How to lauch the BATCH](#how-to-launch-the-batch)
 * [Diagrams](#diagrams)
 
 ## What technologies project uses
@@ -81,6 +82,31 @@ catalina.sh start
 ```cp webapp/target/warfile.war usr/local/env/tomcat-9/webapps/warfile.war```
 
 4) Navigate on your browser to http://localhost:8080/webapp
+
+## Deploy the app on cloudfoundry
+1) this CLI command below reads manifest.yml file which contains all informations
+ about the cloud instance, just run
+```cf push webapp -p webapp/target/webapp-0.0.1-SNAPSHOT.war -b java_buildpack```
+- webapp is the name of the application on cloud foundry
+- option b is to specified which buildpack cf will use to build the app,
+so we use Java buildpack https://github.com/cloudfoundry/java-buildpack
+
+
+## How to run launch the BATCH
+1) Go inside the batch directory
+```
+cd library/batch
+```
+2) build jar
+```
+mvn clean package
+```
+
+3) Run the batch
+```
+java -jar target/batch-0.0.1-SNAPSHOT.jar
+```
+
 
 ## Diagrams
 #### Class diagram
