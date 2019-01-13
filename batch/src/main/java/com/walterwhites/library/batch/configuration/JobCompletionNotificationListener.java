@@ -1,6 +1,6 @@
 package com.walterwhites.library.batch.configuration;
 
-import com.walterwhites.library.batch.business.Book;
+import com.walterwhites.library.model.entity.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -29,16 +29,14 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            List<Book> books = jdbcTemplate.query("SELECT title, author, language, state, loan_start_date, loan_end_date, library, client FROM book",
+            List<Book> books = jdbcTemplate.query("SELECT title, author, languages, state, loan_start_date, loan_end_date FROM book",
                     (rs, row) -> new Book(
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(4),
                             rs.getDate(5),
-                            rs.getDate(6),
-                            null,
-                            null
+                            rs.getDate(6)
                     ));
             for (Book book : books) {
                 log.info("Found <" + book + "> in the database.");

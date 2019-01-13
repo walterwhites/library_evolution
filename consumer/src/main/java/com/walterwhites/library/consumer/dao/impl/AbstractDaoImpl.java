@@ -1,4 +1,4 @@
-package com.walterwhites.library.consumer.impl.dao;
+package com.walterwhites.library.consumer.dao.impl;
 
 import javax.activation.DataSource;
 

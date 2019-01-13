@@ -1,6 +1,6 @@
 package com.walterwhites.library.webservice.controller;
 
-import com.walterwhites.library.consumer.contract.repository.BookRepository;
+import com.walterwhites.library.consumer.repository.contract.BookRepository;
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
