@@ -120,6 +120,27 @@ cd library/
 xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb.java webservice/src/main/resources/books.xsd
 ```
 
+To deploy web service
+1) go to parent module and run
+```
+mvn package
+```
+
+2) deploy war on tomcat
+```
+cp webservice/target/webservice-0.0.1-SNAPSHOT.war /usr/local/env/tomcat/apache-tomcat-9.0.12/webapps/webservice.war
+```
+
+3) webservice is running on http://localhost:8080/webservice/, you can test it with SoapUI or with CURL request like that
+```
+cd webservice/src/main/java/com/walterwhites/library/webservice/test
+```
+then
+
+```
+curl --header "content-type: text/xml" -d @request_book.xml http://localhost:8080/webservice
+```
+
 
 ## Diagrams
 #### Class diagram
