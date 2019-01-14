@@ -7,8 +7,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.walterwhites.library.webservice.jaxb.java.GetBookRequest;
-import com.walterwhites.library.webservice.jaxb.java.GetBookResponse;
+import com.walterwhites.library.consumer.jaxb.java.GetBookRequest;
+import com.walterwhites.library.consumer.jaxb.java.GetBookResponse;
 
 
 @Endpoint

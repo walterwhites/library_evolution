@@ -1,17 +1,11 @@
 package com.walterwhites.library.webservice.controller;
 
-import com.walterwhites.library.consumer.repository.impl.BookRepositoryImpl;
-import com.walterwhites.library.model.entity.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/books")
-public class BookController {
+public class BookController {  /*
 
     @Autowired
     private BookRepositoryImpl bookRepository;
@@ -53,5 +47,5 @@ public class BookController {
         bookRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         return bookRepository.save(book);
-    }
+    } */
 }

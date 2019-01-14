@@ -110,9 +110,14 @@ java -jar target/batch-0.0.1-SNAPSHOT.jar
 
 
 ## Webservice
-To compile an XML schema file into fully annotated Java classes, run
+To compile an XML schema file into fully annotated Java classes
+1) go to parent module
 ```
-xjc -d src/main/java -p com.walterwhites.library.webservice.jaxb.java src/main/resources/books.xsd
+cd library/
+```
+2) run
+```
+xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb.java webservice/src/main/resources/books.xsd
 ```
 
 

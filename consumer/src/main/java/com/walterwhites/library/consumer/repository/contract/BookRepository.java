@@ -1,6 +1,6 @@
 package com.walterwhites.library.consumer.repository.contract;
 
-import com.walterwhites.library.webservice.jaxb.java.Book;
+import com.walterwhites.library.consumer.jaxb.java.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

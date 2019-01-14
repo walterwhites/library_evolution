@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://walterwhites.io/webservice">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getBookRequest>
+            <gs:name>Spain</gs:name>
+        </gs:getBookRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
