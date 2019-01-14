@@ -20,14 +20,14 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
+        return new ServletRegistrationBean(servlet, "/webservice/*");
     }
 
     @Bean(name = "books")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema booksSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("BooksPort");
-        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setLocationUri("/webservice");
         wsdl11Definition.setTargetNamespace("http://walterwhites.io/webservice");
         wsdl11Definition.setSchema(booksSchema);
         return wsdl11Definition;
