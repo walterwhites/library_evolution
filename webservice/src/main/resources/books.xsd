@@ -1,0 +1,49 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://walterwhites.io/webservice"
+           targetNamespace="http://walterwhites.io/webservice" elementFormDefault="qualified">
+
+    <xs:element name="getBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="book" type="tns:book"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="book">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="author" type="xs:string"/>
+            <xs:element name="languages" type="tns:language"/>
+            <xs:element name="state" type="tns:state"/>
+            <xs:element name="loan_start_date" type="xs:date"/>
+            <xs:element name="loan_end_date" type="xs:date"/>
+            <xs:element name="libraries" type="xs:anyType"/>
+            <xs:element name="clients" type="xs:anyType"/>
+            <xs:element name="loans" type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="language">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="fr"/>
+            <xs:enumeration value="en"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="state">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="free"/>
+            <xs:enumeration value="borrowed"/>
+            <xs:enumeration value="unavailable"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
