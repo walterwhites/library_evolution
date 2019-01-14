@@ -8,6 +8,7 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 * [Stucture du projet Maven](#stucture-du-projet-maven)
 * [How to run the App](#how-to-run-the-app)
 * [How to lauch the BATCH](#how-to-launch-the-batch)
+* [Webservice](#webservice)
 * [Diagrams](#diagrams)
 
 ## What technologies project uses
@@ -105,6 +106,13 @@ mvn clean package
 3) Run the batch
 ```
 java -jar target/batch-0.0.1-SNAPSHOT.jar
+```
+
+
+## Webservice
+To compile an XML schema file into fully annotated Java classes, run
+```
+xjc -d src/main/java -p com.walterwhites.library.webservice.jaxb.java src/main/resources/books.xsd
 ```
 
 
