@@ -23,7 +23,7 @@ public class BookController {
 
     @GetMapping("/title/{bookTitle}")
     public List findByTitle(@PathVariable String bookTitle) {
-        return bookRepository.findByTitle(bookTitle);
+        return (List<Book>)bookRepository.findByTitle(bookTitle);
     }
 
     @GetMapping("/{id}")

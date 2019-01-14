@@ -7,25 +7,26 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.walterwhites.library.webservice.jaxb.java.GetCountryRequest;
+import com.walterwhites.library.webservice.jaxb.java.GetBookRequest;
+import com.walterwhites.library.webservice.jaxb.java.GetBookResponse;
 
 
 @Endpoint
-public class BookEndpoint {
-    private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+public class BookEndPoint {
+    private static final String NAMESPACE_URI = "http://walterwhites.io/webservice";
 
     private BookRepositoryImpl bookRepository;
 
     @Autowired
-    public BookEndpoint(BookRepositoryImpl bookRepository) {
+    public BookEndPoint(BookRepositoryImpl bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookRequest")
     @ResponsePayload
-    public GetBookResponse getCountry(@RequestPayload GetBookRequest request) {
+    public GetBookResponse getBook(@RequestPayload GetBookRequest request) {
         GetBookResponse response = new GetBookResponse();
-        response.setCountry(countryRepository.findCountry(request.getName()));
+        response.setBook(bookRepository.findByTitle(request.getName()));
 
         return response;
     }
