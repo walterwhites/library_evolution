@@ -1,9 +1,7 @@
 package com.walterwhites.library.consumer.repository.impl;
 
-import com.walterwhites.library.consumer.repository.contract.BookRepository;
-import com.walterwhites.library.consumer.jaxb.java.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcOperations;
+import com.walterwhites.library.consumer.repository.contract.BookRepositoryEntity;
+import com.walterwhites.library.model.entity.Book;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class BookRepositoryImpl implements BookRepository {
+public class BookRepositoryImplEntity implements BookRepositoryEntity {
     @PersistenceContext
     private EntityManager em;
-
-    @Autowired
-    private JdbcOperations operations;
 
     @Override
     @Transactional
@@ -28,11 +23,7 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findByTitle(String title) {
-         List<Book> books = (List<Book>) operations.queryForObject(
-                "SELECT * FROM book WHERE title = ?",
-                Book.class,
-                title);
-         return books;
+        return null;
     }
 
     @Override

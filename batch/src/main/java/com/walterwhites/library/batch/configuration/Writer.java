@@ -1,6 +1,6 @@
 package com.walterwhites.library.batch.configuration;
 
-import com.walterwhites.library.consumer.repository.impl.BookRepositoryImpl;
+import com.walterwhites.library.consumer.repository.impl.BookRepositoryImplEntity;
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ import java.util.List;
 @Component
 public class Writer implements ItemWriter<Book> {
 
-    private final BookRepositoryImpl bookRepository;
+    private final BookRepositoryImplEntity bookRepository;
 
     @Autowired
-    public Writer(BookRepositoryImpl bookRepository) {
+    public Writer(BookRepositoryImplEntity bookRepository) {
         this.bookRepository = bookRepository;
     }
 

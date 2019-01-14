@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, Long> {
+public interface BookRepositoryWebservice extends CrudRepository<Book, Long> {
     void refresh(Book book);
     List<Book> findByTitle(String title);
 }
