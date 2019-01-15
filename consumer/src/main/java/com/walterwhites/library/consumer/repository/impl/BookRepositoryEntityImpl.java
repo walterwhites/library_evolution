@@ -2,6 +2,8 @@ package com.walterwhites.library.consumer.repository.impl;
 
 import com.walterwhites.library.consumer.repository.contract.BookRepositoryEntity;
 import com.walterwhites.library.model.entity.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class BookRepositoryImplEntity implements BookRepositoryEntity {
+public class BookRepositoryEntityImpl implements BookRepositoryEntity {
     @PersistenceContext
     private EntityManager em;
+
+    @Autowired
+    private JdbcOperations operations;
 
     @Override
     @Transactional
