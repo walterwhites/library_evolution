@@ -29,4 +29,13 @@ public class BookRepositoryWebserviceImpl implements BookRepositoryWebservice {
          books.addAll(request);
          return books;
     }
+
+    @Override
+    public Book findById(long id) {
+        Book request = (Book) operations.queryForObject(
+                "SELECT * FROM book WHERE id = ?",
+                Book.class,
+                id);
+        return request;
+    }
 }

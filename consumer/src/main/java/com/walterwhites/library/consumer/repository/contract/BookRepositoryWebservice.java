@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface BookRepositoryWebservice {
     List<Book> findByTitle(String title);
+    Book findById(long id);
 }

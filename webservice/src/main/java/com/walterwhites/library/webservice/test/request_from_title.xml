@@ -2,8 +2,8 @@
                   xmlns:gs="java.jaxb">
     <soapenv:Header/>
     <soapenv:Body>
-        <gs:getBookRequest>
-            <gs:title>harry potter</gs:title>
-        </gs:getBookRequest>
+        <gs:getBookFromIdRequest>
+            <gs:id>100</gs:id>
+        </gs:getBookFromIdRequest>
     </soapenv:Body>
 </soapenv:Envelope>
