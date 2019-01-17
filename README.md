@@ -72,18 +72,6 @@ catalina.sh start
 ```
 6) Navigate on your browser to http://localhost:8080/webapp-0.0.1-SNAPSHOT/index (or maybe it's one other the port)
 
-## Deploy the app manually
-1) start tomcat server, running
-```startup.sh```
-  
-2) build your project:
-```mvn clean package```
-
-3) Copy war file of the app inside tomcat/webapps dir
-```cp webapp/target/warfile.war usr/local/env/tomcat-9/webapps/warfile.war```
-
-4) Navigate on your browser to http://localhost:8080/webapp
-
 ## Deploy the app on cloudfoundry
 1) this CLI command below reads manifest.yml file which contains all informations
  about the cloud instance, just run
@@ -125,11 +113,13 @@ To run webservice and webapp in 2 commands
 ```
 java -jar target/webapp-0.0.1-SNAPSHOT.war
 ```
+and navigate to http://localhost:8080
 
 2) go to webservice module and run
 ```
 java -jar target/webservice-0.0.1-SNAPSHOT.war
 ```
+and navigate to http://localhost:8081/ws/books.wsdl
 
 3) webapp is running on http://localhost:8080 && webservice is running on http://localhost:8081/ws/, you can test it with SoapUI or with CURL request like that
 ```
