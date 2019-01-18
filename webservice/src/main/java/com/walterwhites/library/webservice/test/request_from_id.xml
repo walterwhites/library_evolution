@@ -1,5 +1,5 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns:gs="java.jaxb">
+                  xmlns:gs="jaxb.consumer.library.walterwhites.com">
     <soapenv:Header/>
     <soapenv:Body>
         <gs:getBookFromIdRequest>

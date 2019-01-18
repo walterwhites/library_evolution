@@ -1,5 +1,5 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="java.jaxb"
-           targetNamespace="java.jaxb" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="jaxb.consumer.library.walterwhites.com"
+           targetNamespace="jaxb.consumer.library.walterwhites.com" elementFormDefault="qualified">
 
     <xs:element name="getBookRequest">
         <xs:complexType>
@@ -12,7 +12,7 @@
     <xs:element name="getBookResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="book" type="xs:anyType"/>
+                <xs:element maxOccurs="unbounded" name="book" type="tns:book"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,7 +28,7 @@
     <xs:element name="getBookFromIdResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="book" type="xs:anyType"/>
+                <xs:element name="book" type="tns:book"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

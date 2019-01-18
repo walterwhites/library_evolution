@@ -1,6 +1,6 @@
 package com.walterwhites.library.consumer.repository.impl;
 
-import com.walterwhites.library.consumer.jaxb.java.Book;
+import com.walterwhites.library.consumer.jaxb.Book;
 import com.walterwhites.library.consumer.repository.contract.BookRepositoryWebservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;

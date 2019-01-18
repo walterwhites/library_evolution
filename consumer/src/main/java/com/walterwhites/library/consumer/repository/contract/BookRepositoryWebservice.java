@@ -1,6 +1,6 @@
 package com.walterwhites.library.consumer.repository.contract;
 
-import com.walterwhites.library.consumer.jaxb.java.Book;
+import com.walterwhites.library.consumer.jaxb.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
