@@ -61,6 +61,7 @@
                 <configuration>
                     <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
                     <outputDirectory>${project.parent.basedir}/consumer/src/main/java/</outputDirectory>
+                    <packageName>library.io.github.walterwhites</packageName>
                     <clearOutputDir>false</clearOutputDir>
                 </configuration>
                 <dependencies>

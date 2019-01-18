@@ -105,7 +105,7 @@ cd library/
 ```
 2) run
 ```
-xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb.java webservice/src/main/resources/books.xsd
+xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb webservice/src/main/resources/books.xsd
 ```
 
 To run webservice and webapp in 2 commands

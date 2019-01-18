@@ -1,20 +1,18 @@
 package com.walterwhites.library.webservice.endpoint;
 
 import com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl;
-import com.walterwhites.library.consumer.jaxb.GetBookFromIdRequest;
-import com.walterwhites.library.consumer.jaxb.GetBookFromIdResponse;
-import com.walterwhites.library.consumer.jaxb.GetBookRequest;
-import com.walterwhites.library.consumer.jaxb.GetBookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import library.io.github.walterwhites.*;
+
 
 @Endpoint
 public class BookEndPoint {
-    private static final String NAMESPACE_URI = "com.walterwhites.library.consumer.jaxb";
+    private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
     private BookRepositoryWebserviceImpl bookRepository;
 
