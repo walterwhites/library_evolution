@@ -22,6 +22,9 @@ public class MainControllerTests {
     @Test
     public void index() throws Exception {
         this.mockMvc.perform(get("/"))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("Hello Thymeleaf")));
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Home")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("About")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Contact")));
+
     }
 }

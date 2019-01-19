@@ -11,19 +11,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @Value("${welcome.message}")
-    private String message;
-
     @Value("${error.message}")
     private String errorMessage;
 
-    @Value("${spring.application.name}")
+    @Value("${application.name}")
     private String appName;
+
+    @Value("${application.author}")
+    private String author;
 
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("message", message);
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
         return "index";
+    }
+
+    @RequestMapping(value = {"/index2"}, method = RequestMethod.GET)
+    public String index2(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "index_2";
     }
 }
