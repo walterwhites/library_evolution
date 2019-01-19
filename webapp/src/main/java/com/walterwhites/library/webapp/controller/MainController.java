@@ -20,14 +20,6 @@ public class MainController {
     @Value("${application.author}")
     private String author;
 
-
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("author", author);
-        return "index";
-    }
-
     @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
         model.addAttribute("appName", appName);
