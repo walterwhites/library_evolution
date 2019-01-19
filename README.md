@@ -21,6 +21,8 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 - CloudFoundry (PAAS which contains ElephantSQL)
 - Spring boot (Spring framework to get AutoConfiguration and starters)
 - Hibernate (persistence framework)
+- Sentry (Error tracking Software) https://sentry.io
+- Travis (continuous integration) https://travis-ci.com
 
 
 ## Stucture du projet Maven

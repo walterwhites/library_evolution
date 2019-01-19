@@ -21,10 +21,11 @@ public class MainControllerTests {
 
     @Test
     public void index() throws Exception {
-        this.mockMvc.perform(get("/"))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("Home")))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("About")))
-                .andExpect(status().isOk()).andExpect(content().string(containsString("Contact")));
+        this.mockMvc.perform(get("/dashboard"))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Dashboard")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("French books")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("English books")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Number of users")));
 
     }
 }
