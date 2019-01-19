@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                                     xmlns:gs="library.io.github.walterwhites">
+<soapenv:Header/>
+<soapenv:Body>
+    <gs:getBookRequest>
+        <gs:title>harry potter</gs:title>
+    </gs:getBookRequest>
+</soapenv:Body>
+</soapenv:Envelope>

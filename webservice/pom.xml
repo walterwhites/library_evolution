@@ -19,14 +19,15 @@
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.spring.platform</groupId>
-            <artifactId>platform-bom</artifactId>
-            <version>2.0.1.RELEASE</version>
-            <type>pom</type>
-            <scope>import</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <!-- modules dependencies -->
+        <dependency>
+            <groupId>com.walterwhites.library</groupId>
+            <artifactId>consumer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.walterwhites.library</groupId>
             <artifactId>business</artifactId>
@@ -40,6 +41,11 @@
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.0-b170127.1453</version>
         </dependency>
     </dependencies>
 
@@ -59,9 +65,25 @@
                 </executions>
                 <configuration>
                     <schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
-                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                    <outputDirectory>${project.parent.basedir}/consumer/src/main/java/</outputDirectory>
+                    <packageName>library.io.github.walterwhites</packageName>
                     <clearOutputDir>false</clearOutputDir>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.activation</groupId>
+                        <artifactId>javax.activation</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.walterwhites.library.webservice.WebserviceApplication</mainClass>
+                </configuration>
+                <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

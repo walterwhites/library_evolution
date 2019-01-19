@@ -1,0 +1,42 @@
+== Info:   Trying ::1...
+== Info: TCP_NODELAY set
+== Info: Connected to localhost (::1) port 8081 (#0)
+=> Send header, 126 bytes (0x7e)
+0000: POST /ws HTTP/1.1
+0013: Host: localhost:8081
+0029: User-Agent: curl/7.54.0
+0042: Accept: */*
+004f: content-type: text/xml
+0067: Content-Length: 309
+007c: 
+=> Send data, 309 bytes (0x135)
+0000: <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap
+0040: /envelope/"                  xmlns:gs="library.io.github.walterw
+0080: hites">    <soapenv:Header/>    <soapenv:Body>        <gs:getBoo
+00c0: kFromIdRequest>            <gs:id>100</gs:id>        </gs:getBoo
+0100: kFromIdRequest>    </soapenv:Body></soapenv:Envelope>
+== Info: upload completely sent off: 309 out of 309 bytes
+<= Recv header, 15 bytes (0xf)
+0000: HTTP/1.1 500 
+<= Recv header, 72 bytes (0x48)
+0000: Accept: text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*
+0040: ; q=.2
+<= Recv header, 16 bytes (0x10)
+0000: SOAPAction: ""
+<= Recv header, 38 bytes (0x26)
+0000: Content-Type: text/xml;charset=utf-8
+<= Recv header, 21 bytes (0x15)
+0000: Content-Length: 303
+<= Recv header, 37 bytes (0x25)
+0000: Date: Fri, 18 Jan 2019 22:02:52 GMT
+<= Recv header, 19 bytes (0x13)
+0000: Connection: close
+<= Recv header, 2 bytes (0x2)
+0000: 
+<= Recv data, 303 bytes (0x12f)
+0000: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/so
+0040: ap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><
+0080: faultcode>SOAP-ENV:Server</faultcode><faultstring xml:lang="en">
+00c0: Incorrect column count: expected 1, actual 7</faultstring></SOAP
+0100: -ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
+== Info: Closing connection 0

@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="library.io.github.walterwhites">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getBookFromIdRequest>
+            <gs:id>100</gs:id>
+        </gs:getBookFromIdRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>com.walterwhites.library</groupId>
-            <artifactId>webservice</artifactId>
+            <artifactId>business</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

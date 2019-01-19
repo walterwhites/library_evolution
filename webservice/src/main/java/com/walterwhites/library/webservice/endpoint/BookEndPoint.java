@@ -1,33 +1,40 @@
 package com.walterwhites.library.webservice.endpoint;
 
-import com.walterwhites.library.consumer.repository.impl.BookRepositoryImpl;
+import com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.walterwhites.library.webservice.jaxb.java.GetBookRequest;
-import com.walterwhites.library.webservice.jaxb.java.GetBookResponse;
+import library.io.github.walterwhites.*;
 
 
 @Endpoint
 public class BookEndPoint {
-    private static final String NAMESPACE_URI = "http://walterwhites.io/webservice";
+    private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
-    private BookRepositoryImpl bookRepository;
+    private BookRepositoryWebserviceImpl bookRepository;
 
     @Autowired
-    public BookEndPoint(BookRepositoryImpl bookRepository) {
+    public BookEndPoint(BookRepositoryWebserviceImpl bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookRequest")
     @ResponsePayload
-    public GetBookResponse getBook(@RequestPayload GetBookRequest request) {
+    public GetBookResponse getBookFromTitle(@RequestPayload GetBookRequest request) {
         GetBookResponse response = new GetBookResponse();
-        response.setBook(bookRepository.findByTitle(request.getName()));
+        response.getBook().addAll(bookRepository.findByTitle(request.getTitle()));
 
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookFromIdRequest")
+    @ResponsePayload
+    public GetBookFromIdResponse getBookFromId(@RequestPayload GetBookFromIdRequest request) {
+        GetBookFromIdResponse response = new GetBookFromIdResponse();
+        response.setBook(bookRepository.findById(request.getId()));
         return response;
     }
 }

@@ -8,6 +8,7 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 * [Stucture du projet Maven](#stucture-du-projet-maven)
 * [How to run the App](#how-to-run-the-app)
 * [How to lauch the BATCH](#how-to-launch-the-batch)
+* [Webservice](#webservice)
 * [Diagrams](#diagrams)
 
 ## What technologies project uses
@@ -71,18 +72,6 @@ catalina.sh start
 ```
 6) Navigate on your browser to http://localhost:8080/webapp-0.0.1-SNAPSHOT/index (or maybe it's one other the port)
 
-## Deploy the app manually
-1) start tomcat server, running
-```startup.sh```
-  
-2) build your project:
-```mvn clean package```
-
-3) Copy war file of the app inside tomcat/webapps dir
-```cp webapp/target/warfile.war usr/local/env/tomcat-9/webapps/warfile.war```
-
-4) Navigate on your browser to http://localhost:8080/webapp
-
 ## Deploy the app on cloudfoundry
 1) this CLI command below reads manifest.yml file which contains all informations
  about the cloud instance, just run
@@ -105,6 +94,42 @@ mvn clean package
 3) Run the batch
 ```
 java -jar target/batch-0.0.1-SNAPSHOT.jar
+```
+
+
+## Webservice
+To compile an XML schema file into fully annotated Java classes
+1) go to parent module
+```
+cd library/
+```
+2) run
+```
+xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb webservice/src/main/resources/books.xsd
+```
+
+To run webservice and webapp in 2 commands
+1) go to webapp module and run
+```
+java -jar target/webapp-0.0.1-SNAPSHOT.war
+```
+and navigate to http://localhost:8080
+
+2) go to webservice module and run
+```
+java -jar target/webservice-0.0.1-SNAPSHOT.war
+```
+and navigate to http://localhost:8081/ws/books.wsdl
+
+3) webapp is running on http://localhost:8080 && webservice is running on http://localhost:8081/ws/, you can test it with SoapUI or with CURL request like that
+```
+cd webservice/src/main/java/com/walterwhites/library/webservice/test
+```
+then
+
+```
+curl --header "content-type: text/xml" -d @request_book_from_id.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @request_all_book_from_title.xml http://localhost:8081/ws
 ```
 
 
