@@ -11,19 +11,41 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @Value("${welcome.message}")
-    private String message;
-
     @Value("${error.message}")
     private String errorMessage;
 
-    @Value("${spring.application.name}")
+    @Value("${application.name}")
     private String appName;
+
+    @Value("${application.author}")
+    private String author;
 
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("message", message);
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
         return "index";
+    }
+
+    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+    public String dashboard(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "dashboard";
+    }
+
+    @RequestMapping(value = {"/tables"}, method = RequestMethod.GET)
+    public String tables(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "tables";
+    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "login";
     }
 }
