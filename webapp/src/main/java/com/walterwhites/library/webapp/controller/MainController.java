@@ -28,10 +28,24 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = {"/index2"}, method = RequestMethod.GET)
-    public String index2(Model model) {
+    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+    public String dashboard(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("author", author);
-        return "index_2";
+        return "dashboard";
+    }
+
+    @RequestMapping(value = {"/tables"}, method = RequestMethod.GET)
+    public String tables(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "tables";
+    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("author", author);
+        return "login";
     }
 }
