@@ -128,8 +128,8 @@ cd webservice/src/main/java/com/walterwhites/library/webservice/test
 then
 
 ```
-curl --header "content-type: text/xml" -d @request_book.xml http://localhost:8081/ws
-curl --header "content-type: text/xml" -d @request_from_title.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @request_book_from_id.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @request_all_book_from_title.xml http://localhost:8081/ws
 ```
 
 

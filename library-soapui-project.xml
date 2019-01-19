@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="e94ef81a-9ad4-481f-bfa7-1f5c7c37c4a2" activeEnvironment="Default" name="library" resourceRoot="" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="29048f2b-8252-43aa-b322-b57c80509ee9" wsaVersion="NONE" name="BooksPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites}BooksPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/books.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/books.wsdl"><con:part><con:url>http://localhost:8081/ws/books.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getBookRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getBookResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="book" type="tns:book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getBookFromIdRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getBookFromIdResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="book" type="tns:book"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="book">
+        <xs:sequence>
+          <xs:element name="id" type="xs:int"/>
+          <xs:element name="title" type="xs:string"/>
+          <xs:element name="author" type="xs:string"/>
+          <xs:element name="languages" type="tns:language"/>
+          <xs:element name="state" type="tns:state"/>
+          <xs:element name="loan_start_date" type="xs:date"/>
+          <xs:element name="loan_end_date" type="xs:date"/>
+          <xs:element name="libraries" type="xs:anyType"/>
+          <xs:element name="clients" type="xs:anyType"/>
+          <xs:element name="loans" type="xs:anyType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="language">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="fr"/>
+          <xs:enumeration value="en"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="state">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="free"/>
+          <xs:enumeration value="borrowed"/>
+          <xs:enumeration value="unavailable"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getBookRequest">
+    <wsdl:part element="tns:getBookRequest" name="getBookRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBookResponse">
+    <wsdl:part element="tns:getBookResponse" name="getBookResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBookFromIdRequest">
+    <wsdl:part element="tns:getBookFromIdRequest" name="getBookFromIdRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBookFromIdResponse">
+    <wsdl:part element="tns:getBookFromIdResponse" name="getBookFromIdResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="BooksPort">
+    <wsdl:operation name="getBook">
+      <wsdl:input message="tns:getBookRequest" name="getBookRequest"></wsdl:input>
+      <wsdl:output message="tns:getBookResponse" name="getBookResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBookFromId">
+      <wsdl:input message="tns:getBookFromIdRequest" name="getBookFromIdRequest"></wsdl:input>
+      <wsdl:output message="tns:getBookFromIdResponse" name="getBookFromIdResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BooksPortSoap11" type="tns:BooksPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getBook">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getBookRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBookResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBookFromId">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getBookFromIdRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBookFromIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BooksPortService">
+    <wsdl:port binding="tns:BooksPortSoap11" name="BooksPortSoap11">
+      <soap:address location="http://localhost:8081/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8081/ws</con:endpoint></con:endpoints><con:operation id="31ba814c-f3b1-477e-8b23-34626bd38082" isOneWay="false" action="" name="getBook" bindingOperationName="getBook" type="Request-Response" outputName="getBookResponse" inputName="getBookRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ec500414-fcdd-4adf-b5d2-3cc35e96e0d5" name="getBookRequest"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookRequest>
+         <lib:title>harry potter</lib:title>
+      </lib:getBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="1df3b2f6-cc32-41ed-b8c0-b928e6c11d3b" isOneWay="false" action="" name="getBookFromId" bindingOperationName="getBookFromId" type="Request-Response" outputName="getBookFromIdResponse" inputName="getBookFromIdRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8d53903b-c18b-42d9-b195-03e4d9fa4ae3" name="getBookFromIdRequest"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookFromIdRequest>
+         <lib:id>100</lib:id>
+      </lib:getBookFromIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookFromIdRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="09229c75-f826-4611-a1e0-defb1d6ccf91" name="TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="93b7f2d8-8e44-4717-95db-416a36834dc6" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCaseBook" searchProperties="true"><con:settings/><con:testStep type="request" id="c068f167-5761-48ef-ad77-2d8492d9f2bb" name="getBookRequest"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBook</con:operation><con:request name="getBookRequest" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ecd3ae5b-0566-4723-aa90-676bfeed3185"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookRequest>
+         <lib:title>harry potter</lib:title>
+      </lib:getBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="c529008a-616c-4003-99cc-afc218e735ad" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" id="1049c002-4552-4cc9-a41a-b3d80e10bc63" name="getBookFromId - getBookFromIdRequest"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBookFromId</con:operation><con:request name="getBookFromId - getBookFromIdRequest" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9cab84ef-8c32-4703-a973-05df27d0fb33"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookFromIdRequest>
+         <lib:id>100</lib:id>
+      </lib:getBookFromIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="bbb840e8-5db0-469e-892e-0362ec3d4e09" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookFromIdRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

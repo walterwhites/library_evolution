@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,24 +21,33 @@ public class BookRepositoryWebserviceImpl implements BookRepositoryWebservice {
     @Autowired
     private JdbcOperations operations;
 
-    private static final List<Book> books = new LinkedList<>();
+    private static List<Book> books = new LinkedList<>();
 
     @Override
     public List<Book> findByTitle(String title) {
-         List<Book> request = (List<Book>) operations.queryForObject(
+        books = (List<Book>) operations.query(
                 "SELECT * FROM book WHERE title = ?",
-                Book.class,
-                title);
-         books.addAll(request);
-         return books;
+                 (rs, rownumber) -> {
+                     return getBookData(rs);
+                 }, title);
+        myLogger.info("Info Log");
+        myLogger.info(books.toString());
+        return books;
     }
 
     @Override
     public Book findById(long id) {
-        Book request = (Book) operations.queryForObject(
+        Book book = (Book) operations.queryForObject(
                 "SELECT * FROM book WHERE id = ?",
-                Book.class,
-                id);
-        return request;
+                (rs, rownumber) -> getBookData(rs), id);
+        return book;
+    }
+
+    private Book getBookData(ResultSet rs) throws SQLException {
+        Book b = new Book();
+        b.setId(rs.getInt("id"));
+        b.setAuthor(rs.getString("author"));
+        b.setTitle(rs.getString("title"));
+        return b;
     }
 }
