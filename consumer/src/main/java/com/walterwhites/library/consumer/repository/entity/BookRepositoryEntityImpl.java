@@ -1,6 +1,5 @@
-package com.walterwhites.library.consumer.repository.impl;
+package com.walterwhites.library.consumer.repository.entity;
 
-import com.walterwhites.library.consumer.repository.contract.BookRepositoryEntity;
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -14,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public class BookRepositoryEntityImpl implements BookRepositoryEntity {
+
     @PersistenceContext
     private EntityManager em;
 

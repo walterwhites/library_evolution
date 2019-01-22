@@ -1,46 +1,54 @@
-package com.walterwhites.library.consumer.repository.impl;
+package com.walterwhites.library.consumer.repository.jaxb.impl;
 
-import com.walterwhites.library.consumer.repository.contract.BookRepositoryWebservice;
 import library.io.github.walterwhites.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-@Repository
-public class BookRepositoryWebserviceImpl implements BookRepositoryWebservice {
-    @PersistenceContext
-    private EntityManager em;
+@Service
+public class BookRepositoryImpl implements BookRepositoryCustom {
 
-    @Autowired
+    public BookRepository jpa;
+
     private JdbcOperations operations;
 
     private static List<Book> books = new LinkedList<>();
+
+    public void BookRepositoryImpl(BookRepository bookRepository, JdbcOperations jdbcOperations) {
+        this.jpa = bookRepository;
+        this.operations = jdbcOperations;
+    }
 
     @Override
     public List<Book> findByTitle(String title) {
         books = (List<Book>) operations.query(
                 "SELECT * FROM book WHERE title = ?",
-                 (rs, rownumber) -> {
-                     return getBookData(rs);
-                 }, title);
-        myLogger.info("Info Log");
-        myLogger.info(books.toString());
+                (rs, rownumber) -> {
+                    return getBookData(rs);
+                }, title);
         return books;
     }
 
     @Override
-    public Book findById(long id) {
+    public Book findById(Integer id) {
         Book book = (Book) operations.queryForObject(
                 "SELECT * FROM book WHERE id = ?",
                 (rs, rownumber) -> getBookData(rs), id);
         return book;
+    }
+
+    @Override
+    public List<Book> findAllBooks() {
+        books = (List<Book>) operations.query(
+                "SELECT * FROM book",
+                (rs, rownumber) -> {
+                    return getBookData(rs);
+                });
+        return books;
     }
 
     private Book getBookData(ResultSet rs) throws SQLException {

@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("com.walterwhites.library.consumer.repository")
 @EntityScan("com.walterwhites.library.model.entity")
+@EnableJpaRepositories("com.walterwhites.library.consumer.repository")
 @ComponentScan(basePackages = {"com.walterwhites.library"})
 public class WebserviceApplication {
 

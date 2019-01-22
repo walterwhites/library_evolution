@@ -1,14 +1,17 @@
 package com.walterwhites.library.webapp.controller;
 
+import com.walterwhites.library.webapp.apiClient.BookClient;
+import library.io.github.walterwhites.GetAllBookResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@SpringBootApplication
 @Controller
+@Configuration
 public class MainController {
 
     @Value("${error.message}")
@@ -20,10 +23,15 @@ public class MainController {
     @Value("${application.author}")
     private String author;
 
-    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+    @Autowired
+    private BookClient bookClient;
+
+    @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("author", author);
+        GetAllBookResponse getAllBookResponse = bookClient.getAllBooks();
+        model.addAttribute("books", getAllBookResponse);
         return "dashboard";
     }
 
