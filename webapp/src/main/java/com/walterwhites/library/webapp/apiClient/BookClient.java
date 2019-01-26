@@ -3,13 +3,9 @@ package com.walterwhites.library.webapp.apiClient;
 import library.io.github.walterwhites.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-@Service
-@Configuration
 public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);

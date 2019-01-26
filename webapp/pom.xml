@@ -63,12 +63,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -111,9 +105,8 @@
             <version>2.3.0-b170127.1453</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -131,7 +124,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <generatePackage>com.walterwhites.library.webservice</generatePackage>
+                    <generatePackage>library.io.github.walterwhites</generatePackage>
                     <schemaDirectory>src/main/resources</schemaDirectory>
                     <schemaIncludes>
                         <include>xsd/*.xsd</include>
@@ -149,5 +142,15 @@
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
         </plugins>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
     </build>
 </project>

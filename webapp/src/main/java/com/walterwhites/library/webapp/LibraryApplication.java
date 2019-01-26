@@ -5,17 +5,15 @@ import io.sentry.Sentry;
 import io.sentry.SentryClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.FilterType;
 
-@SpringBootApplication
-@EntityScan("com.walterwhites.library.model.entity")
-@EnableJpaRepositories("com.walterwhites.library.consumer.repository")
-@ComponentScan(basePackages = {"com.walterwhites.library"})
+@SpringBootApplication()
+@ComponentScan(basePackages = {"com.walterwhites.library"}, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.walterwhites.library.consumer.repository.entity.*")})
 @Configuration
 public class LibraryApplication extends SpringBootServletInitializer {
 
