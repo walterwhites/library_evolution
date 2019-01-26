@@ -37,6 +37,8 @@ public class MainController {
     public String tables(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("author", author);
+        GetAllBookResponse getAllBookResponse = bookClient.getAllBooks();
+        model.addAttribute("books", getAllBookResponse);
         return "tables";
     }
 

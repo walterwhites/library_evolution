@@ -50,11 +50,6 @@
         </dependency>
         <dependency>
             <groupId>com.walterwhites.library</groupId>
-            <artifactId>consumer</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.walterwhites.library</groupId>
             <artifactId>webservice</artifactId>
             <type>war</type>
             <version>${project.version}</version>

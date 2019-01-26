@@ -15,7 +15,12 @@ public class MainControllerTests {
     MockMvc mockMvc;
 
     @Test
-    public void index() throws Exception {
+    public void index() throws Exception { /*
+        this.mockMvc.perform(get("/dashboard"))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Dashboard")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("French books")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("English books")))
+                .andExpect(status().isOk()).andExpect(content().string(containsString("Number of users"))); */
 
     }
 }
