@@ -1,5 +1,6 @@
 package com.walterwhites.library.business.parser;
 
+import com.walterwhites.library.business.client.SentryJClient;
 import library.io.github.walterwhites.Book;
 
 import java.util.LinkedList;
@@ -10,7 +11,11 @@ final public class BookParser {
     static public List<Book> getFrenchBooks(List<Book> books) {
 
         List<Book> frenchBooks = new LinkedList<Book>();
+
         for (Book book : books) {
+            SentryJClient sentryJClient = SentryJClient.init();
+            sentryJClient.addTag("author", book.getAuthor());
+            sentryJClient.sendSimpleEvent("message");
             if (book.getLanguages().value().equals("fr")) {
                 frenchBooks.add(book);
             }
@@ -21,7 +26,11 @@ final public class BookParser {
     static public List<Book> getEnglishBooks(List<Book> books) {
 
         List<Book> englishBooks = new LinkedList<Book>();
+
         for (Book book : books) {
+            SentryJClient sentryJClient = SentryJClient.init();
+            sentryJClient.addExtra("author", book.getAuthor());
+            sentryJClient.sendSimpleEvent("message");
             if (book.getLanguages().value().equals("en")) {
                 englishBooks.add(book);
             }

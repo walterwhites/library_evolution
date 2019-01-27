@@ -1,6 +1,9 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
+import com.walterwhites.library.business.utils.DateUtils;
 import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.Language;
+import library.io.github.walterwhites.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -66,6 +70,16 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         b.setId(rs.getInt("id"));
         b.setAuthor(rs.getString("author"));
         b.setTitle(rs.getString("title"));
+        Language language = Language.fromValue(rs.getString("languages"));
+        b.setLanguages(language);
+
+        XMLGregorianCalendar endDate = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
+        XMLGregorianCalendar startDate = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));
+        b.setLoanEndDate(endDate);
+        b.setLoanStartDate(startDate);
+
+        State state = State.fromValue(rs.getString("state"));
+        b.setState(state);
         return b;
     }
 }
