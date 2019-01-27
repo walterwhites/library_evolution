@@ -1,25 +1,35 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
 import library.io.github.walterwhites.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service
-public class BookRepositoryImpl implements BookRepositoryCustom {
+@Repository
+@EnableAutoConfiguration
+@ComponentScan
+@Configuration
+public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
-    public BookRepository jpa;
+    @PersistenceContext
+    private EntityManager em;
 
     private JdbcOperations operations;
 
     private static List<Book> books = new LinkedList<>();
 
-    public void BookRepositoryImpl(BookRepository bookRepository, JdbcOperations jdbcOperations) {
-        this.jpa = bookRepository;
+    @Autowired
+    public void BookRepositoryImpl(JdbcOperations jdbcOperations) {
         this.operations = jdbcOperations;
     }
 

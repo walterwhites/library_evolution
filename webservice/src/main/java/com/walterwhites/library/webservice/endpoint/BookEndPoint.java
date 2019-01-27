@@ -2,9 +2,7 @@ package com.walterwhites.library.webservice.endpoint;
 
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import library.io.github.walterwhites.*;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -12,14 +10,12 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
 @Endpoint
-@SpringBootApplication
-@ComponentScan(basePackages = {"com.walterwhites.library"})
-@EnableJpaRepositories(basePackages = {"com.walterwhites.library.consumer.repository"})
 public class BookEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
-    private BookRepositoryImpl bookRepository;
+    private final BookRepositoryImpl bookRepository;
 
+    @Autowired
     public BookEndPoint(BookRepositoryImpl bookRepository) {
         this.bookRepository = bookRepository;
     }

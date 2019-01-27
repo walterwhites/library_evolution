@@ -9,6 +9,7 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 * [How to run the App](#how-to-run-the-app)
 * [How to lauch the BATCH](#how-to-launch-the-batch)
 * [Webservice](#webservice)
+* [Sentry](#sentry)
 * [Diagrams](#diagrams)
 
 ## What technologies project uses
@@ -107,7 +108,7 @@ cd library/
 ```
 2) run
 ```
-xjc -d consumer/src/main/java -p com.walterwhites.library.consumer.jaxb webservice/src/main/resources/books.xsd
+xjc -d business/src/main/java -p library.io.github.walterwhites webservice/src/main/resources/books.xsd
 ```
 
 To run webservice and webapp in 2 commands
@@ -130,10 +131,18 @@ cd webservice/src/main/java/com/walterwhites/library/webservice/test
 then
 
 ```
-curl --header "content-type: text/xml" -d @request_book_from_id.xml http://localhost:8081/ws
-curl --header "content-type: text/xml" -d @request_all_book_from_title.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @book_from_id.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @book_from_title.xml http://localhost:8081/ws
+curl --header "content-type: text/xml" -d @all_book.xml http://localhost:8081/ws
 ```
 
+## Sentry
+I use this error tracking tool, I overridden the class lib with SentryJClient, 
+for exemple we can use like below
+```
+SentryJClient sentryJClient = SentryJClient.init();
+sentryJClient.sendSimpleEvent("message");
+```
 
 ## Diagrams
 #### Class diagram

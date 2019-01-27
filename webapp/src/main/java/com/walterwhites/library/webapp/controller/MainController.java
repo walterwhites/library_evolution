@@ -15,7 +15,7 @@ public class MainController {
     @Value("${error.message}")
     private String errorMessage;
 
-    @Value("${application.name}")
+    @Value("${spring.application.name}")
     private String appName;
 
     @Value("${application.author}")
