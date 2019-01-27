@@ -32,7 +32,7 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
+                                <div class="huge" th:text="${books.getBook().size()}"></div>
                                 <div>Number of books</div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
+                                <div class="huge" th:text="${nbFrenchBooks}"></div>
                                 <div>French books</div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
+                                <div class="huge" th:text="${nbEnglishBooks}"></div>
                                 <div>English books</div>
                             </div>
                         </div>

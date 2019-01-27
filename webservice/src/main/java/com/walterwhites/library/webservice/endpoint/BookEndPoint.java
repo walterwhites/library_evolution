@@ -3,6 +3,7 @@ package com.walterwhites.library.webservice.endpoint;
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -10,6 +11,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
 @Endpoint
+@Configuration
 public class BookEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
