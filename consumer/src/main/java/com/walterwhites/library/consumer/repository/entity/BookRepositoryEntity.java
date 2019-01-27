@@ -1,4 +1,4 @@
-package com.walterwhites.library.consumer.repository.contract;
+package com.walterwhites.library.consumer.repository.entity;
 
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.data.repository.CrudRepository;

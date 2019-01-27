@@ -1,42 +1,29 @@
 == Info:   Trying ::1...
 == Info: TCP_NODELAY set
 == Info: Connected to localhost (::1) port 8081 (#0)
-=> Send header, 126 bytes (0x7e)
-0000: POST /ws HTTP/1.1
-0013: Host: localhost:8081
-0029: User-Agent: curl/7.54.0
-0042: Accept: */*
-004f: content-type: text/xml
-0067: Content-Length: 309
-007c: 
-=> Send data, 309 bytes (0x135)
-0000: <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap
-0040: /envelope/"                  xmlns:gs="library.io.github.walterw
-0080: hites">    <soapenv:Header/>    <soapenv:Body>        <gs:getBoo
-00c0: kFromIdRequest>            <gs:id>100</gs:id>        </gs:getBoo
-0100: kFromIdRequest>    </soapenv:Body></soapenv:Envelope>
-== Info: upload completely sent off: 309 out of 309 bytes
-<= Recv header, 15 bytes (0xf)
-0000: HTTP/1.1 500 
-<= Recv header, 72 bytes (0x48)
-0000: Accept: text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*
-0040: ; q=.2
-<= Recv header, 16 bytes (0x10)
-0000: SOAPAction: ""
-<= Recv header, 38 bytes (0x26)
-0000: Content-Type: text/xml;charset=utf-8
-<= Recv header, 21 bytes (0x15)
-0000: Content-Length: 303
-<= Recv header, 37 bytes (0x25)
-0000: Date: Fri, 18 Jan 2019 22:02:52 GMT
-<= Recv header, 19 bytes (0x13)
-0000: Connection: close
-<= Recv header, 2 bytes (0x2)
-0000: 
-<= Recv data, 303 bytes (0x12f)
-0000: <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/so
-0040: ap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><SOAP-ENV:Fault><
-0080: faultcode>SOAP-ENV:Server</faultcode><faultstring xml:lang="en">
-00c0: Incorrect column count: expected 1, actual 7</faultstring></SOAP
-0100: -ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
-== Info: Closing connection 0
+=> Send header, 127 bytes (0x7f)
+0000: 50 4f 53 54 20 2f 77 73 2f 20 48 54 54 50 2f 31 POST /ws/ HTTP/1
+0010: 2e 31 0d 0a 48 6f 73 74 3a 20 6c 6f 63 61 6c 68 .1..Host: localh
+0020: 6f 73 74 3a 38 30 38 31 0d 0a 55 73 65 72 2d 41 ost:8081..User-A
+0030: 67 65 6e 74 3a 20 63 75 72 6c 2f 37 2e 35 34 2e gent: curl/7.54.
+0040: 30 0d 0a 41 63 63 65 70 74 3a 20 2a 2f 2a 0d 0a 0..Accept: */*..
+0050: 63 6f 6e 74 65 6e 74 2d 74 79 70 65 3a 20 74 65 content-type: te
+0060: 78 74 2f 78 6d 6c 0d 0a 43 6f 6e 74 65 6e 74 2d xt/xml..Content-
+0070: 4c 65 6e 67 74 68 3a 20 32 34 33 0d 0a 0d 0a    Length: 243....
+=> Send data, 243 bytes (0xf3)
+0000: 3c 73 6f 61 70 65 6e 76 3a 45 6e 76 65 6c 6f 70 <soapenv:Envelop
+0010: 65 20 78 6d 6c 6e 73 3a 73 6f 61 70 65 6e 76 3d e xmlns:soapenv=
+0020: 22 68 74 74 70 3a 2f 2f 73 63 68 65 6d 61 73 2e "http://schemas.
+0030: 78 6d 6c 73 6f 61 70 2e 6f 72 67 2f 73 6f 61 70 xmlsoap.org/soap
+0040: 2f 65 6e 76 65 6c 6f 70 65 2f 22 20 20 20 20 20 /envelope/"     
+0050: 20 20 20 20 20 20 20 20 20 20 20 20 20 78 6d 6c              xml
+0060: 6e 73 3a 67 73 3d 22 6c 69 62 72 61 72 79 2e 69 ns:gs="library.i
+0070: 6f 2e 67 69 74 68 75 62 2e 77 61 6c 74 65 72 77 o.github.walterw
+0080: 68 69 74 65 73 22 3e 20 20 20 20 3c 73 6f 61 70 hites">    <soap
+0090: 65 6e 76 3a 48 65 61 64 65 72 2f 3e 20 20 20 20 env:Header/>    
+00a0: 3c 73 6f 61 70 65 6e 76 3a 42 6f 64 79 3e 20 20 <soapenv:Body>  
+00b0: 20 20 20 20 20 20 3c 67 73 3a 67 65 74 41 6c 6c       <gs:getAll
+00c0: 42 6f 6f 6b 52 65 71 75 65 73 74 2f 3e 20 20 20 BookRequest/>   
+00d0: 20 3c 2f 73 6f 61 70 65 6e 76 3a 42 6f 64 79 3e  </soapenv:Body>
+00e0: 3c 2f 73 6f 61 70 65 6e 76 3a 45 6e 76 65 6c 6f </soapenv:Envelo
+00f0: 70 65 3e                                        pe>
