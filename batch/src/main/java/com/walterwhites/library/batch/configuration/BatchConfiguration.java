@@ -37,13 +37,13 @@ public class BatchConfiguration {
 
     // tag::readerwriterprocessor[]
     @Bean
-    public FlatFileItemReader<Book> reader() {
+    public FlatFileItemReader<Book> bookReader() {
         return new FlatFileItemReaderBuilder<Book>()
                 .name("BookItemReader")
                 .resource(new ClassPathResource("Book.csv"))
                 .delimited()
                 .delimiter(",")
-                .names(new String[]{"title", "author", "language", "state", "loan_start_date", "loan_end_date"})
+                .names(new String[]{"title", "author", "language", "state", "obtaining_date"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<Book>() {{
                     setTargetType(Book.class);
                 }})
@@ -51,30 +51,27 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public BookItemProcessor processor() {
+    public BookItemProcessor bookProcessor() {
         return new BookItemProcessor();
     }
 
-
-    // tag::jobstep[]
     @Bean
-    public Job importBookJob(JobCompletionNotificationListener listener, Step step1) {
+    public Job importBookJob(JobCompletionNotificationListener listener, Step stepBook) {
         return jobBuilderFactory.get("importBookJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(step1)
+                .flow(stepBook)
                 .end()
                 .build();
     }
 
     @Bean
-    public Step step1() {
-        return stepBuilderFactory.get("step1")
+    public Step stepBook() {
+        return stepBuilderFactory.get("stepBook")
                 .<Book, Book> chunk(10)
-                .reader(reader())
-                .processor(processor())
+                .reader(bookReader())
+                .processor(bookProcessor())
                 .writer(writer)
                 .build();
     }
-    // end::jobstep[]
 }

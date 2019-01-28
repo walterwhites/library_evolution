@@ -29,14 +29,13 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB FINISHED! Time to verify the results");
 
-            List<Book> books = jdbcTemplate.query("SELECT title, author, languages, state, loan_start_date, loan_end_date FROM book",
+            List<Book> books = jdbcTemplate.query("SELECT title, author, languages, state, obtaining_date  FROM book",
                     (rs, row) -> new Book(
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(4),
-                            rs.getDate(5),
-                            rs.getDate(6)
+                            rs.getDate(5)
                     ));
             for (Book book : books) {
                 log.info("Found <" + book + "> in the database.");
