@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Loan")
@@ -23,7 +23,7 @@ public class Loan {
     private Client client;
     private Boolean renewed;
     @ManyToMany(cascade = {CascadeType.PERSIST})
-    private Set<Book> books;
+    private List<Book> books;
     private String state;
     private Date updated_date;
 }

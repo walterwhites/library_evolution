@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Client")
@@ -17,7 +17,5 @@ public class Client extends AbstractUser {
     private String lastname;
     private String language;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Loan> loans;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
-    private Set<Book> books;
+    private List<Loan> loans;
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Library")
@@ -15,11 +15,10 @@ public class Library {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany(cascade = {CascadeType.ALL})
-    private Set<Admin> admins;
+    private List<Admin> admins;
     @ManyToMany(cascade = {CascadeType.ALL})
-    private Set<Book> books;
+    private List<Book> books;
     private String name;
     private String phoneNumber;
     private String address;
-    private String test;
 }
