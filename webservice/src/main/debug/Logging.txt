@@ -1,12 +1,12 @@
-Jan 19, 2019 1:59:45 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 1:59:45 PM BookRepositoryWebserviceImpl findByTitle
 INFO: Info Log
-Jan 19, 2019 1:59:45 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 1:59:45 PM BookRepositoryWebserviceImpl findByTitle
 INFO: []
-Jan 19, 2019 1:59:59 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 1:59:59 PM BookRepositoryWebserviceImpl findByTitle
 INFO: Info Log
-Jan 19, 2019 1:59:59 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 1:59:59 PM BookRepositoryWebserviceImpl findByTitle
 INFO: [library.io.github.walterwhites.Book@5e496d18, library.io.github.walterwhites.Book@7eeaf20d, library.io.github.walterwhites.Book@5f564710, library.io.github.walterwhites.Book@240c1713]
-Jan 19, 2019 2:04:30 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 2:04:30 PM BookRepositoryWebserviceImpl findByTitle
 INFO: Info Log
-Jan 19, 2019 2:04:30 PM com.walterwhites.library.consumer.repository.impl.BookRepositoryWebserviceImpl findByTitle
+Jan 19, 2019 2:04:30 PM BookRepositoryWebserviceImpl findByTitle
 INFO: [library.io.github.walterwhites.Book@5d7b4ed6, library.io.github.walterwhites.Book@3810ed94, library.io.github.walterwhites.Book@264244fe, library.io.github.walterwhites.Book@6deef8a5]

@@ -1,6 +1,6 @@
 package com.walterwhites.library.batch.configuration;
 
-import com.walterwhites.library.consumer.repository.impl.BookRepositoryEntityImpl;
+import com.walterwhites.library.consumer.repository.entity.BookRepositoryEntityImpl;
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;

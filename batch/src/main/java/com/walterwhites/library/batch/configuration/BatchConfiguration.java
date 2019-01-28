@@ -22,7 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableBatchProcessing
 @ComponentScan
-@EnableJpaRepositories("com.walterwhites.library.consumer.repository")
+@EnableJpaRepositories("com.walterwhites.library.consumer.repository.entity")
 @EntityScan("com.walterwhites.library.model.entity")
 public class BatchConfiguration {
 

@@ -14,10 +14,17 @@
     </parent>
 
     <dependencies>
+        <!-- modules dependencies -->
         <dependency>
             <groupId>com.walterwhites.library</groupId>
             <artifactId>model</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry</artifactId>
+            <version>1.7.16</version>
         </dependency>
     </dependencies>
 </project>
