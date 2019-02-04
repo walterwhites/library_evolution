@@ -55,9 +55,9 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView loginGet() {
+    public ModelAndView loginGet(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+        model.addAttribute("appName", appName);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return new ModelAndView("redirect:/profile/notes");
         }

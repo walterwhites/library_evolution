@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @EntityScan("com.walterwhites.library.model.entity")
 @ComponentScan(basePackages = {"com.walterwhites.library"})
+@Configuration
 public class LibraryApplication extends SpringBootServletInitializer {
 
     static SentryJClient sentryJClient;

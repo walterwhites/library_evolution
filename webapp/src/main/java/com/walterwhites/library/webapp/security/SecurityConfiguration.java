@@ -1,9 +1,11 @@
 package com.walterwhites.library.webapp.security;
 
 import com.walterwhites.library.business.utils.RoleEnum;
+import com.walterwhites.library.webservice.services.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = {"com.walterwhites.library"})
+@EnableAutoConfiguration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final String adminRole = RoleEnum.ADMINISTRATOR.name();
@@ -22,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(@Qualifier("inMemoryUserDetailsManager") UserDetailsService userDetailsService) {
+    public SecurityConfiguration(MyUserService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

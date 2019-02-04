@@ -15,20 +15,25 @@
     </div>
     <!-- /.navbar-header -->
 
-    <ul class="nav navbar-top-links navbar-right">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
-                    <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-            </ul>
-            <!-- /.dropdown-user -->
-        </li>
-        <!-- /.dropdown -->
-    </ul>
-    <!-- /.navbar-top-links -->
+
+        <ul class="nav navbar-top-links navbar-right" id="top-nabar-connexion">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user dropdown-content">
+                    <li><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
+                    <li><a>
+                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                            <input class="navbar-btn navbar-link" type="submit" value="Logout" />
+                        </form>
+                    </a></li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
 
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">

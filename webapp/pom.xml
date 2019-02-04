@@ -56,8 +56,8 @@
         <dependency>
             <groupId>com.walterwhites.library</groupId>
             <artifactId>webservice</artifactId>
-            <type>war</type>
-            <version>${project.version}</version>
+            <type>jar</type>
+            <version>${project.version.classes}</version>
         </dependency>
 
         <dependency>
