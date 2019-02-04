@@ -1,20 +1,19 @@
 package com.walterwhites.library.batch.configuration;
 
-import com.walterwhites.library.consumer.repository.entity.AdminRepository;
+import com.walterwhites.library.consumer.repository.entity.AdminRepositoryImpl;
 import com.walterwhites.library.model.entity.Admin;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Component
 public class AdminWriter implements ItemWriter<Admin> {
-    private final AdminRepository adminRepository;
+    private final AdminRepositoryImpl adminRepository;
 
     @Autowired
-    public AdminWriter(AdminRepository adminRepository) {
+    public AdminWriter(AdminRepositoryImpl adminRepository) {
         this.adminRepository = adminRepository;
     }
 

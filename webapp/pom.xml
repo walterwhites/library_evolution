@@ -57,7 +57,7 @@
             <groupId>com.walterwhites.library</groupId>
             <artifactId>webservice</artifactId>
             <type>jar</type>
-            <version>${project.version.classes}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

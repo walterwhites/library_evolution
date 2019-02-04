@@ -1,12 +1,15 @@
 package com.walterwhites.library.batch.processor;
 
+import com.walterwhites.library.business.utils.RoleEnum;
 import com.walterwhites.library.model.entity.Admin;
 import com.walterwhites.library.model.entity.Library;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AdminItemProcessor implements ItemProcessor<Admin, Admin> {
 
@@ -14,14 +17,18 @@ public class AdminItemProcessor implements ItemProcessor<Admin, Admin> {
 
     @Override
     public Admin process(Admin admin) throws Exception {
-        admin.setPassword("password");
+        Admin transformedAdmin = new Admin();
+        transformedAdmin.setPassword("password");
         Library library = new Library();
         library.setName("Paris Francois Mitterand");
-        admin.setLibrary(library);
-        admin.setEnabled(true);
-        admin.setCreated_at(new Date());
-        admin.setUsername(admin.getEmail());
+        transformedAdmin.setLibrary(library);
+        transformedAdmin.setEnabled(true);
+        transformedAdmin.setCreated_at(new Date());
+        transformedAdmin.setUsername(admin.getEmail());
 
-        return admin;
+        List<RoleEnum> adminRole = Arrays.asList(RoleEnum.ADMINISTRATOR);
+        transformedAdmin.setRoles(adminRole);
+
+        return transformedAdmin;
     }
 }

@@ -28,8 +28,8 @@ public class Client extends AbstractUser {
     @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
     @JoinTable(
-            indexes = {@Index(name = "INDEX_USER_ROLE", columnList = "id")},
-            name = "roles_user",
+            indexes = {@Index(name = "INDEX_CLIENT_ROLE", columnList = "id")},
+            name = "roles_client",
             joinColumns = @JoinColumn(name = "id", nullable = true)
     )
     @Column(name = "role", nullable = true)

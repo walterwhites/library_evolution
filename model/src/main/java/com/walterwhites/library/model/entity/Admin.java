@@ -24,7 +24,7 @@ public class Admin extends AbstractUser {
     @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL})
     @JoinTable(
-            indexes = {@Index(name = "INDEX_USER_ROLE", columnList = "id")},
+            indexes = {@Index(name = "INDEX_ADMIN_ROLE", columnList = "id")},
             name = "roles_admin",
             joinColumns = @JoinColumn(name = "id", nullable = true)
     )

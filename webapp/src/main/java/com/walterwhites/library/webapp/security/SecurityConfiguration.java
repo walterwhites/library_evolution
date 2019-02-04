@@ -26,8 +26,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(MyUserService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfiguration(MyUserService myUserService) {
+        this.userDetailsService = myUserService;
     }
 
     @Bean(name = "passwordEncoder")

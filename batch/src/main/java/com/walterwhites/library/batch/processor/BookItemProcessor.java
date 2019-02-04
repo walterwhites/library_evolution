@@ -62,6 +62,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setBooks(bookList);
         loans.add(loan);
         transformedBook.setLoans(loans);
+        client.setLoans(loans);
 
         log.info("Converting (" + item + ") into (" + transformedBook + ")");
 

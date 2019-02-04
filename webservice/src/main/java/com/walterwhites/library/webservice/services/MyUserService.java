@@ -1,12 +1,12 @@
 package com.walterwhites.library.webservice.services;
 
-import com.walterwhites.library.consumer.repository.entity.AdminRepository;
-import com.walterwhites.library.consumer.repository.entity.ClientRepository;
+import com.walterwhites.library.consumer.repository.entity.AdminRepositoryImpl;
+import com.walterwhites.library.consumer.repository.entity.ClientRepositoryImpl;
 import com.walterwhites.library.model.entity.AbstractUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 
 @Service()
 @Configuration
-@EnableJpaRepositories("com.walterwhites.library.consumer.repository")
+@EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.walterwhites.library"})
 public class MyUserService implements UserDetailsService {
 
-    private final AdminRepository adminRepository;
-    private final ClientRepository clientRepository;
+    private final AdminRepositoryImpl adminRepository;
+    private final ClientRepositoryImpl clientRepository;
 
     @Autowired
-    public MyUserService(AdminRepository adminRepository, ClientRepository clientRepository) {
+    public MyUserService(AdminRepositoryImpl adminRepository, ClientRepositoryImpl clientRepository) {
         this.adminRepository = adminRepository;
         this.clientRepository = clientRepository;
     }
