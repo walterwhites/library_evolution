@@ -1,4 +1,6 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
@@ -19,14 +21,8 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a>
-                <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                </li>
+                <li><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
+                    <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
             </ul>
             <!-- /.dropdown-user -->
         </li>
@@ -53,6 +49,10 @@
                 </li>
                 <li>
                     <a href="/tables"><i class="fa fa-table fa-fw"></i> Books</a>
+                </li>
+                </li>
+                <li>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/auth/loans}"><i class="fa fa-tasks fa-fw"></i> Loans</a>
                 </li>
             </ul>
         </div>

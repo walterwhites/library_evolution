@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
@@ -24,6 +26,9 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         final Date obtaining_date = new Date();
         final Client client = new Client();
         client.setFirstname("Flo");
+        client.setEmail("contact.magician@gmail.com");
+        client.setPassword("password");
+        client.setUsername(client.getEmail());
 
         List<Book> bookList = new LinkedList<Book>();
         final Book transformedBook = new Book(title, author, language, state, obtaining_date);

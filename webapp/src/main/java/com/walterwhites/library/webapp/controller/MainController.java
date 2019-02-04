@@ -6,10 +6,14 @@ import library.io.github.walterwhites.Book;
 import library.io.github.walterwhites.GetAllBookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -50,10 +54,13 @@ public class MainController {
         return "tables";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("author", author);
-        return "login";
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView loginGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return new ModelAndView("redirect:/profile/notes");
+        }
+        return new ModelAndView("login");
     }
 }
