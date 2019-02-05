@@ -34,7 +34,7 @@ public class Client extends AbstractUser {
     )
     @Column(name = "role", nullable = true)
     @Enumerated(EnumType.STRING)
-    protected Collection<RoleEnum> roles;
+    Collection<RoleEnum> roles;
 
     public Client() {
         this.roles = Collections.singletonList(RoleEnum.USER);

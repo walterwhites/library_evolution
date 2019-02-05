@@ -18,13 +18,14 @@ public class AdminItemProcessor implements ItemProcessor<Admin, Admin> {
     @Override
     public Admin process(Admin admin) throws Exception {
         Admin transformedAdmin = new Admin();
-        transformedAdmin.setPassword("password");
         Library library = new Library();
         library.setName("Paris Francois Mitterand");
         transformedAdmin.setLibrary(library);
         transformedAdmin.setEnabled(true);
         transformedAdmin.setCreated_at(new Date());
         transformedAdmin.setUsername(admin.getEmail());
+        transformedAdmin.setEmail("admin@gmail.com");
+        transformedAdmin.setPassword("password");
 
         List<RoleEnum> adminRole = Arrays.asList(RoleEnum.ADMINISTRATOR);
         transformedAdmin.setRoles(adminRole);

@@ -14,17 +14,16 @@
         <a class="navbar-brand" href="/dashboard" th:text="${appName}"></a>
     </div>
     <!-- /.navbar-header -->
-
-
         <ul class="nav navbar-top-links navbar-right" id="top-nabar-connexion">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user dropdown-content">
-                    <li><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
-                    <li><a>
-                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                    <li><a href="#">[[${#httpServletRequest.remoteUser}]]</a></li>
+                    <li sec:authorize="!isAuthenticated()"><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
+                    <li sec:authorize="isAuthenticated()"><a>
+                        <form th:action="@{/logout}" method="post">
                             <input class="navbar-btn navbar-link" type="submit" value="Logout" />
                         </form>
                     </a></li>
@@ -57,7 +56,7 @@
                 </li>
                 </li>
                 <li>
-                    <a sec:authorize="isAuthenticated()" th:href="@{/auth/loans}"><i class="fa fa-tasks fa-fw"></i> Loans</a>
+                    <a th:href="@{/loans}"><i class="fa fa-tasks fa-fw"></i> Loans</a>
                 </li>
             </ul>
         </div>

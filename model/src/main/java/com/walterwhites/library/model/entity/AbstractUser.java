@@ -8,13 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
 @Getter
 @Setter
 @MappedSuperclass
-public class AbstractUser implements UserDetails {
+public class AbstractUser implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -22,7 +23,6 @@ public class AbstractUser implements UserDetails {
     protected String email;
     protected String username;
     protected Date created_at;
-    protected Date updated_at;
 
     @Column(name = "password", nullable = false)
     protected String password;

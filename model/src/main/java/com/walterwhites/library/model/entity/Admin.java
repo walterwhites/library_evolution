@@ -30,7 +30,7 @@ public class Admin extends AbstractUser {
     )
     @Column(name = "role", nullable = true)
     @Enumerated(EnumType.STRING)
-    protected Collection<RoleEnum> roles;
+    Collection<RoleEnum> roles;
 
     public Admin() {
         this.roles = Collections.singletonList(RoleEnum.ADMINISTRATOR);

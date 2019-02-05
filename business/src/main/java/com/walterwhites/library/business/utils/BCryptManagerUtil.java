@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BCryptManagerUtil {
 
-    private final PasswordEncoder passwordEncoder;
+    private static PasswordEncoder passwordEncoder;
 
     @Autowired
     public BCryptManagerUtil(PasswordEncoder passwordEncoder) {
@@ -17,6 +17,11 @@ public class BCryptManagerUtil {
 
     @Bean(name = "passwordEncoder")
     public static PasswordEncoder passwordencoder(){
-        return new BCryptPasswordEncoder();
+        passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder;
+    }
+
+    public static String encrytePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }

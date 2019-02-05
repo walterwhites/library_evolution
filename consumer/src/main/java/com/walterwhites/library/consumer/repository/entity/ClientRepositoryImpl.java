@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -32,7 +34,11 @@ public class ClientRepositoryImpl implements AbstractUserEntity {
     private JdbcOperations operations;
 
     public Client findByUsername(String username) {
-        return null;
+        Client client = (Client) this.operations.queryForObject(
+                "SELECT * FROM client WHERE client.username = ?", (rs, rownumber) -> {
+                    return getClientData(rs);
+                }, username);
+        return client;
     }
 
 
@@ -89,5 +95,22 @@ public class ClientRepositoryImpl implements AbstractUserEntity {
     @Override
     public void deleteAll() {
 
+    }
+
+    private Client getClientData(ResultSet rs) throws SQLException {
+        Client c = new Client();
+        c.setId(rs.getLong("id"));
+        c.setFirstname(rs.getString("firstname"));
+        c.setLanguage(rs.getString("language"));
+        c.setLastname(rs.getString("lastname"));
+        c.setAccountNonExpired(rs.getBoolean("account_non_expired"));
+        c.setAccountNonLocked(rs.getBoolean("account_non_locked"));
+        c.setCreated_at(rs.getDate("created_at"));
+        c.setCredentialsNonExpired(rs.getBoolean("credentials_non_expired"));
+        c.setEmail(rs.getString("email"));
+        c.setEnabled(rs.getBoolean("enabled"));
+        c.setPassword(rs.getString("password"));
+        c.setUsername(rs.getString("username"));
+        return c;
     }
 }

@@ -2,14 +2,17 @@ package com.walterwhites.library.consumer.repository.entity;
 
 import com.walterwhites.library.model.entity.AbstractUser;
 import com.walterwhites.library.model.entity.Admin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -21,13 +24,20 @@ public class AdminRepositoryImpl implements AbstractUserEntity {
     @PersistenceContext()
     private EntityManager em;
 
+    @Autowired
+    private JdbcOperations operations;
+
     @Transactional
     public void refresh(Admin admin) {
         em.refresh(admin);
     }
 
     public Admin findByUsername(String username) {
-        return null;
+        Admin admin = (Admin) this.operations.queryForObject(
+                "SELECT * FROM admins WHERE admins.username = ?", (rs, rownumber) -> {
+                    return getAdminData(rs);
+                }, username);
+        return admin;
     }
 
 
@@ -85,5 +95,19 @@ public class AdminRepositoryImpl implements AbstractUserEntity {
     @Override
     public void deleteAll() {
 
+    }
+
+    private Admin getAdminData(ResultSet rs) throws SQLException {
+        Admin a = new Admin();
+        a.setId(rs.getLong("id"));
+        a.setAccountNonExpired(rs.getBoolean("account_non_expired"));
+        a.setAccountNonLocked(rs.getBoolean("account_non_locked"));
+        a.setCreated_at(rs.getDate("created_at"));
+        a.setCredentialsNonExpired(rs.getBoolean("credentials_non_expired"));
+        a.setEmail(rs.getString("email"));
+        a.setEnabled(rs.getBoolean("enabled"));
+        a.setPassword(rs.getString("password"));
+        a.setUsername(rs.getString("username"));
+        return a;
     }
 }
