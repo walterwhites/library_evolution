@@ -13,4 +13,5 @@ public interface BookRepository {
     List<Book> findByTitle(String title);
     Book findById(Integer id);
     List<Book> findAllBooks();
+    List<Book> findAllBooksFromClient(String id);
 }

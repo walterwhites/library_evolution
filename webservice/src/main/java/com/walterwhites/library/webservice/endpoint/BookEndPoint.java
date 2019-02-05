@@ -45,4 +45,12 @@ public class BookEndPoint {
         response.getBook().addAll(bookRepository.findAllBooks());
         return response;
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllBookFromClientRequest")
+    @ResponsePayload
+    public GetAllBookFromClientResponse getAllBookFromClient(@RequestPayload GetAllBookFromClientRequest request) {
+        GetAllBookFromClientResponse response = new GetAllBookFromClientResponse();
+        response.getBook().addAll(bookRepository.findAllBooksFromClient(request.getUsername()));
+        return response;
+    }
 }

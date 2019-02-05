@@ -10,6 +10,7 @@ package library.io.github.walterwhites;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,9 +35,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "getAllBookRequest")
-public class GetAllBookRequest {
+@XmlType(name = "", propOrder = {
+    "username"
+})
+@XmlRootElement(name = "getAllBookFromClientRequest")
+public class GetAllBookFromClientRequest {
 
+    @XmlElement(required = true)
+    protected String username;
+
+    /**
+     * Gets the value of the username property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Sets the value of the username property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setUsername(String value) {
+        this.username = value;
+    }
 
 }

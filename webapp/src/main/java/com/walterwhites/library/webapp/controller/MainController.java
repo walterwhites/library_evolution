@@ -3,11 +3,13 @@ package com.walterwhites.library.webapp.controller;
 import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
 import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.GetAllBookFromClientResponse;
 import library.io.github.walterwhites.GetAllBookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,6 +87,12 @@ public class MainController {
         model.addAttribute("appName", appName);
         if (!hasUserRole) {
             return new ModelAndView("redirect:/login");
+        }
+        if (auth != null) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllBookFromClientResponse getAllBookResponse = bookClient.getAllBooksFromClient(username);
+            model.addAttribute("books", getAllBookResponse);
         }
         return new ModelAndView("auth/loans");
     }

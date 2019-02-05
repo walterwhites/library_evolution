@@ -38,6 +38,24 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getAllBookFromClientRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllBookFromClientResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="book" type="tns:book"/>
+                <xs:element maxOccurs="unbounded" name="libraries" type="tns:libraries"/>
+                <xs:element maxOccurs="unbounded" name="loans" type="tns:loans"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getBookFromIdRequest">
         <xs:complexType>
             <xs:sequence>

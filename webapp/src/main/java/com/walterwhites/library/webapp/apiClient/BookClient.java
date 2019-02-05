@@ -38,4 +38,14 @@ public class BookClient extends WebServiceGatewaySupport {
                                 "http://localhost:8080/dashboard"));
         return response;
     }
+
+    public GetAllBookFromClientResponse getAllBooksFromClient(String username) {
+        GetAllBookFromClientRequest request = new GetAllBookFromClientRequest();
+        request.setUsername(username);
+        GetAllBookFromClientResponse response = (GetAllBookFromClientResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+        return response;
+    }
 }

@@ -69,7 +69,7 @@ public class AbstractUser implements Serializable, UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override

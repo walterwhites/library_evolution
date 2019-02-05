@@ -44,8 +44,8 @@ import javax.xml.bind.annotation.XmlType;
     "libraries",
     "loans"
 })
-@XmlRootElement(name = "getBookResponse")
-public class GetBookResponse {
+@XmlRootElement(name = "getAllBookFromClientResponse")
+public class GetAllBookFromClientResponse {
 
     @XmlElement(required = true)
     protected List<Book> book;
