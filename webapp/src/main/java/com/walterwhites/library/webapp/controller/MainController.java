@@ -6,10 +6,13 @@ import library.io.github.walterwhites.Book;
 import library.io.github.walterwhites.GetAllBookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -50,10 +53,39 @@ public class MainController {
         return "tables";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login(Model model) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(Model model, String error, String logout) {
         model.addAttribute("appName", appName);
-        model.addAttribute("author", author);
-        return "login";
+        if (error != null) {
+            model.addAttribute("error", "Your username and password is invalid.");
+        }
+        if (logout != null) {
+            model.addAttribute("message", "You have been logged out successfully.");
+        }
+        return new ModelAndView("login");
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public ModelAndView admin(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasAdminRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMINISTRATOR"));
+        model.addAttribute("appName", appName);
+        if (!hasAdminRole) {
+            return new ModelAndView("redirect:/login");
+        }
+        return new ModelAndView("auth/admin");
+    }
+
+    @RequestMapping(value = "/loans", method = RequestMethod.GET)
+    public ModelAndView loans(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        model.addAttribute("appName", appName);
+        if (!hasUserRole) {
+            return new ModelAndView("redirect:/login");
+        }
+        return new ModelAndView("auth/loans");
     }
 }

@@ -1,6 +1,8 @@
 package com.walterwhites.library.batch.configuration;
 
+import com.walterwhites.library.batch.processor.AdminItemProcessor;
 import com.walterwhites.library.batch.processor.BookItemProcessor;
+import com.walterwhites.library.model.entity.Admin;
 import com.walterwhites.library.model.entity.Book;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -35,6 +37,9 @@ public class BatchConfiguration {
     @Autowired
     private Writer writer;
 
+    @Autowired
+    private AdminWriter adminWriter;
+
     // tag::readerwriterprocessor[]
     @Bean
     public FlatFileItemReader<Book> bookReader() {
@@ -56,6 +61,11 @@ public class BatchConfiguration {
     }
 
     @Bean
+    public AdminItemProcessor adminProcessor() {
+        return new AdminItemProcessor();
+    }
+
+    @Bean
     public Job importBookJob(JobCompletionNotificationListener listener, Step stepBook) {
         return jobBuilderFactory.get("importBookJob")
                 .incrementer(new RunIdIncrementer())
@@ -72,6 +82,39 @@ public class BatchConfiguration {
                 .reader(bookReader())
                 .processor(bookProcessor())
                 .writer(writer)
+                .build();
+    }
+
+    @Bean
+    public FlatFileItemReader<Admin> adminReader() {
+        return new FlatFileItemReaderBuilder<Admin>()
+                .name("AdminItemReader")
+                .resource(new ClassPathResource("Admin.csv"))
+                .delimited()
+                .delimiter(",")
+                .names(new String[]{"firstname", "email"})
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<Admin>() {{
+                    setTargetType(Admin.class);
+                }})
+                .build();
+    }
+
+    @Bean
+    public Job importAdminJob(JobCompletionNotificationListener listener, Step stepAdmin) {
+        return jobBuilderFactory.get("importAdminJob")
+                .incrementer(new RunIdIncrementer())
+                .flow(stepAdmin)
+                .end()
+                .build();
+    }
+
+    @Bean
+    public Step stepAdmin() {
+        return stepBuilderFactory.get("stepAdmin")
+                .<Admin, Admin> chunk(10)
+                .reader(adminReader())
+                .processor(adminProcessor())
+                .writer(adminWriter)
                 .build();
     }
 }

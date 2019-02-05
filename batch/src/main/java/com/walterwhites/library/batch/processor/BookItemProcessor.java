@@ -8,11 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
     private static final Logger log = LoggerFactory.getLogger(BookItemProcessor.class);
+    static int i = 1;
 
     @Override
     public Book process(Book item) throws Exception {
@@ -24,9 +27,15 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         final Date obtaining_date = new Date();
         final Client client = new Client();
         client.setFirstname("Flo");
+        client.setPassword("password");
+        client.setLanguage("fr");
+        client.setLastname("flo");
 
         List<Book> bookList = new LinkedList<Book>();
         final Book transformedBook = new Book(title, author, language, state, obtaining_date);
+        client.setEmail("client" + i + "@gmail.com");
+        client.setUsername("flo" + i);
+        i++;
         transformedBook.setState("New book");
 
         // library
@@ -57,6 +66,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setBooks(bookList);
         loans.add(loan);
         transformedBook.setLoans(loans);
+        client.setLoans(loans);
 
         log.info("Converting (" + item + ") into (" + transformedBook + ")");
 
