@@ -1,11 +1,13 @@
 package com.walterwhites.library.model.entity;
 
-import com.walterwhites.library.business.utils.BCryptManagerUtil;
 import com.walterwhites.library.business.utils.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -47,19 +49,18 @@ public class AbstractUser implements Serializable, UserDetails {
         this.created_at = new Date();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     public AbstractUser(String email, String password, String firstname, String lastname, Collection<RoleEnum> roles) {
-        this.password = BCryptManagerUtil.passwordencoder().encode(password);
+        this.password = passwordEncoder().encode(password);
         this.email = email;
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
-    }
-
-    public void setPassword(String password) {
-        if (!password.isEmpty()) {
-            this.password = BCryptManagerUtil.passwordencoder().encode(password);
-        }
     }
 
     @Override
