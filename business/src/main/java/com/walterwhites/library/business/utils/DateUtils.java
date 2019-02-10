@@ -3,6 +3,7 @@ package com.walterwhites.library.business.utils;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -14,6 +15,14 @@ import java.util.GregorianCalendar;
  * @author Alex Arana
  */
 public final class DateUtils {
+
+    public static String formatDayMonthYear(GregorianCalendar calendar){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MMM-dd");
+        fmt.setCalendar(calendar);
+        String dateFormatted = fmt.format(calendar.getTime());
+        return dateFormatted;
+    }
+
 
     /**
      * Converts an instance of {@link java.util.Date} object to {@link java.util.Calendar}.

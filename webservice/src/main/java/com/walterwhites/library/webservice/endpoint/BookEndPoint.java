@@ -30,6 +30,15 @@ public class BookEndPoint {
         return response;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postBookBorrowedRequest")
+    @ResponsePayload
+    public PostBookBorrowedResponse postBookBorrowed(@RequestPayload PostBookBorrowedRequest request) {
+        PostBookBorrowedResponse response = new PostBookBorrowedResponse();
+        bookRepository.saveBookBorrowed(response.getBook());
+        response.setBook(bookRepository.findById(request.getId()));
+        return response;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookFromIdRequest")
     @ResponsePayload
     public GetBookFromIdResponse getBookFromId(@RequestPayload GetBookFromIdRequest request) {

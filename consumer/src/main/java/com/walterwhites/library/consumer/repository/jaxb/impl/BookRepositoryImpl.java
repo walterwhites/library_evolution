@@ -1,6 +1,7 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
 import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.consumer.repository.entity.BookRepositoryEntityImpl;
 import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,18 +23,47 @@ import java.util.List;
 @EnableAutoConfiguration
 @ComponentScan
 @Configuration
+@Transactional
 public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
     @PersistenceContext
     private EntityManager em;
 
+    @Autowired
     private JdbcOperations operations;
+
+    private BookRepositoryEntityImpl bookRepositoryEntity;
 
     private static List<Book> books = new LinkedList<>();
 
     @Autowired
-    public void BookRepositoryImpl(JdbcOperations jdbcOperations) {
+    public void BookRepositoryImpl(JdbcOperations jdbcOperations, BookRepositoryEntityImpl bookRepositoryEntity) {
+        this.bookRepositoryEntity = bookRepositoryEntity;
         this.operations = jdbcOperations;
+    }
+
+    private com.walterwhites.library.model.entity.Loan addLoan(Book book) {
+        com.walterwhites.library.model.entity.Book entityBook = bookRepositoryEntity.findBookById(Integer.toUnsignedLong(book.getId()));
+        List<com.walterwhites.library.model.entity.Book> bookList = new LinkedList<>();
+        bookList.add(entityBook);
+
+        List<com.walterwhites.library.model.entity.Loan> loans = new LinkedList<>();
+        com.walterwhites.library.model.entity.Loan entityLoan = new com.walterwhites.library.model.entity.Loan();
+        entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
+        entityLoan.setEnd_date(book.getLoans().getEndDate().toGregorianCalendar().getTime());
+        entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
+        entityLoan.setRenewed(book.getLoans().isRenewed());
+        entityLoan.setState(book.getLoans().getState().toString());
+        entityLoan.setBooks(bookList);
+        loans.add(entityLoan);
+        entityBook.setLoans(loans);
+
+        return entityLoan;
+    }
+
+    public void saveBookBorrowed(Book book) {
+        com.walterwhites.library.model.entity.Loan entityLoan = addLoan(book);
+        this.em.persist(entityLoan);
     }
 
     @Override
@@ -170,9 +201,8 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         XMLGregorianCalendar obtaining_date = DateUtils.toXmlGregorianCalendar(rs.getDate("obtaining_date"));
         b.setObtainingDate(obtaining_date);
 
-
         b.setState(rs.getString("state"));
-
+        b.setNumber(rs.getInt("number"));
 
         loan.setId(rs.getInt("loan_id"));
         XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));

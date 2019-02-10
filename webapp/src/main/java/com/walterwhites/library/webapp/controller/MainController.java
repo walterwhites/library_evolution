@@ -1,10 +1,9 @@
 package com.walterwhites.library.webapp.controller;
 
 import com.walterwhites.library.business.parser.BookParser;
+import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.webapp.apiClient.BookClient;
-import library.io.github.walterwhites.Book;
-import library.io.github.walterwhites.GetAllBookFromClientResponse;
-import library.io.github.walterwhites.GetAllBookResponse;
+import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -12,10 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
@@ -46,8 +48,32 @@ public class MainController {
         return "dashboard";
     }
 
-    @RequestMapping(value = {"/tables"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/reserved-book", method = {RequestMethod.POST})
+    public String reservedBook(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
+        PostBookBorrowedResponse postBookBorrowedResponse = bookClient.postBookBorrowed(book.getId());
+        Book reservedBook = postBookBorrowedResponse.getBook();
+        GregorianCalendar gregorianCalendar = reservedBook.getObtainingDate().toGregorianCalendar();
+        gregorianCalendar.add(GregorianCalendar.DAY_OF_WEEK, 4);
+        String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
+        redirectAttributes.addFlashAttribute("message", "You have borrowed " + reservedBook.getTitle()
+                + " until to " + calendar);
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        return "redirect:/tables";
+    }
+
+    @RequestMapping(value = "/tables", method = RequestMethod.GET)
     public String tables(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
+            List<String> bookNames = BookParser.getBookNames(getAllBookResponseFromClient.getBook());
+            model.addAttribute("bookNames", bookNames);
+            model.addAttribute("connected", true);
+        }
         model.addAttribute("appName", appName);
         model.addAttribute("author", author);
         GetAllBookResponse getAllBookResponse = bookClient.getAllBooks();
@@ -88,12 +114,16 @@ public class MainController {
         if (!hasUserRole) {
             return new ModelAndView("redirect:/login");
         }
+        this.getAllBooksFromClient(auth, model);
+        return new ModelAndView("auth/loans");
+    }
+
+    private void getAllBooksFromClient(Authentication auth, Model model) {
         if (auth != null) {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
-            GetAllBookFromClientResponse getAllBookResponse = bookClient.getAllBooksFromClient(username);
-            model.addAttribute("books", getAllBookResponse);
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
+            model.addAttribute("books_client", getAllBookResponseFromClient);
         }
-        return new ModelAndView("auth/loans");
     }
 }

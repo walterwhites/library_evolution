@@ -46,7 +46,7 @@
                             <tbody>
                             <!--/*@thymesVar id="book" type="library.io.github.walterwhites.Book"*/-->
                             <tr class="odd gradeX"
-                                th:each="book, iStat : ${books.getBook()}"
+                                th:each="book, iStat : ${books_client.getBook()}"
                                 th:alt-title="${iStat.even}? 'even' : 'odd'">
                                 <td th:text="${book.getId()}"></td>
                                 <td th:text="${book.getTitle()}"></td>

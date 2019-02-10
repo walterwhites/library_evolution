@@ -48,7 +48,12 @@ public class BookRepositoryEntityImpl implements BookRepositoryEntity {
 
     @Override
     public Optional<Book> findById(Long aLong) {
-        return Optional.empty();
+        Book book = em.find(Book.class, aLong);
+        return Optional.of(book);
+    }
+
+    public Book findBookById(Long aLong) {
+        return findById(aLong).get();
     }
 
     @Override

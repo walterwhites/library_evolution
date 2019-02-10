@@ -31,6 +31,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         final String author = item.getAuthor().toLowerCase();
         final String language = item.getLanguages().toLowerCase();
         final String state = item.getState().toLowerCase();
+        final Integer number = item.getNumber();
 
         final Date obtaining_date = new Date();
         final Client client = new Client();
@@ -40,7 +41,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         client.setLastname("flo");
 
         List<Book> bookList = new LinkedList<Book>();
-        final Book transformedBook = new Book(title, author, language, state, obtaining_date);
+        final Book transformedBook = new Book(title, author, language, state, obtaining_date, number);
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
         i++;

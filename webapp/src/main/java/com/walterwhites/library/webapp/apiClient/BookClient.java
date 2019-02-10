@@ -10,6 +10,16 @@ public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
+    public PostBookBorrowedResponse postBookBorrowed(int id) {
+        PostBookBorrowedRequest request = new PostBookBorrowedRequest();
+        request.setId(id);
+        PostBookBorrowedResponse response = (PostBookBorrowedResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+        return response;
+    }
+
     public GetBookResponse getBooksFromTitle(String book) {
         GetBookRequest request = new GetBookRequest();
         request.setTitle(book);
