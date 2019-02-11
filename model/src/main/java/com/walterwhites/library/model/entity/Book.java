@@ -25,7 +25,7 @@ public class Book {
     private Integer number;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Library> libraries;
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Loan> loans;
 
     public Book(String title, String author, String language, String state, Date obtaining_date, Integer number) {

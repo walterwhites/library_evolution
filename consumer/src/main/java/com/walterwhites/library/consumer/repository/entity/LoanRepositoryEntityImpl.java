@@ -49,9 +49,7 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
     }
 
     private Loan addLoan(library.io.github.walterwhites.Book book, long client_id) {
-
         Loan entityLoan = new Loan();
-
         List<Book> bookList = new LinkedList<>();
         Book entityBook = bookRepositoryEntity.findBookById(book.getId());
         bookList.add(entityBook);
@@ -65,6 +63,7 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         Client client = clientRepositoryImpl.findById(client_id).get();
 
         entityLoan.setClient(client);
+        entityLoan.setBook(entityBook);
         client.getLoans().add(entityLoan);
         entityBook.getLoans().add(entityLoan);
 

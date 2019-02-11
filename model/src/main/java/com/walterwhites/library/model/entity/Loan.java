@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "Loan")
@@ -22,8 +21,8 @@ public class Loan {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Client client;
     private Boolean renewed;
-    @ManyToMany(cascade = {CascadeType.REFRESH})
-    private List<Book> books;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private Book book;
     private String state;
     private Date updated_date;
 }

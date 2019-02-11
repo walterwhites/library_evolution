@@ -72,7 +72,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setState("free");
         loan.setRenewed(false);
         loan.setClient(client);
-        loan.setBooks(bookList);
+        loan.setBook(transformedBook);
         loans.add(loan);
         transformedBook.setLoans(loans);
         client.setLoans(loans);
