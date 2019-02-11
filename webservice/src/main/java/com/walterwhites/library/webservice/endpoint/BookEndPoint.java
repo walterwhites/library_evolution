@@ -1,5 +1,6 @@
 package com.walterwhites.library.webservice.endpoint;
 
+import com.walterwhites.library.consumer.repository.entity.LoanRepositoryEntityImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ public class BookEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
     private final BookRepositoryImpl bookRepository;
+    private final LoanRepositoryEntityImpl loanRepositoryEntity;
 
     @Autowired
-    public BookEndPoint(BookRepositoryImpl bookRepository) {
+    public BookEndPoint(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity) {
         this.bookRepository = bookRepository;
+        this.loanRepositoryEntity = loanRepositoryEntity;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookRequest")
@@ -27,6 +30,17 @@ public class BookEndPoint {
         GetBookResponse response = new GetBookResponse();
         response.getBook().addAll(bookRepository.findByTitle(request.getTitle()));
 
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postBookBorrowedRequest")
+    @ResponsePayload
+    public PostBookBorrowedResponse postBookBorrowed(@RequestPayload PostBookBorrowedRequest request) {
+        PostBookBorrowedResponse response = new PostBookBorrowedResponse();
+        Book book = bookRepository.findById(request.getId());
+        Long loan_id = loanRepositoryEntity.saveBookBorrowed(book, request.getClientId());
+        response.setClientId(loan_id);
+        response.setId(loan_id);
         return response;
     }
 
@@ -43,6 +57,14 @@ public class BookEndPoint {
     public GetAllBookResponse getAllBook(@RequestPayload GetAllBookRequest request) {
         GetAllBookResponse response = new GetAllBookResponse();
         response.getBook().addAll(bookRepository.findAllBooks());
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllBookFromClientRequest")
+    @ResponsePayload
+    public GetAllBookFromClientResponse getAllBookFromClient(@RequestPayload GetAllBookFromClientRequest request) {
+        GetAllBookFromClientResponse response = new GetAllBookFromClientResponse();
+        response.getBook().addAll(bookRepository.findAllBooksFromClient(request.getUsername()));
         return response;
     }
 }

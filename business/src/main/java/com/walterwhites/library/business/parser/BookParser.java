@@ -23,6 +23,16 @@ final public class BookParser {
         return frenchBooks;
     }
 
+    static public List<String> getBookNames(List<Book> books) {
+
+        List<String> bookNames = new LinkedList<String>();
+
+        for (Book book : books) {
+            bookNames.add(book.getTitle());
+        }
+        return bookNames;
+    }
+
     static public List<Book> getEnglishBooks(List<Book> books) {
 
         List<Book> englishBooks = new LinkedList<Book>();

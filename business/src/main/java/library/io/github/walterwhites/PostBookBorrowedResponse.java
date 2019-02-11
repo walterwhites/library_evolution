@@ -10,6 +10,7 @@ package library.io.github.walterwhites;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,6 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="client_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,9 +36,47 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "getAllBookRequest")
-public class GetAllBookRequest {
+@XmlType(name = "", propOrder = {
+    "id",
+    "clientId"
+})
+@XmlRootElement(name = "postBookBorrowedResponse")
+public class PostBookBorrowedResponse {
 
+    protected long id;
+    @XmlElement(name = "client_id")
+    protected long clientId;
+
+    /**
+     * Gets the value of the id property.
+     * 
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(long value) {
+        this.id = value;
+    }
+
+    /**
+     * Gets the value of the clientId property.
+     * 
+     */
+    public long getClientId() {
+        return clientId;
+    }
+
+    /**
+     * Sets the value of the clientId property.
+     * 
+     */
+    public void setClientId(long value) {
+        this.clientId = value;
+    }
 
 }

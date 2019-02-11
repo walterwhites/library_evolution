@@ -10,6 +10,17 @@ public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
+    public PostBookBorrowedResponse postBookBorrowed(long id, long client_id) {
+        PostBookBorrowedRequest request = new PostBookBorrowedRequest();
+        request.setId(id);
+        request.setClientId(client_id);
+        PostBookBorrowedResponse response = (PostBookBorrowedResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+        return response;
+    }
+
     public GetBookResponse getBooksFromTitle(String book) {
         GetBookRequest request = new GetBookRequest();
         request.setTitle(book);
@@ -20,7 +31,7 @@ public class BookClient extends WebServiceGatewaySupport {
         return response;
     }
 
-    public GetBookFromIdResponse getBookFromId(int id) {
+    public GetBookFromIdResponse getBookFromId(long id) {
         GetBookFromIdRequest request = new GetBookFromIdRequest();
         request.setId(id);
         GetBookFromIdResponse response = (GetBookFromIdResponse) getWebServiceTemplate()
@@ -33,6 +44,16 @@ public class BookClient extends WebServiceGatewaySupport {
     public GetAllBookResponse getAllBooks() {
         GetAllBookRequest request = new GetAllBookRequest();
         GetAllBookResponse response = (GetAllBookResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+        return response;
+    }
+
+    public GetAllBookFromClientResponse getAllBooksFromClient(String username) {
+        GetAllBookFromClientRequest request = new GetAllBookFromClientRequest();
+        request.setUsername(username);
+        GetAllBookFromClientResponse response = (GetAllBookFromClientResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("http://localhost:8081/ws", request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));

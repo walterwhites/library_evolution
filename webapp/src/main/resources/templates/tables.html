@@ -41,10 +41,14 @@
                                         <th>Language</th>
                                         <th>State</th>
                                         <th>Obtaining date</th>
+                                        <th>Number of copies</th>
+                                        <th>Borrow</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <!--/*@thymesVar id="book" type="library.io.github.walterwhites.Book"*/-->
+                                <!--/*@thymesVar id="bookNames" type="java.util.List<java.lang.String>"*/-->
+                                <!--/*@thymesVar id="connected" type="java.lang.Boolean"*/-->
                                     <tr class="odd gradeX"
                                         th:each="book, iStat : ${books.getBook()}"
                                         th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -53,8 +57,38 @@
                                         <td th:text="${book.getAuthor()}"></td>
                                         <td th:text="${book.getLanguages()}"></td>
                                         <td th:text="${book.getState()}"></td>
-                                        <td th:text="${book.getObtainingDate()}"></td>
+                                        <td th:text="|${book.getObtainingDate().getDay()}/${book.getObtainingDate().getMonth()}/${book.getObtainingDate().getYear()}|"></td>
+                                        <td th:text="${book.getNumber()}"></td>
+                                        <div>
+                                            <div th:if="${connected == null}">
+                                                <th>
+                                                    <button class="btn btn-danger" type="submit" disabled>You should be connected
+                                                        to borrow a book</button>
+                                                </th>
+                                            </div>
+                                            <div th:unless="${connected == null}">
+                                                <div th:if="${bookNames != null and #lists.contains(bookNames, book.title)}">
+                                                    <th>
+                                                        <button class="btn btn-warning" type="submit" disabled>Already taken</button>
+                                                    </th>
+                                                </div>
+                                                <div th:unless="${bookNames != null and #lists.contains(bookNames, book.title)}">
+                                                    <th th:if="${book.getNumber() == 0}">
+                                                        <button class="btn btn-danger" type="submit" disabled>Not available</button>
+                                                    </th>
+                                                    <th th:if="${book.getNumber() > 0}">
+                                                        <form th:action="@{/reserved-book}" method="post">
+                                                            <input type="hidden" name="id" th:value="${book.getId()}" />
+                                                            <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                            <button class="btn btn-success" type="submit">Borrow this book</button>
+                                                        </form>
+                                                    </th>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
+                                    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
                                 </tbody>
                             </table>
                         </div>

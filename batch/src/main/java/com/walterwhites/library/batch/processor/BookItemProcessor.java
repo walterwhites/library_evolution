@@ -7,6 +7,9 @@ import com.walterwhites.library.model.entity.Loan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -17,22 +20,28 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
     private static final Logger log = LoggerFactory.getLogger(BookItemProcessor.class);
     static int i = 1;
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     public Book process(Book item) throws Exception {
         final String title = item.getTitle().toLowerCase();
         final String author = item.getAuthor().toLowerCase();
         final String language = item.getLanguages().toLowerCase();
         final String state = item.getState().toLowerCase();
+        final Integer number = item.getNumber();
 
         final Date obtaining_date = new Date();
         final Client client = new Client();
         client.setFirstname("Flo");
-        client.setPassword("password");
+        client.setPassword(passwordEncoder().encode("password"));
         client.setLanguage("fr");
         client.setLastname("flo");
 
         List<Book> bookList = new LinkedList<Book>();
-        final Book transformedBook = new Book(title, author, language, state, obtaining_date);
+        final Book transformedBook = new Book(title, author, language, state, obtaining_date, number);
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
         i++;
@@ -63,7 +72,7 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setState("free");
         loan.setRenewed(false);
         loan.setClient(client);
-        loan.setBooks(bookList);
+        loan.setBook(transformedBook);
         loans.add(loan);
         transformedBook.setLoans(loans);
         client.setLoans(loans);
