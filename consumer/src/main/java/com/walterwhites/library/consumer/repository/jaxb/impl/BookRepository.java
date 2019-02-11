@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public interface BookRepository {
     static Logger myLogger = MyLogger.init();
     List<Book> findByTitle(String title);
-    Book findById(Integer id);
+    Book findById(Long id);
     List<Book> findAllBooks();
     List<Book> findAllBooksFromClient(String id);
 }

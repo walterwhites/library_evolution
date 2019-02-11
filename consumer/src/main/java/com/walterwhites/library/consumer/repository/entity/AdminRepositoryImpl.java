@@ -1,6 +1,5 @@
 package com.walterwhites.library.consumer.repository.entity;
 
-import com.walterwhites.library.model.entity.AbstractUser;
 import com.walterwhites.library.model.entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,6 +8,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @Configuration
 @EnableAutoConfiguration
 @EnableTransactionManagement
-public class AdminRepositoryImpl implements AbstractUserEntity {
+public class AdminRepositoryImpl implements AdminEntity {
 
     @PersistenceContext()
     private EntityManager em;
@@ -42,18 +42,18 @@ public class AdminRepositoryImpl implements AbstractUserEntity {
 
 
     @Override
-    public <S extends AbstractUser> S save(S entity) {
+    public <S extends Admin> S save(S entity) {
         return null;
     }
 
     @Override
-    public <S extends AbstractUser> Iterable<S> saveAll(Iterable<S> entities) {
+    public <S extends Admin> Iterable<S> saveAll(Iterable<S> entities) {
         entities.forEach(admin -> this.em.persist(admin));
         return null;
     }
 
     @Override
-    public Optional<AbstractUser> findById(Long aLong) {
+    public Optional<Admin> findById(Long aLong) {
         return Optional.empty();
     }
 
@@ -63,12 +63,12 @@ public class AdminRepositoryImpl implements AbstractUserEntity {
     }
 
     @Override
-    public Iterable<AbstractUser> findAll() {
+    public Iterable<Admin> findAll() {
         return null;
     }
 
     @Override
-    public Iterable<AbstractUser> findAllById(Iterable<Long> longs) {
+    public Iterable<Admin> findAllById(Iterable<Long> longs) {
         return null;
     }
 
@@ -83,12 +83,12 @@ public class AdminRepositoryImpl implements AbstractUserEntity {
     }
 
     @Override
-    public void delete(AbstractUser entity) {
+    public void delete(Admin entity) {
 
     }
 
     @Override
-    public void deleteAll(Iterable<? extends AbstractUser> entities) {
+    public void deleteAll(Iterable<? extends Admin> entities) {
 
     }
 

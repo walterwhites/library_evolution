@@ -2,13 +2,18 @@ package com.walterwhites.library.webapp.controller;
 
 import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.model.pojo.MyUser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
-import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.GetAllBookFromClientResponse;
+import library.io.github.walterwhites.GetAllBookResponse;
+import library.io.github.walterwhites.PostBookBorrowedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,14 +55,20 @@ public class MainController {
 
     @RequestMapping(value = "/reserved-book", method = {RequestMethod.POST})
     public String reservedBook(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
-        PostBookBorrowedResponse postBookBorrowedResponse = bookClient.postBookBorrowed(book.getId());
-        Book reservedBook = postBookBorrowedResponse.getBook();
-        GregorianCalendar gregorianCalendar = reservedBook.getObtainingDate().toGregorianCalendar();
-        gregorianCalendar.add(GregorianCalendar.DAY_OF_WEEK, 4);
-        String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
-        redirectAttributes.addFlashAttribute("message", "You have borrowed " + reservedBook.getTitle()
-                + " until to " + calendar);
-        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            UserDetails client = (UserDetails) auth.getPrincipal();
+            PostBookBorrowedResponse postBookBorrowedResponse = bookClient.postBookBorrowed(book.getId(),  ((MyUser) client).getId());
+            Long loan_id = postBookBorrowedResponse.getId();
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            gregorianCalendar.add(GregorianCalendar.DAY_OF_WEEK, 4);
+            String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
+            redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
+                    + " until to " + calendar);
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
         return "redirect:/tables";
     }
 

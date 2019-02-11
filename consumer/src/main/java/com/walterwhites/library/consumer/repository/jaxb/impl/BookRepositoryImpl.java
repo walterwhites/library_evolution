@@ -29,7 +29,6 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
     private JdbcOperations operations;
 
     private BookRepositoryEntityImpl bookRepositoryEntity;
@@ -40,30 +39,6 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     public void BookRepositoryImpl(JdbcOperations jdbcOperations, BookRepositoryEntityImpl bookRepositoryEntity) {
         this.bookRepositoryEntity = bookRepositoryEntity;
         this.operations = jdbcOperations;
-    }
-
-    private com.walterwhites.library.model.entity.Loan addLoan(Book book) {
-        com.walterwhites.library.model.entity.Book entityBook = bookRepositoryEntity.findBookById(Integer.toUnsignedLong(book.getId()));
-        List<com.walterwhites.library.model.entity.Book> bookList = new LinkedList<>();
-        bookList.add(entityBook);
-
-        List<com.walterwhites.library.model.entity.Loan> loans = new LinkedList<>();
-        com.walterwhites.library.model.entity.Loan entityLoan = new com.walterwhites.library.model.entity.Loan();
-        entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
-        entityLoan.setEnd_date(book.getLoans().getEndDate().toGregorianCalendar().getTime());
-        entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
-        entityLoan.setRenewed(book.getLoans().isRenewed());
-        entityLoan.setState(book.getLoans().getState().toString());
-        entityLoan.setBooks(bookList);
-        loans.add(entityLoan);
-        entityBook.setLoans(loans);
-
-        return entityLoan;
-    }
-
-    public void saveBookBorrowed(Book book) {
-        com.walterwhites.library.model.entity.Loan entityLoan = addLoan(book);
-        this.em.persist(entityLoan);
     }
 
     @Override
@@ -97,7 +72,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     }
 
     @Override
-    public Book findById(Integer idOfBook) {
+    public Book findById(Long idOfBook) {
         Book book = (Book) operations.queryForObject(
                 "SELECT\n" +
                         "    book.* AS book,\n" +
@@ -187,12 +162,12 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         Loans loan = new Loans();
         Libraries library = new Libraries();
 
-        library.setId(rs.getInt("library_id"));
+        library.setId(rs.getLong("library_id"));
         library.setAddress(rs.getString("library_address"));
         library.setName(rs.getString("library_name"));
         library.setPhoneNumber(rs.getString("library_phone_number"));
 
-        b.setId(rs.getInt("id"));
+        b.setId(rs.getLong("id"));
         b.setAuthor(rs.getString("author"));
         b.setTitle(rs.getString("title"));
         Language language = Language.fromValue(rs.getString("languages"));
@@ -204,7 +179,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         b.setState(rs.getString("state"));
         b.setNumber(rs.getInt("number"));
 
-        loan.setId(rs.getInt("loan_id"));
+        loan.setId(rs.getLong("loan_id"));
         XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
         loan.setEndDate(end_date);
         XMLGregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));

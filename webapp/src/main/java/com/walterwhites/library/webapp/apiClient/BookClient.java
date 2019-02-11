@@ -10,9 +10,10 @@ public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
-    public PostBookBorrowedResponse postBookBorrowed(int id) {
+    public PostBookBorrowedResponse postBookBorrowed(long id, long client_id) {
         PostBookBorrowedRequest request = new PostBookBorrowedRequest();
         request.setId(id);
+        request.setClientId(client_id);
         PostBookBorrowedResponse response = (PostBookBorrowedResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("http://localhost:8081/ws", request,
                         new SoapActionCallback(
@@ -30,7 +31,7 @@ public class BookClient extends WebServiceGatewaySupport {
         return response;
     }
 
-    public GetBookFromIdResponse getBookFromId(int id) {
+    public GetBookFromIdResponse getBookFromId(long id) {
         GetBookFromIdRequest request = new GetBookFromIdRequest();
         request.setId(id);
         GetBookFromIdResponse response = (GetBookFromIdResponse) getWebServiceTemplate()

@@ -1,5 +1,6 @@
 package com.walterwhites.library.webservice.endpoint;
 
+import com.walterwhites.library.consumer.repository.entity.LoanRepositoryEntityImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ public class BookEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
     private final BookRepositoryImpl bookRepository;
+    private final LoanRepositoryEntityImpl loanRepositoryEntity;
 
     @Autowired
-    public BookEndPoint(BookRepositoryImpl bookRepository) {
+    public BookEndPoint(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity) {
         this.bookRepository = bookRepository;
+        this.loanRepositoryEntity = loanRepositoryEntity;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookRequest")
@@ -34,8 +37,10 @@ public class BookEndPoint {
     @ResponsePayload
     public PostBookBorrowedResponse postBookBorrowed(@RequestPayload PostBookBorrowedRequest request) {
         PostBookBorrowedResponse response = new PostBookBorrowedResponse();
-        bookRepository.saveBookBorrowed(response.getBook());
-        response.setBook(bookRepository.findById(request.getId()));
+        Book book = bookRepository.findById(request.getId());
+        Long loan_id = loanRepositoryEntity.saveBookBorrowed(book, request.getClientId());
+        response.setClientId(loan_id);
+        response.setId(loan_id);
         return response;
     }
 

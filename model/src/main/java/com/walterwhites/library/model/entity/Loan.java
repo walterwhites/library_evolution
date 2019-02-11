@@ -22,7 +22,7 @@ public class Loan {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Client client;
     private Boolean renewed;
-    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     private List<Book> books;
     private String state;
     private Date updated_date;
