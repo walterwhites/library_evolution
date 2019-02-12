@@ -23,6 +23,5 @@ public class Loan {
     private Boolean renewed;
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Book book;
-    private String state;
     private Date updated_date;
 }

@@ -69,12 +69,12 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setStart_date(loan_start_date);
         loan.setEnd_date(loan_end_date);
         loan.setUpdated_date(loan_updated_date);
-        loan.setState("free");
         loan.setRenewed(false);
         loan.setClient(client);
         loan.setBook(transformedBook);
         loans.add(loan);
         transformedBook.setLoans(loans);
+        transformedBook.setState("free");
         client.setLoans(loans);
 
         log.info("Converting (" + item + ") into (" + transformedBook + ")");

@@ -73,10 +73,10 @@
                                                     </th>
                                                 </div>
                                                 <div th:unless="${bookNames != null and #lists.contains(bookNames, book.title)}">
-                                                    <th th:if="${book.getNumber() == 0}">
+                                                    <th th:if="${book.getNumber() == 0 or book.getState().equals('borrowed')}">
                                                         <button class="btn btn-danger" type="submit" disabled>Not available</button>
                                                     </th>
-                                                    <th th:if="${book.getNumber() > 0}">
+                                                    <th th:unless="${book.getNumber() == 0 or book.getState().equals('borrowed')}">
                                                         <form th:action="@{/reserved-book}" method="post">
                                                             <input type="hidden" name="id" th:value="${book.getId()}" />
                                                             <input type="hidden" name="title" th:value="${book.getTitle()}" />

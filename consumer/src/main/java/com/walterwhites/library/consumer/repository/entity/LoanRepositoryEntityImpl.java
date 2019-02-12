@@ -58,7 +58,7 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         entityLoan.setEnd_date(book.getLoans().getEndDate().toGregorianCalendar().getTime());
         entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
         entityLoan.setRenewed(book.getLoans().isRenewed());
-        entityLoan.setState("borrowed");
+        entityBook.setState("borrowed");
 
         Client client = clientRepositoryImpl.findById(client_id).get();
 
