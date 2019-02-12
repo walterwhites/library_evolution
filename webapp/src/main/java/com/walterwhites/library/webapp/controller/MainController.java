@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class MainController {
             PostBookBorrowedResponse postBookBorrowedResponse = bookClient.postBookBorrowed(book.getId(),  ((MyUser) client).getId());
             Long loan_id = postBookBorrowedResponse.getId();
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
-            gregorianCalendar.add(GregorianCalendar.DAY_OF_WEEK, 4);
+            gregorianCalendar.add(Calendar.DATE, 28);
             String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
             redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
                     + " until to " + calendar);

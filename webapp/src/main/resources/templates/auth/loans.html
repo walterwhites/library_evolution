@@ -40,7 +40,7 @@
                                 <th>Author</th>
                                 <th>Language</th>
                                 <th>State</th>
-                                <th>Obtaining date</th>
+                                <th>Borrowed until</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -53,7 +53,7 @@
                                 <td th:text="${book.getAuthor()}"></td>
                                 <td th:text="${book.getLanguages()}"></td>
                                 <td th:text="${book.getState()}"></td>
-                                <td th:text="${book.getObtainingDate()}"></td>
+                                <td th:text="|${book.getObtainingDate().getDay()}/${book.getObtainingDate().getMonth()}/${book.getObtainingDate().getYear()}|"></td>
                             </tr>
                             </tbody>
                         </table>

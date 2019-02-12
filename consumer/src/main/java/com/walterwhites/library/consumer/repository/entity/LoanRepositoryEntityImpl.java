@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 @Configuration
@@ -54,11 +52,17 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         Book entityBook = bookRepositoryEntity.findBookById(book.getId());
         bookList.add(entityBook);
 
+        GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        end_date.add(Calendar.DATE, 28);
         entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
-        entityLoan.setEnd_date(book.getLoans().getEndDate().toGregorianCalendar().getTime());
+        entityLoan.setEnd_date(end_date.getTime());
+
+
         entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
         entityLoan.setRenewed(book.getLoans().isRenewed());
         entityBook.setState("borrowed");
+        entityBook.setNumber(entityBook.getNumber() - 1);
+        entityBook.setObtaining_date(end_date.getTime());
 
         Client client = clientRepositoryImpl.findById(client_id).get();
 
