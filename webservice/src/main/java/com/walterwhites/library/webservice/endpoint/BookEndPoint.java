@@ -75,7 +75,12 @@ public class BookEndPoint {
     @ResponsePayload
     public GetAllBookFromClientResponse getAllBookFromClient(@RequestPayload GetAllBookFromClientRequest request) {
         GetAllBookFromClientResponse response = new GetAllBookFromClientResponse();
-        response.getBook().addAll(bookRepository.findAllBooksFromClient(request.getUsername()));
+        if (request.getState().equals("borrowed")) {
+            response.getBook().addAll(bookRepository.findAllBorrowedBooksFromClient(request.getUsername()));
+        }
+        else {
+            response.getBook().addAll(bookRepository.findAllBooksFromClient(request.getUsername()));
+        }
         return response;
     }
 }
