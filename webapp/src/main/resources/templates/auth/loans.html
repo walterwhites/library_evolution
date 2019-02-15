@@ -40,7 +40,9 @@
                                 <th>Author</th>
                                 <th>Language</th>
                                 <th>State</th>
-                                <th>Borrowed until</th>
+                                <th>Start</th>
+                                <th>Until</th>
+                                <th>Returning the book</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -48,13 +50,30 @@
                             <tr class="odd gradeX"
                                 th:each="book, iStat : ${books_client.getBook()}"
                                 th:alt-title="${iStat.even}? 'even' : 'odd'">
-                                <td th:text="${book.getId()}"></td>
+                                <td th:text="${book.getLoans().getId()}"></td>
                                 <td th:text="${book.getTitle()}"></td>
                                 <td th:text="${book.getAuthor()}"></td>
                                 <td th:text="${book.getLanguages()}"></td>
-                                <td th:text="${book.getState()}"></td>
-                                <td th:text="|${book.getObtainingDate().getDay()}/${book.getObtainingDate().getMonth()}/${book.getObtainingDate().getYear()}|"></td>
+                                <td th:text="${book.getLoans().getState()}"></td>
+                                <td th:text="|${book.getLoans().getStartDate().getDay()}/${book.getLoans().getStartDate().getMonth()}/${book.getLoans().getStartDate().getYear()}|"></td>
+                                <td th:text="|${book.getLoans().getEndDate().getDay()}/${book.getLoans().getEndDate().getMonth()}/${book.getLoans().getEndDate().getYear()}|"></td>
+                                <div th:if="${!book.getLoans().getState().toString().equals('BORROWED')}">
+                                    <th>
+                                        <button class="btn btn-default" type="submit" disabled>You have already returned this book</button>
+                                    </th>
+                                </div>
+                                <div th:unless="${!book.getLoans().getState().toString().equals('BORROWED')}">
+                                    <th>
+                                        <form th:action="@{/return-book}" method="post">
+                                            <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
+                                            <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <button class="btn btn-success" type="submit">Return this book</button>
+                                        </form>
+                                    </th>
+                                </div>
                             </tr>
+                            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
                             </tbody>
                         </table>
                     </div>

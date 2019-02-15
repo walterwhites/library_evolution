@@ -53,6 +53,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                         "    loan.start_date AS loan_start_date,\n" +
                         "    loan.updated_date AS loan_updated_date,\n" +
                         "    loan.client_id AS loan_client_id,\n" +
+                        "    loan.state AS loan_state,\n" +
                         "    library.address AS library_address,\n" +
                         "    library.name AS library_name,\n" +
                         "    library.phone_number AS library_phone_number\n" +
@@ -63,7 +64,8 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                         "    LEFT JOIN library_books ON book.id = library_books.books_id\n" +
                         "    LEFT JOIN library ON library_books.library_id = library.id\n" +
                         "WHERE\n" +
-                        "    book.title = ?",
+                        "    book.title = ?" +
+                        "ORDER BY loan_id DESC LIMIT 1",
                 (rs, rownumber) -> {
                     return getBookData(rs);
                 }, titleOfBook);
@@ -82,6 +84,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                         "    loan.start_date AS loan_start_date,\n" +
                         "    loan.updated_date AS loan_updated_date,\n" +
                         "    loan.client_id AS loan_client_id,\n" +
+                        "    loan.state AS loan_state,\n" +
                         "    library.address AS library_address,\n" +
                         "    library.name AS library_name,\n" +
                         "    library.phone_number AS library_phone_number\n" +
@@ -92,7 +95,8 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                         "    LEFT JOIN library_books ON book.id = library_books.books_id\n" +
                         "    LEFT JOIN library ON library_books.library_id = library.id\n" +
                         "WHERE\n" +
-                        "    book.id = ?",
+                        "    book.id = ?" +
+                        "ORDER BY loan_id DESC LIMIT 1",
                 (rs, rownumber) -> getBookData(rs), idOfBook);
         return book;
     }
@@ -128,6 +132,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                         "    loan.start_date AS loan_start_date,\n" +
                         "    loan.updated_date AS loan_updated_date,\n" +
                         "    loan.client_id AS loan_client_id,\n" +
+                        "    loan.state AS loan_state,\n" +
                         "    library.address AS library_address,\n" +
                         "    library.name AS library_name,\n" +
                         "    library.phone_number AS library_phone_number\n" +
@@ -160,10 +165,6 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         Language language = Language.fromValue(rs.getString("languages"));
         b.setLanguages(language);
 
-        XMLGregorianCalendar obtaining_date = DateUtils.toXmlGregorianCalendar(rs.getDate("obtaining_date"));
-        b.setObtainingDate(obtaining_date);
-
-        b.setState(rs.getString("state"));
         b.setNumber(rs.getInt("number"));
 
         b.setLibraries(library);
@@ -186,12 +187,10 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         Language language = Language.fromValue(rs.getString("languages"));
         b.setLanguages(language);
 
-        XMLGregorianCalendar obtaining_date = DateUtils.toXmlGregorianCalendar(rs.getDate("obtaining_date"));
-        b.setObtainingDate(obtaining_date);
-
-        b.setState(rs.getString("state"));
         b.setNumber(rs.getInt("number"));
 
+        State state = State.fromValue(rs.getString("loan_state"));
+        loan.setState(state);
         loan.setId(rs.getLong("loan_id"));
         XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
         loan.setEndDate(end_date);

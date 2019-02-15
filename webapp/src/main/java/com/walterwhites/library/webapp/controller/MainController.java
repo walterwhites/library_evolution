@@ -4,10 +4,7 @@ import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.pojo.MyUser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
-import library.io.github.walterwhites.Book;
-import library.io.github.walterwhites.GetAllBookFromClientResponse;
-import library.io.github.walterwhites.GetAllBookResponse;
-import library.io.github.walterwhites.PostBookBorrowedResponse;
+import library.io.github.walterwhites.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -19,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -73,6 +71,19 @@ public class MainController {
         return "redirect:/tables";
     }
 
+    @RequestMapping(value = "/return-book", method = {RequestMethod.POST})
+    public String returnBook(@ModelAttribute("loan") Loans loans, RedirectAttributes redirectAttributes, @RequestParam("title") String title) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            PostBookReturnedResponse postBookReturnedResponse = bookClient.postBookReturned(loans.getId());
+            redirectAttributes.addFlashAttribute("message", "You have returned " + title);
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
+        return "redirect:/loans";
+    }
+
     @RequestMapping(value = "/tables", method = RequestMethod.GET)
     public String tables(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,7 +93,7 @@ public class MainController {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
             GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
-            List<String> bookNames = BookParser.getBookNames(getAllBookResponseFromClient.getBook());
+            List<String> bookNames = BookParser.getBookNamesAvailable(getAllBookResponseFromClient.getBook());
             model.addAttribute("bookNames", bookNames);
             model.addAttribute("connected", true);
         }

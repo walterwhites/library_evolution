@@ -22,6 +22,23 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postBookReturnedRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="loan_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postBookReturnedResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="loan_id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getBookRequest">
         <xs:complexType>
             <xs:sequence>
@@ -99,8 +116,6 @@
             <xs:element name="title" type="xs:string"/>
             <xs:element name="author" type="xs:string"/>
             <xs:element name="languages" type="tns:language"/>
-            <xs:element name="state" type="xs:string"/>
-            <xs:element name="obtaining_date" type="xs:date"/>
             <xs:element name="number" type="xs:int"/>
             <xs:element name="libraries" type="tns:libraries"/>
             <xs:element name="loans" type="tns:loans"/>
@@ -117,9 +132,8 @@
 
     <xs:simpleType name="state">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="free"/>
+            <xs:enumeration value="returned"/>
             <xs:enumeration value="borrowed"/>
-            <xs:enumeration value="unavailable"/>
         </xs:restriction>
     </xs:simpleType>
 
