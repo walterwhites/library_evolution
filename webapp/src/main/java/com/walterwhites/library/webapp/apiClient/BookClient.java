@@ -58,6 +58,17 @@ public class BookClient extends WebServiceGatewaySupport {
     public GetAllBookFromClientResponse getAllBooksFromClient(String username) {
         GetAllBookFromClientRequest request = new GetAllBookFromClientRequest();
         request.setUsername(username);
+        request.setState("all_book");
+        return (GetAllBookFromClientResponse) getWebServiceTemplate()
+                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+    }
+
+    public GetAllBookFromClientResponse getAllBorrowedBooksFromClient(String username) {
+        GetAllBookFromClientRequest request = new GetAllBookFromClientRequest();
+        request.setUsername(username);
+        request.setState("borrowed");
         return (GetAllBookFromClientResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("http://localhost:8081/ws", request,
                         new SoapActionCallback(

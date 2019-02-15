@@ -92,7 +92,7 @@ public class MainController {
         if (hasUserRole) {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
-            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBorrowedBooksFromClient(username);
             List<String> bookNames = BookParser.getBookNamesAvailable(getAllBookResponseFromClient.getBook());
             model.addAttribute("bookNames", bookNames);
             model.addAttribute("connected", true);
