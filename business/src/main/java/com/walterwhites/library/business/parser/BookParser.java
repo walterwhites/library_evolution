@@ -3,6 +3,8 @@ package com.walterwhites.library.business.parser;
 import com.walterwhites.library.business.client.SentryJClient;
 import library.io.github.walterwhites.Book;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,15 +25,17 @@ final public class BookParser {
         return frenchBooks;
     }
 
-    static public List<String> getBookNames(List<Book> books) {
+    static public List<String> getBookNamesAvailable(List<Book> books) {
 
         List<String> bookNames = new LinkedList<String>();
-
         for (Book book : books) {
             bookNames.add(book.getTitle());
         }
         return bookNames;
     }
+
+
+    Calendar user = new GregorianCalendar(2012, Calendar.MAY, 17);
 
     static public List<Book> getEnglishBooks(List<Book> books) {
 

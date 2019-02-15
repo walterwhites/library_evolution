@@ -39,8 +39,19 @@ public class BookEndPoint {
         PostBookBorrowedResponse response = new PostBookBorrowedResponse();
         Book book = bookRepository.findById(request.getId());
         Long loan_id = loanRepositoryEntity.saveBookBorrowed(book, request.getClientId());
-        response.setClientId(loan_id);
+        response.setClientId(request.getClientId());
         response.setId(loan_id);
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postBookReturnedRequest")
+    @ResponsePayload
+    public PostBookReturnedResponse postBookReturned(@RequestPayload PostBookReturnedRequest request) {
+        PostBookReturnedResponse response = new PostBookReturnedResponse();
+        com.walterwhites.library.model.entity.Loan loan = loanRepositoryEntity.findById(request.getLoanId()).get();
+        Long loan_id = loanRepositoryEntity.bookHasBeenReturned(loan);
+        response.setClientId(loan.getClient().getId());
+        response.setLoanId(loan_id);
         return response;
     }
 

@@ -30,22 +30,19 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         final String title = item.getTitle().toLowerCase();
         final String author = item.getAuthor().toLowerCase();
         final String language = item.getLanguages().toLowerCase();
-        final String state = item.getState().toLowerCase();
         final Integer number = item.getNumber();
-
-        final Date obtaining_date = new Date();
         final Client client = new Client();
+
         client.setFirstname("Flo");
         client.setPassword(passwordEncoder().encode("password"));
         client.setLanguage("fr");
         client.setLastname("flo");
 
         List<Book> bookList = new LinkedList<Book>();
-        final Book transformedBook = new Book(title, author, language, state, obtaining_date, number);
+        final Book transformedBook = new Book(title, author, language, number);
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
         i++;
-        transformedBook.setState("New book");
 
         // library
         List<Library> libraries = new LinkedList<Library>();
@@ -69,12 +66,12 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         loan.setStart_date(loan_start_date);
         loan.setEnd_date(loan_end_date);
         loan.setUpdated_date(loan_updated_date);
-        loan.setState("free");
         loan.setRenewed(false);
         loan.setClient(client);
         loan.setBook(transformedBook);
         loans.add(loan);
         transformedBook.setLoans(loans);
+        loan.setState("borrowed");
         client.setLoans(loans);
 
         log.info("Converting (" + item + ") into (" + transformedBook + ")");

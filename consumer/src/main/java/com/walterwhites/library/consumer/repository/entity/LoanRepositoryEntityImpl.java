@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 @Configuration
@@ -48,17 +46,29 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         return loan_id;
     }
 
+    public Long bookHasBeenReturned(Loan entityLoan) {
+        entityLoan.setState("returned");
+        entityLoan.setUpdated_date(new Date());
+        entityLoan.setEnd_date(new Date());
+        entityLoan.getBook().setNumber(entityLoan.getBook().getNumber() + 1);
+        this.em.merge(entityLoan);
+        return entityLoan.getId();
+    }
+
     private Loan addLoan(library.io.github.walterwhites.Book book, long client_id) {
         Loan entityLoan = new Loan();
         List<Book> bookList = new LinkedList<>();
         Book entityBook = bookRepositoryEntity.findBookById(book.getId());
         bookList.add(entityBook);
 
+        GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        end_date.add(Calendar.DATE, 28);
         entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
-        entityLoan.setEnd_date(book.getLoans().getEndDate().toGregorianCalendar().getTime());
+        entityLoan.setEnd_date(end_date.getTime());
         entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
         entityLoan.setRenewed(book.getLoans().isRenewed());
         entityLoan.setState("borrowed");
+        entityBook.setNumber(entityBook.getNumber() - 1);
 
         Client client = clientRepositoryImpl.findById(client_id).get();
 

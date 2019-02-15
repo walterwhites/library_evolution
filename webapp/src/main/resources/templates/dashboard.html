@@ -32,6 +32,7 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
+                                <!--/*@thymesVar id="books" type="library.io.github.walterwhites.GetAllBookResponse"*/-->
                                 <div class="huge" th:text="${books.getBook().size()}"></div>
                                 <div>Number of books</div>
                             </div>
@@ -98,8 +99,9 @@
                                 <i class="fa fa-users fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Number of users</div>
+                                <!--/*@thymesVar id="books" type="library.io.github.walterwhites.GetAllBookResponse"*/-->
+                                <div class="huge" th:text="3"></div>
+                                <div>Number of members</div>
                             </div>
                         </div>
                     </div>

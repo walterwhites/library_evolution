@@ -21,8 +21,8 @@ public class Loan {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Client client;
     private Boolean renewed;
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Book book;
-    private String state;
     private Date updated_date;
+    private String state;
 }
