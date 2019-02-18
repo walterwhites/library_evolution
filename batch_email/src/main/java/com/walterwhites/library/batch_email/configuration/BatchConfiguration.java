@@ -1,25 +1,34 @@
 package com.walterwhites.library.batch_email.configuration;
 
-import com.walterwhites.library.batch_email.processor.AdminItemProcessor;
-import com.walterwhites.library.batch_email.processor.BookItemProcessor;
-import com.walterwhites.library.model.entity.Admin;
-import com.walterwhites.library.model.entity.Book;
+import com.walterwhites.library.batch_email.processor.LoanItemProcessor;
+import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.consumer.repository.entity.LoanRepositoryEntity;
+import com.walterwhites.library.model.entity.Loan;
+import library.io.github.walterwhites.*;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.data.RepositoryItemReader;
+import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+import javax.sql.DataSource;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableBatchProcessing
@@ -35,86 +44,74 @@ public class BatchConfiguration {
     public StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    private Writer writer;
+    public LoanRepositoryEntity loanRepositoryEntity;
 
-    @Autowired
-    private AdminWriter adminWriter;
-
-    // tag::readerwriterprocessor[]
     @Bean
-    public FlatFileItemReader<Book> bookReader() {
-        return new FlatFileItemReaderBuilder<Book>()
-                .name("BookItemReader")
-                .resource(new ClassPathResource("Book.csv"))
-                .delimited()
-                .delimiter(",")
-                .names(new String[]{"title", "author", "language", "number"})
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<Book>() {{
-                    setTargetType(Book.class);
-                }})
-                .build();
+    public LoanItemProcessor loanProcessor() {
+        return new LoanItemProcessor();
     }
 
     @Bean
-    public BookItemProcessor bookProcessor() {
-        return new BookItemProcessor();
-    }
-
-    @Bean
-    public AdminItemProcessor adminProcessor() {
-        return new AdminItemProcessor();
-    }
-
-    @Bean
-    public Job importBookJob(JobCompletionNotificationListener listener, Step stepBook) {
-        return jobBuilderFactory.get("importBookJob")
+    public Job importLoanJob(JobCompletionNotificationListener listener, Step stepLoan) {
+        return jobBuilderFactory.get("importLoanJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(stepBook)
+                .flow(stepLoan)
                 .end()
                 .build();
     }
 
     @Bean
-    public Step stepBook() {
-        return stepBuilderFactory.get("stepBook")
-                .<Book, Book> chunk(10)
-                .reader(bookReader())
-                .processor(bookProcessor())
-                .writer(writer)
+    public ItemReader<Map<Loan, Long>> jdbcReader(DataSource dataSource) {
+        return new JdbcCursorItemReaderBuilder<Map<Loan, Long>>()
+                .dataSource(dataSource)
+                .name("jdbc-reader")
+                .sql("select loan.id, client.email, client.firstname, client.lastname, book.title from loan LEFT JOIN client_loans ON loan.id = client_loans.loans_id LEFT JOIN client ON client_loans.client_id = client.id LEFT JOIN book ON loan.book_id = book.id")
+                .rowMapper((rs, i) -> {
+                    return getLoanData(rs);
+                })
                 .build();
     }
 
-    @Bean
-    public FlatFileItemReader<Admin> adminReader() {
-        return new FlatFileItemReaderBuilder<Admin>()
-                .name("AdminItemReader")
-                .resource(new ClassPathResource("Admin.csv"))
-                .delimited()
-                .delimiter(",")
-                .names(new String[]{"firstname", "email"})
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<Admin>() {{
-                    setTargetType(Admin.class);
-                }})
-                .build();
+    private Loan getLoanData(ResultSet rs) throws SQLException {
+
+        Collections.singletonMap(rs.getInt("a"), rs.getInt("c"));
+
+        Book b = new Book();
+        Loans loan = new Loans();
+        Libraries library = new Libraries();
+
+        library.setId(rs.getLong("library_id"));
+        library.setAddress(rs.getString("library_address"));
+        library.setName(rs.getString("library_name"));
+        library.setPhoneNumber(rs.getString("library_phone_number"));
+
+        b.setId(rs.getLong("id"));
+        b.setAuthor(rs.getString("author"));
+        b.setTitle(rs.getString("title"));
+        Language language = Language.fromValue(rs.getString("languages"));
+        b.setLanguages(language);
+
+        return loan;
     }
 
     @Bean
-    public Job importAdminJob(JobCompletionNotificationListener listener, Step stepAdmin) {
-        return jobBuilderFactory.get("importAdminJob")
-                .incrementer(new RunIdIncrementer())
-                .flow(stepAdmin)
-                .end()
-                .build();
-    }
+    public Step stepLoan() {
 
-    @Bean
-    public Step stepAdmin() {
-        return stepBuilderFactory.get("stepAdmin")
-                .<Admin, Admin> chunk(10)
-                .reader(adminReader())
-                .processor(adminProcessor())
-                .writer(adminWriter)
+        RepositoryItemReader<Loan> loanReader = new RepositoryItemReader<>();
+        loanReader.setRepository(loanRepositoryEntity);
+        loanReader.setMethodName("findAllNotReturnedBook");
+
+        return stepBuilderFactory.get("stepLoan")
+                .<Loan, Loan> chunk(10)
+                .reader(loanReader)
+                .processor(loanProcessor())
+                .writer(new ItemWriter<Loan>() {
+                    @Override
+                    public void write(List<? extends Loan> items) throws Exception {
+
+                    }
+                })
                 .build();
     }
 }
