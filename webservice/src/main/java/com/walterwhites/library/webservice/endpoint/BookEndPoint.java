@@ -83,4 +83,11 @@ public class BookEndPoint {
         }
         return response;
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllNotReturnedBookRequest")
+    @ResponsePayload
+    public GetAllNotReturnedBookResponse getAllNotReturnedBookRequest(@RequestPayload GetAllNotReturnedBookRequest request) {
+        GetAllNotReturnedBookResponse response = new GetAllNotReturnedBookResponse();
+        return response;
+    }
 }

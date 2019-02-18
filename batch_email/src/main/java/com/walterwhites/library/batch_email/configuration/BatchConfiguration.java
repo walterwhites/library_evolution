@@ -63,6 +63,10 @@ public class BatchConfiguration {
 
     @Bean
     public ItemReader<Map<Loan, Long>> jdbcReader(DataSource dataSource) {
+
+        GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
+
+
         return new JdbcCursorItemReaderBuilder<Map<Loan, Long>>()
                 .dataSource(dataSource)
                 .name("jdbc-reader")
@@ -73,27 +77,6 @@ public class BatchConfiguration {
                 .build();
     }
 
-    private Loan getLoanData(ResultSet rs) throws SQLException {
-
-        Collections.singletonMap(rs.getInt("a"), rs.getInt("c"));
-
-        Book b = new Book();
-        Loans loan = new Loans();
-        Libraries library = new Libraries();
-
-        library.setId(rs.getLong("library_id"));
-        library.setAddress(rs.getString("library_address"));
-        library.setName(rs.getString("library_name"));
-        library.setPhoneNumber(rs.getString("library_phone_number"));
-
-        b.setId(rs.getLong("id"));
-        b.setAuthor(rs.getString("author"));
-        b.setTitle(rs.getString("title"));
-        Language language = Language.fromValue(rs.getString("languages"));
-        b.setLanguages(language);
-
-        return loan;
-    }
 
     @Bean
     public Step stepLoan() {
