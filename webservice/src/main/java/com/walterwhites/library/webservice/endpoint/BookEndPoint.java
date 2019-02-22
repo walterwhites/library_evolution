@@ -2,7 +2,10 @@ package com.walterwhites.library.webservice.endpoint;
 
 import com.walterwhites.library.consumer.repository.entity.LoanRepositoryEntityImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
+import com.walterwhites.library.consumer.repository.jaxb.impl.LoanRepositoryImpl;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.loans.GetAllNotReturnedBookRequest;
+import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -17,11 +20,13 @@ public class BookEndPoint {
 
     private final BookRepositoryImpl bookRepository;
     private final LoanRepositoryEntityImpl loanRepositoryEntity;
+    private final LoanRepositoryImpl loanRepository;
 
     @Autowired
-    public BookEndPoint(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity) {
+    public BookEndPoint(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity, LoanRepositoryImpl loanRepository) {
         this.bookRepository = bookRepository;
         this.loanRepositoryEntity = loanRepositoryEntity;
+        this.loanRepository = loanRepository;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getBookRequest")
@@ -88,6 +93,7 @@ public class BookEndPoint {
     @ResponsePayload
     public GetAllNotReturnedBookResponse getAllNotReturnedBookRequest(@RequestPayload GetAllNotReturnedBookRequest request) {
         GetAllNotReturnedBookResponse response = new GetAllNotReturnedBookResponse();
+        response.getBooksNotReturned().addAll(loanRepository.findAllNotReturnedBook());
         return response;
     }
 }
