@@ -12,9 +12,8 @@ public class LoanItemProcessor implements ItemProcessor<Loans, Loans> {
 
     @Override
     public Loans process(Loans item) throws Exception {
-
-        Loans transformedLoan = new Loans();
-
-        return transformedLoan;
+        log.info("client's email");
+        log.info(item.getEndDate().toString());
+        return item;
     }
 }

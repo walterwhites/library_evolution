@@ -44,6 +44,14 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- modules dependencies -->
+        <dependency>
+            <groupId>com.walterwhites.library</groupId>
+            <artifactId>business</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

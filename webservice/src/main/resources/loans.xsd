@@ -20,11 +20,6 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:complexType name="book">
-        <xs:sequence>
-            <xs:element name="title" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
 
     <xs:complexType name="loans">
         <xs:sequence>
@@ -33,6 +28,12 @@
             <xs:element name="end_date" type="xs:date"/>
             <xs:element name="book" type="tns:book"/>
             <xs:element name="client" type="tns:client"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="book">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

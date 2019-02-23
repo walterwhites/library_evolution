@@ -73,7 +73,7 @@
                             <schemaFiles>books.xsd</schemaFiles>
                             <clearOutputDir>false</clearOutputDir>
                             <readOnly>true</readOnly>
-                            <verbose>true</verbose>
+                            <verbose>false</verbose>
                             <extension>true</extension>
                         </configuration>
                     </execution>
@@ -90,7 +90,7 @@
                             <schemaFiles>loans.xsd</schemaFiles>
                             <readOnly>true</readOnly>
                             <clearOutputDir>false</clearOutputDir>
-                            <verbose>true</verbose>
+                            <verbose>false</verbose>
                             <extension>true</extension>
                         </configuration>
                     </execution>

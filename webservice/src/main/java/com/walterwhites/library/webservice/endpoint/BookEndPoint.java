@@ -12,14 +12,14 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 @Configuration
-public class BookEndPointBooks {
+public class BookEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites";
 
     private final BookRepositoryImpl bookRepository;
     private final LoanRepositoryEntityImpl loanRepositoryEntity;
 
     @Autowired
-    public BookEndPointBooks(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity) {
+    public BookEndPoint(BookRepositoryImpl bookRepository, LoanRepositoryEntityImpl loanRepositoryEntity) {
         this.bookRepository = bookRepository;
         this.loanRepositoryEntity = loanRepositoryEntity;
     }
