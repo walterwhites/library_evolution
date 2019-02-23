@@ -1,20 +1,22 @@
 package com.walterwhites.library.batch_email.apiClient;
 
-import library.io.github.walterwhites.GetAllNotReturnedBookRequest;
-import library.io.github.walterwhites.GetAllNotReturnedBookResponse;
+import library.io.github.walterwhites.loans.GetAllNotReturnedBookRequest;
+import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-public class BookClient extends WebServiceGatewaySupport {
+@Component
+public class LoanClient extends WebServiceGatewaySupport {
 
-    private static final Logger log = LoggerFactory.getLogger(BookClient.class);
+    private static final Logger log = LoggerFactory.getLogger(LoanClient.class);
 
     public GetAllNotReturnedBookResponse getAllNotReturnedBook() {
         GetAllNotReturnedBookRequest request = new GetAllNotReturnedBookRequest();
         return (GetAllNotReturnedBookResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive("http://localhost:8081/ws/loans", request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }

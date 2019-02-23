@@ -1,19 +1,19 @@
 package com.walterwhites.library.batch_email.processor;
 
-import com.walterwhites.library.model.entity.Loan;
+import library.io.github.walterwhites.loans.Loans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
-public class LoanItemProcessor implements ItemProcessor<Loan, Loan> {
+public class LoanItemProcessor implements ItemProcessor<Loans, Loans> {
 
     private static final Logger log = LoggerFactory.getLogger(LoanItemProcessor.class);
     static int i = 1;
 
     @Override
-    public Loan process(Loan item) throws Exception {
+    public Loans process(Loans item) throws Exception {
 
-        Loan transformedLoan = new Loan();
+        Loans transformedLoan = new Loans();
 
         return transformedLoan;
     }

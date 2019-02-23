@@ -1,5 +1,6 @@
 package com.walterwhites.library.consumer.repository.entity;
 
+import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.entity.Book;
 import com.walterwhites.library.model.entity.Client;
 import com.walterwhites.library.model.entity.Loan;
@@ -64,11 +65,15 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         Book entityBook = bookRepositoryEntity.findBookById(book.getId());
         bookList.add(entityBook);
 
-        GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        //GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        GregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        GregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        GregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+
         end_date.add(Calendar.DATE, 28);
-        entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
+        entityLoan.setUpdated_date(updated_date.getTime());
         entityLoan.setEnd_date(end_date.getTime());
-        entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
+        entityLoan.setStart_date(start_date.getTime());
         entityLoan.setRenewed(book.getLoans().isRenewed());
         entityLoan.setState("borrowed");
         entityBook.setNumber(entityBook.getNumber() - 1);
