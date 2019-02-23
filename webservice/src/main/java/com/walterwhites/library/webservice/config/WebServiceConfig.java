@@ -24,17 +24,32 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "books")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema booksSchema) {
+    public DefaultWsdl11Definition defaultWsdlBooksDefinition() {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("BooksPort");
-        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setLocationUri("/ws/books");
         wsdl11Definition.setTargetNamespace("library.io.github.walterwhites");
-        wsdl11Definition.setSchema(booksSchema);
+        wsdl11Definition.setSchema(booksSchema());
         return wsdl11Definition;
     }
 
     @Bean
     public XsdSchema booksSchema() {
         return new SimpleXsdSchema(new ClassPathResource("books.xsd"));
+    }
+
+    @Bean(name = "loans")
+    public DefaultWsdl11Definition defaultWsdlLoansDefinition() {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("LoansPort");
+        wsdl11Definition.setLocationUri("/ws/loans");
+        wsdl11Definition.setTargetNamespace("library.io.github.walterwhites.loans");
+        wsdl11Definition.setSchema(loansSchema());
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema loansSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("loans.xsd"));
     }
 }

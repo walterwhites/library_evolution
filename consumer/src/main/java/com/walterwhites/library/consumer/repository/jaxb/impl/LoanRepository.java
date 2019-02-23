@@ -1,6 +1,6 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
-import library.io.github.walterwhites.Loans;
+import library.io.github.walterwhites.loans.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

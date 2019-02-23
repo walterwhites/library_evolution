@@ -71,6 +71,7 @@
                             <outputDirectory>${project.parent.basedir}/business/src/main/java/</outputDirectory>
                             <packageName>library.io.github.walterwhites</packageName>
                             <schemaFiles>books.xsd</schemaFiles>
+                            <clearOutputDir>false</clearOutputDir>
                             <readOnly>true</readOnly>
                             <verbose>true</verbose>
                             <extension>true</extension>

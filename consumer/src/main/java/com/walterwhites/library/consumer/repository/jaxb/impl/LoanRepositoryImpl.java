@@ -1,6 +1,6 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
-import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.loans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

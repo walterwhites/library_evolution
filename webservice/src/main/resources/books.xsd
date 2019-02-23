@@ -1,7 +1,7 @@
 <xs:schema elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.books"
-           xmlns:tns="library.io.github.walterwhites.books">
+           xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites"
+           xmlns:tns="library.io.github.walterwhites">
 
     <xs:element name="postBookBorrowedRequest">
         <xs:complexType>
