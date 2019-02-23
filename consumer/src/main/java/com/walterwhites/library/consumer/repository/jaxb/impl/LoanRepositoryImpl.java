@@ -38,7 +38,9 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                         "FROM loan LEFT JOIN client_loans ON loan.id = client_loans.loans_id " +
                         "LEFT JOIN client ON client_loans.client_id = client.id " +
                         "LEFT JOIN book " +
-                        "ON loan.book_id = book.id",
+                        "ON loan.book_id = book.id " +
+                        "WHERE loan.state = 'borrowed' AND " +
+                        "DATE(loan.end_date) < DATE(NOW())",
                 (rs, rownumber) -> {
                     return getLoanData(rs);
                 });
