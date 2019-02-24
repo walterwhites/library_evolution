@@ -13,9 +13,7 @@
     <xs:element name="getAllNotReturnedBookResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded"  name="books_not_returned" type="tns:loans"/>
-                <xs:element maxOccurs="unbounded" name="libraries" type="tns:client"/>
-                <xs:element maxOccurs="unbounded" name="loans" type="tns:book"/>
+                <xs:element maxOccurs="unbounded"  name="loan" type="tns:loans"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

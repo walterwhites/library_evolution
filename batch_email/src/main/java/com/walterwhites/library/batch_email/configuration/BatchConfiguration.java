@@ -2,7 +2,6 @@ package com.walterwhites.library.batch_email.configuration;
 
 import com.walterwhites.library.batch_email.apiClient.LoanClient;
 import com.walterwhites.library.batch_email.processor.LoanItemProcessor;
-import com.walterwhites.library.business.utils.EmailService;
 import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
 import library.io.github.walterwhites.loans.Loans;
 import org.slf4j.Logger;
@@ -18,14 +17,21 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 
-@Configuration
 @EnableBatchProcessing
-@SpringBootApplication
+@Configuration
+@SpringBootApplication(exclude = {WebMvcAutoConfiguration.class})
+@EnableJpaRepositories("com.walterwhites.library.consumer.repository.entity")
+@EntityScan("com.walterwhites.library.model.entity")
+@ComponentScan("com.walterwhites.library")
 public class BatchConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(LoanItemProcessor.class);
@@ -38,9 +44,6 @@ public class BatchConfiguration {
 
     @Autowired
     public LoanClient loanClient;
-
-    @Autowired
-    public EmailService emailService;
 
     @Bean
     public LoanItemProcessor loanProcessor() {
@@ -60,7 +63,7 @@ public class BatchConfiguration {
     @Bean
     public ItemReader<Loans> loanReader(){
         GetAllNotReturnedBookResponse getAllNotReturnedBookResponse = loanClient.getAllNotReturnedBook();
-        ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllNotReturnedBookResponse.getBooksNotReturned());
+        ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllNotReturnedBookResponse.getLoan());
         return itemReader;
     }
 
@@ -73,7 +76,6 @@ public class BatchConfiguration {
                 .writer(new ItemWriter<Loans>() {
                     @Override
                     public void write(List<? extends Loans> items) throws Exception {
-                        emailService.sendSimpleMessage("hopemagie@gmail.com", "Book loan", "test");
                     }
                 })
                 .build();

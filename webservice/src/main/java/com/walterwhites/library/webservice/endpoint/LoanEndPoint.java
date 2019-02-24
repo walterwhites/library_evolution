@@ -26,7 +26,7 @@ public class LoanEndPoint {
     @ResponsePayload
     public GetAllNotReturnedBookResponse getAllNotReturnedBookRequest(@RequestPayload GetAllNotReturnedBookRequest request) {
         GetAllNotReturnedBookResponse response = new GetAllNotReturnedBookResponse();
-        response.getBooksNotReturned().addAll(loanRepository.findAllNotReturnedBook());
+        response.getLoan().addAll(loanRepository.findAllNotReturnedBook());
         return response;
     }
 }

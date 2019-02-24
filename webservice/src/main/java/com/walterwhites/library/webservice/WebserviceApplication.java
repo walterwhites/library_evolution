@@ -8,9 +8,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@ComponentScan(basePackages = {"com.walterwhites.library"})
+
 @EntityScan("com.walterwhites.library.model.entity")
 @EnableJpaRepositories("com.walterwhites.library.consumer.repository")
+@ComponentScan(basePackages = {"com.walterwhites.library"})
 public class WebserviceApplication  extends SpringBootServletInitializer {
 
     public static SentryJClient sentryJClient;
