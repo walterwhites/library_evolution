@@ -17,13 +17,19 @@ public class LoanItemProcessor implements ItemProcessor<Loans, Loans> {
 
     @Override
     public Loans process(Loans item) throws Exception {
-        log.info("client's email");
-        log.info(Long.toString(item.getId()));
+        /*File csv = new File(LoanItemProcessor.class.getClassLoader().getResource("user_email.csv").getFile());
+        CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+        String str = item.getClient().getEmail() + "," + item.getClient().getFirstname() + " " +
+                item.getClient().getLastname() + "," + item.getBook().getTitle();
+        String[] record = str.split(",");
+        writer.writeNext(record);
+        writer.close();*/
+        log.info("Email sended to " + item.getClient().getEmail());
         emailService.sendSimpleMessage("hopemagie@gmail.com", "Book loan", "Hello " +
                         item.getClient().getFirstname() + " " + item.getClient().getLastname() +
-                ", you have borrowed the " + item.getStartDate().getDay()/item.getStartDate().getMonth()/
-                item.getStartDate().getYear() + " the book" + item.getBook().getTitle() + ", you had to return it " +
-                "before the " + item.getEndDate().getDay()/item.getEndDate().getMonth()/item.getEndDate().getYear() +
+                ", you have borrowed the " + item.getStartDate().getDay() + "/" + item.getStartDate().getMonth() + "/" +
+                item.getStartDate().getYear() + " the book " + item.getBook().getTitle() + ", you had to return it " +
+                "before the " + item.getEndDate().getDay() + "/" + item.getEndDate().getMonth() + "/" + item.getEndDate().getYear() +
                 " please can return it");
 
         return item;
