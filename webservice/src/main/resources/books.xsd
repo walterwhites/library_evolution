@@ -21,6 +21,23 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postBookRenewedRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="loan_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postBookRenewedResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="loan_id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="postBookReturnedRequest">
         <xs:complexType>
             <xs:sequence>

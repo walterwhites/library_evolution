@@ -64,11 +64,24 @@ public class MainController {
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.add(Calendar.DATE, 28);
             String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
-            redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
+            redirectAttributes.addFlashAttribute("message", "You have renewed " + book.getTitle()
                     + " until to " + calendar);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         }
         return "redirect:/tables";
+    }
+
+    @RequestMapping(value = "/renewed-book", method = {RequestMethod.POST})
+    public String renewedBook(@ModelAttribute("loan") Loans loans, RedirectAttributes redirectAttributes, @RequestParam("title") String title) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            PostBookRenewedResponse postBookRenewedResponse = bookClient.postBookRenewed(loans.getId());
+            redirectAttributes.addFlashAttribute("message", "You have renewed " + title + " for 4 weeks");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-warning");
+        }
+        return "redirect:/loans";
     }
 
     @RequestMapping(value = "/return-book", method = {RequestMethod.POST})

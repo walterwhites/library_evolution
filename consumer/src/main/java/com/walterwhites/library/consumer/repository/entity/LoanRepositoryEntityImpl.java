@@ -43,6 +43,16 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         em.refresh(loan);
     }
 
+    public Long bookHasBeenProlonged(Loan entityLoan) {
+        GregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(entityLoan.getEnd_date()).toGregorianCalendar();
+        end_date.add(Calendar.DATE, 28);
+        entityLoan.setUpdated_date(new Date());
+        entityLoan.setEnd_date(end_date.getTime());
+        entityLoan.setRenewed(true);
+        this.em.merge(entityLoan);
+        return entityLoan.getId();
+    }
+
     public Long saveBookBorrowed(library.io.github.walterwhites.Book book, Long client_id) {
         Loan entityLoan = addLoan(book, client_id);
         this.em.persist(entityLoan);
@@ -74,7 +84,7 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         entityLoan.setUpdated_date(updated_date.getTime());
         entityLoan.setEnd_date(end_date.getTime());
         entityLoan.setStart_date(start_date.getTime());
-        entityLoan.setRenewed(book.getLoans().isRenewed());
+        entityLoan.setRenewed(false);
         entityLoan.setState("borrowed");
         entityBook.setNumber(entityBook.getNumber() - 1);
 

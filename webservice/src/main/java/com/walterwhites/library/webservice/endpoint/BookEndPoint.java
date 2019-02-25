@@ -33,6 +33,17 @@ public class BookEndPoint {
         return response;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postBookRenewedRequest")
+    @ResponsePayload
+    public PostBookRenewedResponse postBookRenewed(@RequestPayload PostBookRenewedRequest request) {
+        PostBookRenewedResponse response = new PostBookRenewedResponse();
+        com.walterwhites.library.model.entity.Loan loan = loanRepositoryEntity.findById(request.getLoanId()).get();
+        Long loan_id = loanRepositoryEntity.bookHasBeenProlonged(loan);
+        response.setClientId(loan.getClient().getId());
+        response.setLoanId(loan_id);
+        return response;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postBookBorrowedRequest")
     @ResponsePayload
     public PostBookBorrowedResponse postBookBorrowed(@RequestPayload PostBookBorrowedRequest request) {
