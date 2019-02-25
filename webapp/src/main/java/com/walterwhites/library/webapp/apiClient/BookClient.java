@@ -11,7 +11,16 @@ public class BookClient extends WebServiceGatewaySupport {
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
     private static final String ENDPOINT = "http://localhost:8081/ws/books";
-    
+
+    public PostBookRenewedResponse postBookRenewed(long loan_id) {
+        PostBookRenewedRequest request = new PostBookRenewedRequest();
+        request.setLoanId(loan_id);
+        return (PostBookRenewedResponse) getWebServiceTemplate()
+                .marshalSendAndReceive(ENDPOINT, request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+    }
+
     public PostBookBorrowedResponse postBookBorrowed(long id, long client_id) {
         PostBookBorrowedRequest request = new PostBookBorrowedRequest();
         request.setId(id);

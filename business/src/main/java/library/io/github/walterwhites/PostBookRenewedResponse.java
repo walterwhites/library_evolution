@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="state" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="loan_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="client_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,63 +37,47 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "username",
-    "state"
+    "loanId",
+    "clientId"
 })
-@XmlRootElement(name = "getAllBookFromClientRequest")
-public class GetAllBookFromClientRequest {
+@XmlRootElement(name = "postBookRenewedResponse")
+public class PostBookRenewedResponse {
 
-    @XmlElement(required = true)
-    protected String username;
-    @XmlElement(required = true)
-    protected String state;
+    @XmlElement(name = "loan_id")
+    protected long loanId;
+    @XmlElement(name = "client_id")
+    protected long clientId;
 
     /**
-     * Gets the value of the username property.
+     * Gets the value of the loanId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getUsername() {
-        return username;
+    public long getLoanId() {
+        return loanId;
     }
 
     /**
-     * Sets the value of the username property.
+     * Sets the value of the loanId property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setUsername(String value) {
-        this.username = value;
+    public void setLoanId(long value) {
+        this.loanId = value;
     }
 
     /**
-     * Gets the value of the state property.
+     * Gets the value of the clientId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getState() {
-        return state;
+    public long getClientId() {
+        return clientId;
     }
 
     /**
-     * Sets the value of the state property.
+     * Sets the value of the clientId property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setState(String value) {
-        this.state = value;
+    public void setClientId(long value) {
+        this.clientId = value;
     }
 
 }

@@ -40,6 +40,7 @@
                                 <th>Author</th>
                                 <th>Language</th>
                                 <th>State</th>
+                                <th>Renewed</th>
                                 <th>Start</th>
                                 <th>Until</th>
                                 <th>Returning the book</th>
@@ -55,6 +56,7 @@
                                 <td th:text="${book.getAuthor()}"></td>
                                 <td th:text="${book.getLanguages()}"></td>
                                 <td th:text="${book.getLoans().getState()}"></td>
+                                <td th:text="${book.getLoans().isRenewed()}"></td>
                                 <td th:text="|${book.getLoans().getStartDate().getDay()}/${book.getLoans().getStartDate().getMonth()}/${book.getLoans().getStartDate().getYear()}|"></td>
                                 <td th:text="|${book.getLoans().getEndDate().getDay()}/${book.getLoans().getEndDate().getMonth()}/${book.getLoans().getEndDate().getYear()}|"></td>
                                 <div th:if="${!book.getLoans().getState().toString().equals('BORROWED')}">
@@ -63,19 +65,34 @@
                                     </th>
                                 </div>
                                 <div th:unless="${!book.getLoans().getState().toString().equals('BORROWED')}">
-                                    <th>
-                                        <form th:action="@{/return-book}" method="post">
-                                            <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
-                                            <input type="hidden" name="title" th:value="${book.getTitle()}" />
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <button class="btn btn-success" type="submit">Return this book</button>
-                                        </form>
-                                    </th>
+                                    <div th:if="${book.getLoans().isRenewed()}">
+                                        <th>
+                                            <form th:action="@{/return-book}" method="post">
+                                                <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
+                                                <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                <button class="btn btn-success" type="submit">Return this book</button>
+                                            </form>
+                                        </th>
+                                    </div>
+                                    <div th:unless="${book.getLoans().isRenewed()}">
+                                        <th>
+                                            <form th:action="@{/renewed-book}" method="post">
+                                                <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
+                                                <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                <button class="btn btn-warning" type="submit">Renewed this book</button>
+                                            </form>
+                                        </th>
+                                    </div>
                                 </div>
                             </tr>
                             <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
                             </tbody>
                         </table>
+                        <div>
+                            *Renewed a book: A book can only be renewed one time
+                        </div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
