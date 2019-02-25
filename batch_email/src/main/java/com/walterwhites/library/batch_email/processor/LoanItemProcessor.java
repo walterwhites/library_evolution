@@ -18,7 +18,7 @@ public class LoanItemProcessor implements ItemProcessor<Loans, Loans> {
     @Override
     public Loans process(Loans item) {
         String message = "Hello " +
-                item.getClient().getFirstname() + " " + item.getClient().getLastname() +
+                item.getClient().getFirstname() + " " + item.getClient().getLastname() + " " +
                 item.getStartDate().getDay() + "/" + item.getStartDate().getMonth() + "/" +
                 item.getStartDate().getYear() + " you have borrowed the book " + item.getBook().getTitle() + ", you had to return it " +
                 "before the " + item.getEndDate().getDay() + "/" + item.getEndDate().getMonth() + "/" + item.getEndDate().getYear() +
