@@ -21,7 +21,7 @@ public class BookConfiguration {
     @Bean
     public BookClient bookClient(Jaxb2Marshaller marshaller) {
         BookClient bookClient = new BookClient();
-        bookClient.setDefaultUri("http://localhost:8081/ws");
+        bookClient.setDefaultUri("http://localhost:8081/ws/books");
         bookClient.setMarshaller(marshaller);
         bookClient.setUnmarshaller(marshaller);
         return bookClient;

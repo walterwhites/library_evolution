@@ -10,12 +10,14 @@ public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
+    private static final String ENDPOINT = "http://localhost:8081/ws/books";
+    
     public PostBookBorrowedResponse postBookBorrowed(long id, long client_id) {
         PostBookBorrowedRequest request = new PostBookBorrowedRequest();
         request.setId(id);
         request.setClientId(client_id);
         return (PostBookBorrowedResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -24,7 +26,7 @@ public class BookClient extends WebServiceGatewaySupport {
         PostBookReturnedRequest request = new PostBookReturnedRequest();
         request.setLoanId(loan_id);
         return (PostBookReturnedResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -33,7 +35,7 @@ public class BookClient extends WebServiceGatewaySupport {
         GetBookRequest request = new GetBookRequest();
         request.setTitle(book);
         return (GetBookResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -42,7 +44,7 @@ public class BookClient extends WebServiceGatewaySupport {
         GetBookFromIdRequest request = new GetBookFromIdRequest();
         request.setId(id);
         return (GetBookFromIdResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -50,7 +52,7 @@ public class BookClient extends WebServiceGatewaySupport {
     public GetAllBookResponse getAllBooks() {
         GetAllBookRequest request = new GetAllBookRequest();
         return (GetAllBookResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -60,7 +62,7 @@ public class BookClient extends WebServiceGatewaySupport {
         request.setUsername(username);
         request.setState("all_book");
         return (GetAllBookFromClientResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }
@@ -70,7 +72,7 @@ public class BookClient extends WebServiceGatewaySupport {
         request.setUsername(username);
         request.setState("borrowed");
         return (GetAllBookFromClientResponse) getWebServiceTemplate()
-                .marshalSendAndReceive("http://localhost:8081/ws", request,
+                .marshalSendAndReceive(ENDPOINT, request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));
     }

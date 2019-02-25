@@ -1,0 +1,45 @@
+<xs:schema elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.loans"
+           xmlns:tns="library.io.github.walterwhites.loans">
+
+    <xs:element name="getAllNotReturnedBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllNotReturnedBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded"  name="loan" type="tns:loans"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="loans">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="start_date" type="xs:date"/>
+            <xs:element name="end_date" type="xs:date"/>
+            <xs:element name="book" type="tns:book"/>
+            <xs:element name="client" type="tns:client"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="book">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="client">
+        <xs:sequence>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

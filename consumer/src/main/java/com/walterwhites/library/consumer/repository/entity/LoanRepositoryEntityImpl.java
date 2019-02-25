@@ -1,11 +1,15 @@
 package com.walterwhites.library.consumer.repository.entity;
 
+import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.entity.Book;
 import com.walterwhites.library.model.entity.Client;
 import com.walterwhites.library.model.entity.Loan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,11 +65,15 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
         Book entityBook = bookRepositoryEntity.findBookById(book.getId());
         bookList.add(entityBook);
 
-        GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        //GregorianCalendar end_date = book.getLoans().getEndDate().toGregorianCalendar();
+        GregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        GregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        GregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+
         end_date.add(Calendar.DATE, 28);
-        entityLoan.setUpdated_date(book.getLoans().getUpdatedDate().toGregorianCalendar().getTime());
+        entityLoan.setUpdated_date(updated_date.getTime());
         entityLoan.setEnd_date(end_date.getTime());
-        entityLoan.setStart_date(book.getLoans().getStartDate().toGregorianCalendar().getTime());
+        entityLoan.setStart_date(start_date.getTime());
         entityLoan.setRenewed(book.getLoans().isRenewed());
         entityLoan.setState("borrowed");
         entityBook.setNumber(entityBook.getNumber() - 1);
@@ -134,5 +142,23 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public Iterable<Loan> findAll(Sort sort) {
+        return em.createQuery(
+                "SELECT * FROM loan", Loan.class
+        ).getResultList();
+    }
+
+    public Iterable<Loan> findAllNotReturnedBook(Sort sort) {
+        return em.createQuery(
+                "SELECT * FROM loan", Loan.class
+        ).getResultList();
+    }
+
+    @Override
+    public Page<Loan> findAll(Pageable pageable) {
+        return null;
     }
 }

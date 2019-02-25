@@ -51,8 +51,7 @@
         <dependency>
             <groupId>com.walterwhites.library</groupId>
             <artifactId>business</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

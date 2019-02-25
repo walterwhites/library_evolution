@@ -1,5 +1,6 @@
 package com.walterwhites.library.batch.processor;
 
+import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.entity.Book;
 import com.walterwhites.library.model.entity.Client;
 import com.walterwhites.library.model.entity.Library;
@@ -11,9 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
@@ -61,10 +60,11 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         List<Loan> loans = new LinkedList<Loan>();
         Loan loan = new Loan();
         final Date loan_start_date = new Date();
-        final Date loan_end_date = new Date();
+        GregorianCalendar loan_end_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        loan_end_date.add(Calendar.DATE, 28);
         final Date loan_updated_date = new Date();
         loan.setStart_date(loan_start_date);
-        loan.setEnd_date(loan_end_date);
+        loan.setEnd_date(loan_end_date.getTime());
         loan.setUpdated_date(loan_updated_date);
         loan.setRenewed(false);
         loan.setClient(client);
