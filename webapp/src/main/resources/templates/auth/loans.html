@@ -65,23 +65,25 @@
                                     </th>
                                 </div>
                                 <div th:unless="${!book.getLoans().getState().toString().equals('BORROWED')}">
-                                    <div th:if="${book.getLoans().isRenewed()}">
-                                        <th>
-                                            <form th:action="@{/return-book}" method="post">
-                                                <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
-                                                <input type="hidden" name="title" th:value="${book.getTitle()}" />
-                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                <button class="btn btn-success" type="submit">Return this book</button>
-                                            </form>
-                                        </th>
-                                    </div>
-                                    <div th:unless="${book.getLoans().isRenewed()}">
+                                    <div th:if="${!book.getLoans().isRenewed() && book.getLoans().getEndDate().toGregorianCalendar().getTime()
+                                    .after(#dates.createNow())}">
                                         <th>
                                             <form th:action="@{/renewed-book}" method="post">
                                                 <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
                                                 <input type="hidden" name="title" th:value="${book.getTitle()}" />
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                                 <button class="btn btn-warning" type="submit">Renewed this book</button>
+                                            </form>
+                                        </th>
+                                    </div>
+                                    <div th:unless="${!book.getLoans().isRenewed() && book.getLoans().getEndDate().toGregorianCalendar().getTime()
+                                    .after(#dates.createNow())}">
+                                        <th>
+                                            <form th:action="@{/return-book}" method="post">
+                                                <input type="hidden" name="id" th:value="${book.getLoans().getId()}" />
+                                                <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                <button class="btn btn-success" type="submit">Return this book</button>
                                             </form>
                                         </th>
                                     </div>
