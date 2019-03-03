@@ -11,6 +11,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -46,6 +47,7 @@ public class BatchConfiguration {
     public LoanClient loanClient;
 
     @Bean
+    @StepScope
     public LoanItemProcessor loanProcessor() {
         return new LoanItemProcessor();
     }
@@ -61,6 +63,7 @@ public class BatchConfiguration {
     }
 
     @Bean
+    @StepScope
     public ItemReader<Loans> loanReader(){
         GetAllNotReturnedBookResponse getAllNotReturnedBookResponse = loanClient.getAllNotReturnedBook();
         ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllNotReturnedBookResponse.getLoan());
