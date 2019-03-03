@@ -11,6 +11,7 @@ https://openclassrooms.com/en/projects/mettez-en-oeuvre-la-soa-pour-le-nouveau-s
 * [Webservice](#webservice)
 * [Sentry](#sentry)
 * [Diagrams](#diagrams)
+* [Defense](#defense) 4 March 2018
 
 ## What technologies project uses
 - Java jdk: JDK10 version
@@ -158,3 +159,28 @@ sentryJClient.sendSimpleEvent("message");
 - one Book can be associated with 0 or many Loan <b>(it's a many to many relation)</b>
 - one Library HAVE 0 or many Book <b>(it's a many to many relation)</b>
 - one Book is associated with 1 or many Library <b>(it's a many to many relation)</b>
+
+
+## Defense
+For a simple deploy
+1) git clone git@github.com:walterwhites/library.git
+2) cd library/
+
+To run batch email:
+- go to batch_email/ module
+- run mvn clean install && java -jar target/batch_email-0.0.1-SNAPSHOT.jar
+
+To run batch (tables && data generation):
+- go to batch/ module
+- run mvn clean install && java -jar target/batch-0.0.1-SNAPSHOT.jar
+
+To run deploy webservice:
+- go to webservice/ module
+- run mvn clean install && java -jar target/webservice-0.0.1-SNAPSHOT.war
+
+To run deploy webapp:
+- go to parent module dir (library)
+- run mvn clean install && spring-boot:run -pl webapp/
+
+
+
