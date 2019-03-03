@@ -54,7 +54,6 @@ public class BatchConfiguration {
 
     @Bean
     public Job importLoanJob(JobCompletionNotificationListener listener, Step stepLoan) {
-        System.out.println("test234234");
         return jobBuilderFactory.get("importLoanJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
