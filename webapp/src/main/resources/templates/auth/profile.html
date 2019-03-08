@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--/*@thymesVar id="appName" type="String"*/-->
+    <title th:text="${'Profile - ' + appName}"></title>
+</head>
+<header lang="en" th:replace="fragments/header :: header">
+</header>
+<body>
+<div id="wrapper">
+    <nav lang="en" th:replace="fragments/nav :: nav">
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">My Profile </h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Library of Liverpool
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Email</th>
+                                <th>Email alert active</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--/*@thymesVar id="book" type="library.io.github.walterwhites.Client"*/-->
+                            <tr class="odd gradeX"
+                                th:each="book, iStat : ${books_client.getBook()}"
+                                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                                <td th:text="${book.getLoans().getId()}"></td>
+                                <td th:text="${book.getTitle()}"></td>
+                                <td th:text="${book.getAuthor()}"></td>
+                                <td th:text="${book.getLanguages()}"></td>
+                            </tr>
+                            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+                            </tbody>
+                        </table>
+                        <div>
+                            *Renewed a book: A book can only be renewed one time
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+</body>
+<footer lang="en" th:replace="fragments/footer :: footer"> </footer>
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+</html>

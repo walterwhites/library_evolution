@@ -154,6 +154,19 @@ public class MainController {
         return new ModelAndView("auth/loans");
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ModelAndView profile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        model.addAttribute("appName", appName);
+        if (!hasUserRole) {
+            return new ModelAndView("redirect:/login");
+        }
+        //this.getAllBooksFromClient(auth, model);
+        return new ModelAndView("auth/profile");
+    }
+
     private void getAllBooksFromClient(Authentication auth, Model model) {
         if (auth != null) {
             User client = (User) auth.getPrincipal();
