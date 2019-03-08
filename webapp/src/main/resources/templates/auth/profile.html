@@ -49,7 +49,11 @@
                                 <td th:text="${client.getEmail()}"></td>
                                 <td>
                                     <div th:if="${client.isAlertEmail()}">
-                                        <input type="checkbox" checked data-toggle="toggle">
+                                        <form th:action="@{/profile}" method="post">
+                                            <input type="hidden" name="alertActive" th:value="${client.isAlertEmail()}" />
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                            <input type="checkbox" onChange="this.form.submit()" checked data-toggle="toggle">
+                                        </form>
                                     </div>
                                     <div th:unless="${client.isAlertEmail()}">
                                         <input type="checkbox" data-toggle="toggle">

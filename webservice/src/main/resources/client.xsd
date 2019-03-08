@@ -19,6 +19,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postAlertEmailRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="alert_email" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postAlertEmailResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="alert_email" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:complexType name="loans">
         <xs:sequence>

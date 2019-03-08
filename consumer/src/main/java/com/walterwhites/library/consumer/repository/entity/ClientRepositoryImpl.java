@@ -40,6 +40,11 @@ public class ClientRepositoryImpl implements ClientEntity {
         return client;
     }
 
+    public Boolean updateAlertEmail(Client client, Boolean value) {
+        client.setAlert_email(value);
+        this.em.merge(client);
+        return value;
+    }
 
     @Override
     public <S extends Client> S save(S entity) {
@@ -111,6 +116,8 @@ public class ClientRepositoryImpl implements ClientEntity {
         c.setEnabled(rs.getBoolean("enabled"));
         c.setPassword(rs.getString("password"));
         c.setUsername(rs.getString("username"));
+        c.setAlert_email(rs.getBoolean("alert_email"));
+
         return c;
     }
 }

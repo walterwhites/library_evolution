@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="client_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="alert_email" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,46 +37,55 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "id",
-    "clientId"
+    "username",
+    "alertEmail"
 })
-@XmlRootElement(name = "postBookBorrowedRequest")
-public class PostBookBorrowedRequest {
+@XmlRootElement(name = "postAlertEmailRequest")
+public class PostAlertEmailRequest {
 
-    protected long id;
-    @XmlElement(name = "client_id")
-    protected long clientId;
+    @XmlElement(required = true)
+    protected String username;
+    @XmlElement(name = "alert_email")
+    protected boolean alertEmail;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the username property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public long getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the username property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setId(long value) {
-        this.id = value;
+    public void setUsername(String value) {
+        this.username = value;
     }
 
     /**
-     * Gets the value of the clientId property.
+     * Gets the value of the alertEmail property.
      * 
      */
-    public long getClientId() {
-        return clientId;
+    public boolean isAlertEmail() {
+        return alertEmail;
     }
 
     /**
-     * Sets the value of the clientId property.
+     * Sets the value of the alertEmail property.
      * 
      */
-    public void setClientId(long value) {
-        this.clientId = value;
+    public void setAlertEmail(boolean value) {
+        this.alertEmail = value;
     }
 
 }

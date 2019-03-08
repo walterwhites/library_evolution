@@ -7,6 +7,7 @@ import com.walterwhites.library.webapp.apiClient.BookClient;
 import com.walterwhites.library.webapp.apiClient.UserClient;
 import library.io.github.walterwhites.*;
 import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
+import library.io.github.walterwhites.client.PostAlertEmailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -170,6 +171,20 @@ public class MainController {
         }
         this.getClient(auth, model);
         return new ModelAndView("auth/profile");
+    }
+
+    @RequestMapping(value = "/alert-email", method = RequestMethod.POST)
+    public String alertEmail(RedirectAttributes redirectAttributes, @RequestParam("alertActive") Boolean alertActive) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User client = (User) auth.getPrincipal();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            PostAlertEmailResponse postAlertEmailResponse = userClient.postAlertEmail(client.getUsername(), alertActive);
+            redirectAttributes.addFlashAttribute("message", "You profile has been updated");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
+        return "redirect:/profile";
     }
 
     private void getAllBooksFromClient(Authentication auth, Model model) {

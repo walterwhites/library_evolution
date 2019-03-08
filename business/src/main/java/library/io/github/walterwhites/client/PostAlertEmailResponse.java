@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,8 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="client_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="alert_email" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,46 +36,28 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "id",
-    "clientId"
+    "alertEmail"
 })
-@XmlRootElement(name = "postBookBorrowedRequest")
-public class PostBookBorrowedRequest {
+@XmlRootElement(name = "postAlertEmailResponse")
+public class PostAlertEmailResponse {
 
-    protected long id;
-    @XmlElement(name = "client_id")
-    protected long clientId;
+    @XmlElement(name = "alert_email")
+    protected boolean alertEmail;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the alertEmail property.
      * 
      */
-    public long getId() {
-        return id;
+    public boolean isAlertEmail() {
+        return alertEmail;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the alertEmail property.
      * 
      */
-    public void setId(long value) {
-        this.id = value;
-    }
-
-    /**
-     * Gets the value of the clientId property.
-     * 
-     */
-    public long getClientId() {
-        return clientId;
-    }
-
-    /**
-     * Sets the value of the clientId property.
-     * 
-     */
-    public void setClientId(long value) {
-        this.clientId = value;
+    public void setAlertEmail(boolean value) {
+        this.alertEmail = value;
     }
 
 }
