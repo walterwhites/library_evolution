@@ -3,18 +3,18 @@
            xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.client"
            xmlns:tns="library.io.github.walterwhites.client">
 
-    <xs:element name="getClientFromIdRequest">
+    <xs:element name="getClientFromUsernameRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="username" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="getClientFromIdResponse">
+    <xs:element name="getClientFromUsernameResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded"  name="client" type="tns:client"/>
+                <xs:element name="client" type="tns:client"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ClientRepository {
     public Client findById(Long id);
+    public Client findByUsername(String username);
 }

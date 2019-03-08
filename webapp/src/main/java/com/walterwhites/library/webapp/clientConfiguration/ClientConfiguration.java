@@ -7,24 +7,24 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
-public class BookConfiguration {
+public class ClientConfiguration {
 
     @Bean
-    public Jaxb2Marshaller marshallerBooks() {
+    public Jaxb2Marshaller marshallerClient() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         // this package must match the package in the <generatePackage> specified in
         // pom.xml
-        marshaller.setContextPath("library.io.github.walterwhites");
+        marshaller.setContextPath("library.io.github.walterwhites.client");
 
         return marshaller;
     }
 
     @Bean
-    public BookClient bookClient(Jaxb2Marshaller marshallerBooks) {
-        BookClient bookClient = new BookClient();
-        bookClient.setDefaultUri("http://localhost:8081/ws/books");
-        bookClient.setMarshaller(marshallerBooks);
-        bookClient.setUnmarshaller(marshallerBooks);
-        return bookClient;
+    public UserClient userClient(Jaxb2Marshaller marshallerClient) {
+        UserClient userClient = new UserClient();
+        userClient.setDefaultUri("http://localhost:8081/ws/client");
+        userClient.setMarshaller(marshallerClient);
+        userClient.setUnmarshaller(marshallerClient);
+        return userClient;
     }
 }

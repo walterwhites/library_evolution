@@ -3,6 +3,8 @@ package com.walterwhites.library.webservice.endpoint;
 import com.walterwhites.library.consumer.repository.jaxb.impl.ClientsRepositoryImpl;
 import library.io.github.walterwhites.client.GetClientFromIdRequest;
 import library.io.github.walterwhites.client.GetClientFromIdResponse;
+import library.io.github.walterwhites.client.GetClientFromUsernameRequest;
+import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -22,11 +24,11 @@ public class ClientEndPoint {
         this.clientRepository = clientRepository;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getClientFromIdRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getClientFromUsernameRequest")
     @ResponsePayload
-    public GetClientFromIdResponse getClientFromId(@RequestPayload GetClientFromIdRequest request) {
-        GetClientFromIdResponse response = new GetClientFromIdResponse();
-        response.getClient().add(clientRepository.findById(request.getId()));
+    public GetClientFromUsernameResponse getClientFromId(@RequestPayload GetClientFromUsernameRequest request) {
+        GetClientFromUsernameResponse response = new GetClientFromUsernameResponse();
+        response.setClient(clientRepository.findByUsername(request.getUsername()));
 
         return response;
     }

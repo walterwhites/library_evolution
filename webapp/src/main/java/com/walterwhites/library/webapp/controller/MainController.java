@@ -4,7 +4,9 @@ import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.pojo.MyUser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
+import com.walterwhites.library.webapp.apiClient.UserClient;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -38,6 +40,9 @@ public class MainController {
 
     @Autowired
     private BookClient bookClient;
+
+    @Autowired
+    private UserClient userClient;
 
     @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -163,7 +168,7 @@ public class MainController {
         if (!hasUserRole) {
             return new ModelAndView("redirect:/login");
         }
-        //this.getAllBooksFromClient(auth, model);
+        this.getClient(auth, model);
         return new ModelAndView("auth/profile");
     }
 
@@ -173,6 +178,15 @@ public class MainController {
             String username = client.getUsername();
             GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
             model.addAttribute("books_client", getAllBookResponseFromClient);
+        }
+    }
+
+    private void getClient(Authentication auth, Model model) {
+        if (auth != null) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetClientFromUsernameResponse getClientFromUsernameResponse = userClient.getClientFromUsername(username);
+            model.addAttribute("client", getClientFromUsernameResponse.getClient());
         }
     }
 }

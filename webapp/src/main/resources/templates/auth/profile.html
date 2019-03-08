@@ -28,7 +28,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Library of Liverpool
+                        My profile
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -38,24 +38,29 @@
                                 <th>Firstname</th>
                                 <th>Lastname</th>
                                 <th>Email</th>
-                                <th>Email alert active</th>
+                                <th>Email alert active *</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <!--/*@thymesVar id="book" type="library.io.github.walterwhites.Client"*/-->
-                            <tr class="odd gradeX"
-                                th:each="book, iStat : ${books_client.getBook()}"
-                                th:alt-title="${iStat.even}? 'even' : 'odd'">
-                                <td th:text="${book.getLoans().getId()}"></td>
-                                <td th:text="${book.getTitle()}"></td>
-                                <td th:text="${book.getAuthor()}"></td>
-                                <td th:text="${book.getLanguages()}"></td>
+                            <!--/*@thymesVar id="client" type="library.io.github.walterwhites.client.Client"*/-->
+                            <tr class="odd gradeX">
+                                <td th:text="${client.getFirstname()}"></td>
+                                <td th:text="${client.getLastname()}"></td>
+                                <td th:text="${client.getEmail()}"></td>
+                                <td>
+                                    <div th:if="${client.isAlertEmail()}">
+                                        <input type="checkbox" checked data-toggle="toggle">
+                                    </div>
+                                    <div th:unless="${client.isAlertEmail()}">
+                                        <input type="checkbox" data-toggle="toggle">
+                                    </div>
+                                </td>
                             </tr>
                             <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
                             </tbody>
                         </table>
                         <div>
-                            *Renewed a book: A book can only be renewed one time
+                            *Email alert active: if you activate this option, you will be alerted 5 days before the end of the loan
                         </div>
                     </div>
                     <!-- /.panel-body -->
@@ -74,11 +79,6 @@
 </body>
 <footer lang="en" th:replace="fragments/footer :: footer"> </footer>
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </html>

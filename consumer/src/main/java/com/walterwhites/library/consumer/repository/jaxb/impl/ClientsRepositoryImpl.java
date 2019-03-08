@@ -42,6 +42,16 @@ public class ClientsRepositoryImpl implements ClientRepository, ClientRepository
         return client;
     }
 
+    @Override
+    public Client findByUsername(String username) {
+        Client client = (Client) operations.queryForObject(
+                "SELECT * FROM client\n" +
+                        "WHERE\n" +
+                        "    client.username = ?",
+                (rs, rownumber) -> getClientData(rs), username);
+        return client;
+    }
+
     private Client getClientData(ResultSet rs) throws SQLException {
 
         Client client = new Client();

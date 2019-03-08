@@ -459,7 +459,84 @@
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="cd83960d-bc99-42cd-8f40-8087482f86ab" name="Books TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="46f27e1f-1ed8-409a-8c10-829dafbf0041" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="deab32f0-5905-4a33-a433-32dc1ac31d06" name="getAllBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBook</con:operation><con:request name="getAllBook" id="d6fa96b9-a654-4089-8f54-2c0cfa7f3fa6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.client" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getClientFromUsernameRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getClientFromUsernameResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="client" type="tns:client"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="loans">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="start_date" type="xs:date"/>
+          <xs:element name="end_date" type="xs:date"/>
+          <xs:element name="book" type="tns:book"/>
+          <xs:element name="client" type="tns:client"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="book">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="client">
+        <xs:sequence>
+          <xs:element name="firstname" type="xs:string"/>
+          <xs:element name="lastname" type="xs:string"/>
+          <xs:element name="email" type="xs:string"/>
+          <xs:element name="alert_email" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getClientFromUsernameRequest">
+    <wsdl:part element="tns:getClientFromUsernameRequest" name="getClientFromUsernameRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClientFromUsernameResponse">
+    <wsdl:part element="tns:getClientFromUsernameResponse" name="getClientFromUsernameResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ClientPort">
+    <wsdl:operation name="getClientFromUsername">
+      <wsdl:input message="tns:getClientFromUsernameRequest" name="getClientFromUsernameRequest"></wsdl:input>
+      <wsdl:output message="tns:getClientFromUsernameResponse" name="getClientFromUsernameResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ClientPortSoap11" type="tns:ClientPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getClientFromUsername">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getClientFromUsernameRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getClientFromUsernameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ClientPortService">
+    <wsdl:port binding="tns:ClientPortSoap11" name="ClientPortSoap11">
+      <soap:address location="http://localhost:8081/ws/client"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8081/ws/client</con:endpoint></con:endpoints><con:operation id="5c59d825-d5e7-4f22-a53b-e42cb97a13df" isOneWay="false" action="" name="getClientFromUsername" bindingOperationName="getClientFromUsername" type="Request-Response" outputName="getClientFromUsernameResponse" inputName="getClientFromUsernameRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5b89ecc7-fd6b-4592-a8a6-42848644e6f1" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getClientFromUsernameRequest>
+         <lib:username>flo1</lib:username>
+      </lib:getClientFromUsernameRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/getClientFromIdRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="cd83960d-bc99-42cd-8f40-8087482f86ab" name="Books TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="46f27e1f-1ed8-409a-8c10-829dafbf0041" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="deab32f0-5905-4a33-a433-32dc1ac31d06" name="getAllBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBook</con:operation><con:request name="getAllBook" id="d6fa96b9-a654-4089-8f54-2c0cfa7f3fa6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getAllBookRequest/>
@@ -513,4 +590,11 @@
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="38484956-8d7f-407a-b251-878e91981de6" name="Client TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="58e37c14-f96f-41f4-a244-639b6e7bf696" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getClientFromUsername TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="b6b55c5d-d920-4db6-a93d-671661d5b2dd" name="getClientFromUsername"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientPortSoap11</con:interface><con:operation>getClientFromUsername</con:operation><con:request name="getClientFromUsername" id="3f2c2d23-8629-46b1-8662-4082cddbc216"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getClientFromUsernameRequest>
+         <lib:username>?</lib:username>
+      </lib:getClientFromUsernameRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites.client/ClientPort/getClientFromUsernameRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
