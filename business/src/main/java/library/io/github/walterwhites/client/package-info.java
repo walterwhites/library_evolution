@@ -5,5 +5,5 @@
 // Generated on: 2019.03.08 at 12:56:48 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "library.io.github.walterwhites.loans", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package library.io.github.walterwhites.loans;
+@javax.xml.bind.annotation.XmlSchema(namespace = "library.io.github.walterwhites.client", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package library.io.github.walterwhites.client;

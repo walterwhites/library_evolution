@@ -6,25 +6,25 @@
 //
 
 
-package library.io.github.walterwhites.loans;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for book complex type.
+ * <p>Java class for anonymous complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="book">
+ * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,36 +34,28 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "book", propOrder = {
-    "title"
+@XmlType(name = "", propOrder = {
+    "id"
 })
-public class Book {
+@XmlRootElement(name = "getClientFromIdRequest")
+public class GetClientFromIdRequest {
 
-    @XmlElement(required = true)
-    protected String title;
+    protected long id;
 
     /**
-     * Gets the value of the title property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getTitle() {
-        return title;
+    public long getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the title property.
+     * Sets the value of the id property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setTitle(String value) {
-        this.title = value;
+    public void setId(long value) {
+        this.id = value;
     }
 
 }

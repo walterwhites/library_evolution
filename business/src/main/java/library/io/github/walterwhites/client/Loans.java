@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,10 +29,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="start_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
  *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="renewed" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element name="books" type="{library.io.github.walterwhites}book"/>
- *         &lt;element name="state" type="{library.io.github.walterwhites}state"/>
- *         &lt;element name="updated_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="book" type="{library.io.github.walterwhites.client}book"/>
+ *         &lt;element name="client" type="{library.io.github.walterwhites.client}client"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,10 +44,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "id",
     "startDate",
     "endDate",
-    "renewed",
-    "books",
-    "state",
-    "updatedDate"
+    "book",
+    "client"
 })
 public class Loans {
 
@@ -60,14 +56,10 @@ public class Loans {
     @XmlElement(name = "end_date", required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar endDate;
-    protected boolean renewed;
     @XmlElement(required = true)
-    protected Book books;
+    protected Book book;
     @XmlElement(required = true)
-    protected State state;
-    @XmlElement(name = "updated_date", required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar updatedDate;
+    protected Client client;
 
     /**
      * Gets the value of the id property.
@@ -134,91 +126,51 @@ public class Loans {
     }
 
     /**
-     * Gets the value of the renewed property.
-     * 
-     */
-    public boolean isRenewed() {
-        return renewed;
-    }
-
-    /**
-     * Sets the value of the renewed property.
-     * 
-     */
-    public void setRenewed(boolean value) {
-        this.renewed = value;
-    }
-
-    /**
-     * Gets the value of the books property.
+     * Gets the value of the book property.
      * 
      * @return
      *     possible object is
      *     {@link Book }
      *     
      */
-    public Book getBooks() {
-        return books;
+    public Book getBook() {
+        return book;
     }
 
     /**
-     * Sets the value of the books property.
+     * Sets the value of the book property.
      * 
      * @param value
      *     allowed object is
      *     {@link Book }
      *     
      */
-    public void setBooks(Book value) {
-        this.books = value;
+    public void setBook(Book value) {
+        this.book = value;
     }
 
     /**
-     * Gets the value of the state property.
+     * Gets the value of the client property.
      * 
      * @return
      *     possible object is
-     *     {@link State }
+     *     {@link Client }
      *     
      */
-    public State getState() {
-        return state;
+    public Client getClient() {
+        return client;
     }
 
     /**
-     * Sets the value of the state property.
+     * Sets the value of the client property.
      * 
      * @param value
      *     allowed object is
-     *     {@link State }
+     *     {@link Client }
      *     
      */
-    public void setState(State value) {
-        this.state = value;
-    }
-
-    /**
-     * Gets the value of the updatedDate property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getUpdatedDate() {
-        return updatedDate;
-    }
-
-    /**
-     * Sets the value of the updatedDate property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setUpdatedDate(XMLGregorianCalendar value) {
-        this.updatedDate = value;
+    public void setClient(Client value) {
+        this.client = value;
     }
 
 }

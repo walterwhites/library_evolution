@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites.loans;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the library.io.github.walterwhites.loans package. 
+ * generated in the library.io.github.walterwhites.client package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -30,26 +30,34 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: library.io.github.walterwhites.loans
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: library.io.github.walterwhites.client
      * 
      */
     public ObjectFactory() {
     }
 
     /**
-     * Create an instance of {@link GetAllNotReturnedBookRequest }
+     * Create an instance of {@link GetClientFromIdRequest }
      * 
      */
-    public GetAllNotReturnedBookRequest createGetAllNotReturnedBookRequest() {
-        return new GetAllNotReturnedBookRequest();
+    public GetClientFromIdRequest createGetClientFromIdRequest() {
+        return new GetClientFromIdRequest();
     }
 
     /**
-     * Create an instance of {@link GetAllNotReturnedBookResponse }
+     * Create an instance of {@link GetClientFromIdResponse }
      * 
      */
-    public GetAllNotReturnedBookResponse createGetAllNotReturnedBookResponse() {
-        return new GetAllNotReturnedBookResponse();
+    public GetClientFromIdResponse createGetClientFromIdResponse() {
+        return new GetClientFromIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link Client }
+     * 
+     */
+    public Client createClient() {
+        return new Client();
     }
 
     /**
@@ -66,14 +74,6 @@ public class ObjectFactory {
      */
     public Book createBook() {
         return new Book();
-    }
-
-    /**
-     * Create an instance of {@link Client }
-     * 
-     */
-    public Client createClient() {
-        return new Client();
     }
 
 }

@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="firstname" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="lastname" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="alert_email" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,36 +38,21 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "client", propOrder = {
-    "id",
     "firstname",
     "lastname",
-    "email"
+    "email",
+    "alertEmail"
 })
 public class Client {
 
-    protected long id;
     @XmlElement(required = true)
     protected String firstname;
     @XmlElement(required = true)
     protected String lastname;
     @XmlElement(required = true)
     protected String email;
-
-    /**
-     * Gets the value of the id property.
-     * 
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the value of the id property.
-     * 
-     */
-    public void setId(long value) {
-        this.id = value;
-    }
+    @XmlElement(name = "alert_email")
+    protected boolean alertEmail;
 
     /**
      * Gets the value of the firstname property.
@@ -139,6 +124,22 @@ public class Client {
      */
     public void setEmail(String value) {
         this.email = value;
+    }
+
+    /**
+     * Gets the value of the alertEmail property.
+     * 
+     */
+    public boolean isAlertEmail() {
+        return alertEmail;
+    }
+
+    /**
+     * Sets the value of the alertEmail property.
+     * 
+     */
+    public void setAlertEmail(boolean value) {
+        this.alertEmail = value;
     }
 
 }
