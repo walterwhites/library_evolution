@@ -1,7 +1,7 @@
-package com.walterwhites.library.batch_email.configuration;
+package com.walterwhites.library.batch_remind_expiration.configuration;
 
-import com.walterwhites.library.batch_email.apiClient.LoanClient;
-import com.walterwhites.library.batch_email.processor.LoanItemProcessor;
+import com.walterwhites.library.batch_remind_expiration.apiClient.LoanClient;
+import com.walterwhites.library.batch_remind_expiration.processor.LoanItemProcessor;
 import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
 import library.io.github.walterwhites.loans.Loans;
 import org.slf4j.Logger;

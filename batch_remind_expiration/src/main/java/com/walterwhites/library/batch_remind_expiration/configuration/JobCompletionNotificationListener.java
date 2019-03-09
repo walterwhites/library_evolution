@@ -1,4 +1,4 @@
-package com.walterwhites.library.batch_email.configuration;
+package com.walterwhites.library.batch_remind_expiration.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

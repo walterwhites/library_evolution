@@ -1,4 +1,4 @@
-package com.walterwhites.library.batch_email.processor;
+package com.walterwhites.library.batch_remind_expiration.processor;
 
 import com.walterwhites.library.business.utils.EmailService;
 import library.io.github.walterwhites.loans.Loans;

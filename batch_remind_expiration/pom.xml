@@ -62,7 +62,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.walterwhites.library.batch_email.Batch</mainClass>
+                    <mainClass>com.walterwhites.library.batch_remind_expiration.Batch</mainClass>
                 </configuration>
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>

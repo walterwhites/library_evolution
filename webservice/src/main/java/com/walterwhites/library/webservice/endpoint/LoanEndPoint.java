@@ -1,8 +1,7 @@
 package com.walterwhites.library.webservice.endpoint;
 
 import com.walterwhites.library.consumer.repository.jaxb.impl.LoanRepositoryImpl;
-import library.io.github.walterwhites.loans.GetAllNotReturnedBookRequest;
-import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
+import library.io.github.walterwhites.loans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -27,6 +26,14 @@ public class LoanEndPoint {
     public GetAllNotReturnedBookResponse getAllNotReturnedBookRequest(@RequestPayload GetAllNotReturnedBookRequest request) {
         GetAllNotReturnedBookResponse response = new GetAllNotReturnedBookResponse();
         response.getLoan().addAll(loanRepository.findAllNotReturnedBook());
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllSoonExpiredLoanRequest")
+    @ResponsePayload
+    public GetAllSoonExpiredLoanResponse getAllSoonExpiredLoanRequest(@RequestPayload GetAllSoonExpiredLoanRequest request) {
+        GetAllSoonExpiredLoanResponse response = new GetAllSoonExpiredLoanResponse();
+        response.getLoan().addAll(loanRepository.findAllSoonLoanExpired());
         return response;
     }
 }

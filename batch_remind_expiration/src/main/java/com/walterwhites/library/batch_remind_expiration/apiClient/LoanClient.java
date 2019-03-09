@@ -1,4 +1,4 @@
-package com.walterwhites.library.batch_email.apiClient;
+package com.walterwhites.library.batch_remind_expiration.apiClient;
 
 import library.io.github.walterwhites.loans.GetAllNotReturnedBookRequest;
 import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;

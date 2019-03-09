@@ -6,11 +6,10 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.loans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,7 +24,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="loan_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,29 +33,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "loanId"
-})
-@XmlRootElement(name = "postBookRenewedRequest")
-public class PostBookRenewedRequest {
+@XmlType(name = "")
+@XmlRootElement(name = "getAllSoonExpiredLoanRequest")
+public class GetAllSoonExpiredLoanRequest {
 
-    @XmlElement(name = "loan_id")
-    protected long loanId;
-
-    /**
-     * Gets the value of the loanId property.
-     * 
-     */
-    public long getLoanId() {
-        return loanId;
-    }
-
-    /**
-     * Sets the value of the loanId property.
-     * 
-     */
-    public void setLoanId(long value) {
-        this.loanId = value;
-    }
 
 }

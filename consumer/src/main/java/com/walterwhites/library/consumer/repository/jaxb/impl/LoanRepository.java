@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface LoanRepository {
     public List<Loans> findAllNotReturnedBook();
+    public List<Loans> findAllSoonLoanExpired();
 }

@@ -1,6 +1,6 @@
-package com.walterwhites.library.batch_email.clientConfiguration;
+package com.walterwhites.library.batch_remind_expiration.clientConfiguration;
 
-import com.walterwhites.library.batch_email.apiClient.LoanClient;
+import com.walterwhites.library.batch_remind_expiration.apiClient.LoanClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;

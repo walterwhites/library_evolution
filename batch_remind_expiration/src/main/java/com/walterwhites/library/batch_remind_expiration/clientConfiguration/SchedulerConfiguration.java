@@ -1,6 +1,6 @@
-package com.walterwhites.library.batch_email.clientConfiguration;
+package com.walterwhites.library.batch_remind_expiration.clientConfiguration;
 
-import com.walterwhites.library.batch_email.configuration.JobCompletionNotificationListener;
+import com.walterwhites.library.batch_remind_expiration.configuration.JobCompletionNotificationListener;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;

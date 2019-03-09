@@ -1,4 +1,4 @@
-package com.walterwhites.library.batch_email;
+package com.walterwhites.library.batch_remind_expiration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

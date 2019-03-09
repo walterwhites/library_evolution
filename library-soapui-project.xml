@@ -402,6 +402,18 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="getAllSoonExpiredLoanRequest">
+        <xs:complexType>
+          <xs:sequence></xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAllSoonExpiredLoanResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="loan" type="tns:loans"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:complexType name="loans">
         <xs:sequence>
           <xs:element name="id" type="xs:long"/>
@@ -425,6 +437,12 @@
       </xs:complexType>
     </xs:schema>
   </wsdl:types>
+  <wsdl:message name="getAllSoonExpiredLoanRequest">
+    <wsdl:part element="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllSoonExpiredLoanResponse">
+    <wsdl:part element="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllNotReturnedBookRequest">
     <wsdl:part element="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:part>
   </wsdl:message>
@@ -432,6 +450,10 @@
     <wsdl:part element="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:part>
   </wsdl:message>
   <wsdl:portType name="LoansPort">
+    <wsdl:operation name="getAllSoonExpiredLoan">
+      <wsdl:input message="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:input>
+      <wsdl:output message="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllNotReturnedBook">
       <wsdl:input message="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:input>
       <wsdl:output message="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:output>
@@ -439,6 +461,15 @@
   </wsdl:portType>
   <wsdl:binding name="LoansPortSoap11" type="tns:LoansPort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAllSoonExpiredLoan">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getAllSoonExpiredLoanRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllSoonExpiredLoanResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllNotReturnedBook">
       <soap:operation soapAction=""/>
       <wsdl:input name="getAllNotReturnedBookRequest">
@@ -459,7 +490,12 @@
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c6e3cb8d-b216-4f2d-8b43-e0dfd5c29e68" isOneWay="false" action="" name="getAllSoonExpiredLoan" bindingOperationName="getAllSoonExpiredLoan" type="Request-Response" outputName="getAllSoonExpiredLoanResponse" inputName="getAllSoonExpiredLoanRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0da57b13-fcd3-47a6-885e-fcc743b38d0c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getAllSoonExpiredLoanRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllSoonExpiredLoanRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.client" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="getClientFromUsernameRequest">
@@ -578,68 +614,24 @@
          <lib:alert_email>true</lib:alert_email>
       </lib:postAlertEmailRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/postAlertEmailRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="cd83960d-bc99-42cd-8f40-8087482f86ab" name="Books TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="46f27e1f-1ed8-409a-8c10-829dafbf0041" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="deab32f0-5905-4a33-a433-32dc1ac31d06" name="getAllBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBook</con:operation><con:request name="getAllBook" id="d6fa96b9-a654-4089-8f54-2c0cfa7f3fa6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:getAllBookRequest/>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/getAllBookRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="95c5a023-c256-4139-aee5-535652e1ae67" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBookFromClient TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="5f036952-4cd7-41d1-9435-2cbea13f8eba" name="getAllBookFromClient"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBookFromClient</con:operation><con:request name="getAllBookFromClient" id="5155765b-39ae-4a4e-aa89-aab85a75ef6a"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:getAllBookFromClientRequest>
-         <lib:username>?</lib:username>
-         <lib:state>?</lib:state>
-      </lib:getAllBookFromClientRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/getAllBookFromClientRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="70647262-e9a4-4f51-84b4-04c201d51317" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="39621de9-f1fe-48ed-8dde-b13befc7e67e" name="getBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBook</con:operation><con:request name="getBook" id="cbc45890-f09e-4234-af20-455590aaf8b5"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:getBookRequest>
-         <lib:title>?</lib:title>
-      </lib:getBookRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/getBookRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="d30c25c1-2369-4c2b-8d5c-b4d127ba4c49" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getBookFromId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="d3065152-6602-418b-a1e1-b1b7281df47f" name="getBookFromId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBookFromId</con:operation><con:request name="getBookFromId" id="4782e2e2-b951-4b2c-8245-39eb24ec5a23"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:getBookFromIdRequest>
-         <lib:id>?</lib:id>
-      </lib:getBookFromIdRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/getBookFromIdRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="6153175b-c99d-4590-8734-71019403b709" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookBorrowed TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="44622374-3ae0-4596-8798-30165beee99a" name="postBookBorrowed"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookBorrowed</con:operation><con:request name="postBookBorrowed" id="85129c26-008c-4822-8401-a400367d0073"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:postBookBorrowedRequest>
-         <lib:id>?</lib:id>
-         <lib:client_id>?</lib:client_id>
-      </lib:postBookBorrowedRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/postBookBorrowedRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="b1087c3b-f9ea-4dc9-a4b2-6f36ece24ddf" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookRenewed TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="7d513d81-95d3-4cd6-8aad-e6b4e8d6af77" name="postBookRenewed"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookRenewed</con:operation><con:request name="postBookRenewed" id="16976062-6bca-4cc8-8987-438b0b128a3b"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:postBookRenewedRequest>
-         <lib:loan_id>?</lib:loan_id>
-      </lib:postBookRenewedRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/postBookRenewedRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="daacdf04-3b9a-4737-bdf9-d38a2808272e" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookReturned TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="ea7b85ed-e548-465d-a40a-0ee507fe5e23" name="postBookReturned"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookReturned</con:operation><con:request name="postBookReturned" id="c92a6433-a503-43a0-9e69-f7b548350b27"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <lib:postBookReturnedRequest>
-         <lib:loan_id>?</lib:loan_id>
-      </lib:postBookReturnedRequest>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites/BooksPort/postBookReturnedRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="58283e56-ccaf-46ab-bd85-2841f1613af2" name="Loans TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="0a2832ae-ab59-4864-837d-de7dfb107430" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllNotReturnedBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="62d175b8-61a2-4fc4-99e3-2afa8a68f729" name="getAllNotReturnedBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LoansPortSoap11</con:interface><con:operation>getAllNotReturnedBook</con:operation><con:request name="getAllNotReturnedBook" id="9e4549f5-49ba-4f33-ad10-0b7bd3351910"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/postAlertEmailRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="c9a0dd8a-7666-428b-a1df-492827c1e621" name="Loans TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="a9bf8156-0dcc-4159-a7bd-e16482b19934" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllNotReturnedBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="c13d6154-1313-4b34-94c9-6c0a13e76701" name="getAllNotReturnedBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LoansPortSoap11</con:interface><con:operation>getAllNotReturnedBook</con:operation><con:request name="getAllNotReturnedBook" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ac960e61-20df-49bd-b793-b1818f5aeb59"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="75dfdf81-8484-4777-9af2-f4d086e94707" name="Client TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="4a311e56-e281-438c-b72c-fa56beafd43d" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getClientFromUsername TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="2950ea16-d8d8-4c13-887b-51dce17379bd" name="getClientFromUsername"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientPortSoap11</con:interface><con:operation>getClientFromUsername</con:operation><con:request name="getClientFromUsername" id="42d97554-4a0a-4fb6-825e-855bed007c45"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="af1948f8-962e-44fe-a5be-f46b97d83481" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllSoonExpiredLoan TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="eaf93acb-fac8-4f95-b844-d13e45285b17" name="getAllSoonExpiredLoan"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LoansPortSoap11</con:interface><con:operation>getAllSoonExpiredLoan</con:operation><con:request name="getAllSoonExpiredLoan" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="1401847d-1ecc-49fe-ad25-e03d3877d0f6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getAllSoonExpiredLoanRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllSoonExpiredLoanRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="e1e35c7a-0347-4a74-97f1-525603148970" name="Clients TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="2abf3605-c29a-4e0b-996a-b117b81aa31d" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getClientFromUsername TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="2c8cc223-ddbe-47c1-abf5-a64b6b994062" name="getClientFromUsername"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientPortSoap11</con:interface><con:operation>getClientFromUsername</con:operation><con:request name="getClientFromUsername" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="830c64ab-552c-4d04-b957-54b720f0a414"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getClientFromUsernameRequest>
          <lib:username>flo1</lib:username>
       </lib:getClientFromUsernameRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="library.io.github.walterwhites.client/ClientPort/getClientFromUsernameRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="ad291aee-21c5-40bf-b83c-f70e51c860fe" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postAlertEmail TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="0a9f312e-f279-4b45-b1ae-0d00d3e76ebc" name="postAlertEmail"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientPortSoap11</con:interface><con:operation>postAlertEmail</con:operation><con:request name="postAlertEmail" id="720e9189-ea69-4321-a45f-eb691c9c9de6"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/getClientFromIdRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="12e6eb5a-f34f-4151-b693-c16dfeb0bd64" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postAlertEmail TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="ba428b2b-e840-47b6-a414-4518f9a5b750" name="postAlertEmail"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ClientPortSoap11</con:interface><con:operation>postAlertEmail</con:operation><con:request name="postAlertEmail" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="dbf15e8c-2456-4372-93d0-870c9e22dc7e"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">
    <soapenv:Header/>
    <soapenv:Body>
       <lib:postAlertEmailRequest>
@@ -647,4 +639,53 @@
          <lib:alert_email>true</lib:alert_email>
       </lib:postAlertEmailRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="library.io.github.walterwhites.client/ClientPort/postAlertEmailRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/postAlertEmailRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite id="fe1a745b-870a-4190-83cd-f8da68902535" name="Books TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="d5924e33-e8b1-4903-b77f-5a072162935b" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="5803cb72-1dc5-48ff-853f-4933a3308603" name="getAllBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBook</con:operation><con:request name="getAllBook" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="a4807155-b462-467e-b2cb-64fb6b628413"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getAllBookRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getAllBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="b4646f0e-6e86-48e3-ad67-72ebd56d3a1c" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllBookFromClient TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="57f04e73-4ee3-4d1d-80f5-2a517d559c67" name="getAllBookFromClient"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getAllBookFromClient</con:operation><con:request name="getAllBookFromClient" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="90387f51-a9ee-4707-b65f-5c995f471d06"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getAllBookFromClientRequest>
+         <lib:username>flo1</lib:username>
+         <lib:state>borrowed</lib:state>
+      </lib:getAllBookFromClientRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getAllBookFromClientRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="210be462-8b44-4d1b-b579-167a0e4505eb" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getBook TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="20b7770f-83ba-45b7-9e88-aa7e3dc814e0" name="getBook"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBook</con:operation><con:request name="getBook" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="106d83b3-06ea-4a6a-abf5-a831a79b9b1b"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookRequest>
+         <lib:title>harry potter</lib:title>
+      </lib:getBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="b9b9e636-153b-469d-82b4-d7442ec40414" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getBookFromId TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="4bad56d8-f55a-4c4d-b32d-b61b86f52183" name="getBookFromId"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>getBookFromId</con:operation><con:request name="getBookFromId" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="83d51c0c-9e31-4d86-8f74-9dba4c543316"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getBookFromIdRequest>
+         <lib:id>9</lib:id>
+      </lib:getBookFromIdRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookFromIdRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="427f940d-c391-462d-89d6-217c58785bdf" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookBorrowed TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="66146f44-bf7a-47b2-b535-228cf71b1d94" name="postBookBorrowed"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookBorrowed</con:operation><con:request name="postBookBorrowed" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="b4ae6060-952b-4a0e-a882-feff9fcb2b65"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:postBookBorrowedRequest>
+         <lib:id>1</lib:id>
+         <lib:client_id>4</lib:client_id>
+      </lib:postBookBorrowedRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/postBookBorrowedRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="5194da05-35d2-4a7e-9b16-a70e3cd69c4c" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookRenewed TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="f6451d2b-372f-43b0-90d4-e3b6ab20db9b" name="postBookRenewed"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookRenewed</con:operation><con:request name="postBookRenewed" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="88e1cda9-6316-484a-84db-f9fdedff5df9"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:postBookRenewedRequest>
+         <lib:loan_id>15</lib:loan_id>
+      </lib:postBookRenewedRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/postBookRenewedRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="20bac365-ed16-46fc-b7bd-db1bc0762940" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="postBookReturned TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="1adab743-5330-4494-aad5-ffa22a055580" name="postBookReturned"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BooksPortSoap11</con:interface><con:operation>postBookReturned</con:operation><con:request name="postBookReturned" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="0691e4af-bf8c-4b6b-8fe7-5fbb79f20df4"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:postBookReturnedRequest>
+         <lib:loan_id>3</lib:loan_id>
+      </lib:postBookReturnedRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/postBookReturnedRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
