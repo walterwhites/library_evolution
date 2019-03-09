@@ -17,20 +17,20 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Java class for loans complex type.
+ * <p>Java class for reservation complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="loans">
+ * &lt;complexType name="reservation">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="start_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="book" type="{library.io.github.walterwhites.loans}book"/>
- *         &lt;element name="client" type="{library.io.github.walterwhites.loans}client"/>
+ *         &lt;element name="created_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="state" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="book_title" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="client_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,26 +40,25 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "loans", propOrder = {
+@XmlType(name = "reservation", propOrder = {
     "id",
-    "startDate",
-    "endDate",
-    "book",
-    "client"
+    "createdDate",
+    "state",
+    "bookTitle",
+    "clientId"
 })
-public class Loans {
+public class Reservation {
 
     protected long id;
-    @XmlElement(name = "start_date", required = true)
+    @XmlElement(name = "created_date", required = true)
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar startDate;
-    @XmlElement(name = "end_date", required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar endDate;
+    protected XMLGregorianCalendar createdDate;
     @XmlElement(required = true)
-    protected Book book;
-    @XmlElement(required = true)
-    protected Client client;
+    protected String state;
+    @XmlElement(name = "book_title", required = true)
+    protected String bookTitle;
+    @XmlElement(name = "client_id")
+    protected long clientId;
 
     /**
      * Gets the value of the id property.
@@ -78,99 +77,91 @@ public class Loans {
     }
 
     /**
-     * Gets the value of the startDate property.
+     * Gets the value of the createdDate property.
      * 
      * @return
      *     possible object is
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getStartDate() {
-        return startDate;
+    public XMLGregorianCalendar getCreatedDate() {
+        return createdDate;
     }
 
     /**
-     * Sets the value of the startDate property.
+     * Sets the value of the createdDate property.
      * 
      * @param value
      *     allowed object is
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setStartDate(XMLGregorianCalendar value) {
-        this.startDate = value;
+    public void setCreatedDate(XMLGregorianCalendar value) {
+        this.createdDate = value;
     }
 
     /**
-     * Gets the value of the endDate property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getEndDate() {
-        return endDate;
+    public String getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the endDate property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setEndDate(XMLGregorianCalendar value) {
-        this.endDate = value;
+    public void setState(String value) {
+        this.state = value;
     }
 
     /**
-     * Gets the value of the book property.
+     * Gets the value of the bookTitle property.
      * 
      * @return
      *     possible object is
-     *     {@link Book }
+     *     {@link String }
      *     
      */
-    public Book getBook() {
-        return book;
+    public String getBookTitle() {
+        return bookTitle;
     }
 
     /**
-     * Sets the value of the book property.
+     * Sets the value of the bookTitle property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Book }
+     *     {@link String }
      *     
      */
-    public void setBook(Book value) {
-        this.book = value;
+    public void setBookTitle(String value) {
+        this.bookTitle = value;
     }
 
     /**
-     * Gets the value of the client property.
+     * Gets the value of the clientId property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Client }
-     *     
      */
-    public Client getClient() {
-        return client;
+    public long getClientId() {
+        return clientId;
     }
 
     /**
-     * Sets the value of the client property.
+     * Sets the value of the clientId property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Client }
-     *     
      */
-    public void setClient(Client value) {
-        this.client = value;
+    public void setClientId(long value) {
+        this.clientId = value;
     }
 
 }

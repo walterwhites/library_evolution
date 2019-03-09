@@ -22,7 +22,7 @@ public class Reservation {
     private Book book;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Client client;
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Notification> notifications;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Notification notification;
     private String state;
 }

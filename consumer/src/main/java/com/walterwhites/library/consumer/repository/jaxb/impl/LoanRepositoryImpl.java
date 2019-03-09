@@ -27,6 +27,8 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
 
     private static List<Loans> loans = new LinkedList<>();
 
+    private static List<Notification> notifications = new LinkedList<>();
+
     @PersistenceContext
     private EntityManager em;
 
@@ -49,6 +51,26 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         return loans;
     }
 
+    @Override
+    public List<Notification> updateAllNotification() {
+        notifications = (List<Notification>) operations.query(
+                "SELECT notification.id as notification_id, notification.state as notification_state, notification.email, " +
+                        "notification.created_date as notification_created_date, notification.reservation_id, " +
+                        "reservation.created_date as reservation_created_date, reservation.state as reservation_state, " +
+                        "reservation.book_id, book.title FROM notification LEFT JOIN reservation ON notification.id = " +
+                        "reservation.notification_id LEFT JOIN book ON reservation.book_id = book.id WHERE notification.state = " +
+                        "'pending' AND reservation.state = 'pending' AND DATE(notification.created_date) >= DATE(NOW()) - " +
+                        "INTERVAL '2' day;\n",
+                (rs, rownumber) -> {
+                    Notification result = getNotificationData(rs);
+                    operations.update(
+                            "UPDATE notification SET state = 'archived' WHERE notification.id = " +
+                                    result.getId(), result);
+                    return result;
+                });
+        return notifications;
+    }
+
     private Loans getLoanData(ResultSet rs) throws SQLException {
 
         Book book = new Book();
@@ -68,5 +90,25 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         loan.setBook(book);
         loan.setClient(client);
         return loan;
+    }
+
+    private Notification getNotificationData(ResultSet rs) throws SQLException {
+
+        Notification notification = new Notification();
+        Reservation reservation = new Reservation();
+
+        notification.setId(rs.getLong("notification_id"));
+        XMLGregorianCalendar notification_created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("notification_created_date"));
+        notification.setCreatedDate(notification_created_date);
+        notification.setEmail(rs.getString("email"));
+        notification.setState(rs.getString("notification_state"));
+
+        reservation.setBookTitle("title");
+        XMLGregorianCalendar reservation_created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("reservation_created_date"));
+        notification.setCreatedDate(reservation_created_date);
+        reservation.setState("reservation_state");
+        notification.setReservation(reservation);
+
+        return notification;
     }
 }

@@ -17,20 +17,20 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Java class for loans complex type.
+ * <p>Java class for notification complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="loans">
+ * &lt;complexType name="notification">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="start_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="book" type="{library.io.github.walterwhites.loans}book"/>
- *         &lt;element name="client" type="{library.io.github.walterwhites.loans}client"/>
+ *         &lt;element name="created_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="state" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="reservation" type="{library.io.github.walterwhites.loans}reservation"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,26 +40,25 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "loans", propOrder = {
+@XmlType(name = "notification", propOrder = {
     "id",
-    "startDate",
-    "endDate",
-    "book",
-    "client"
+    "createdDate",
+    "email",
+    "state",
+    "reservation"
 })
-public class Loans {
+public class Notification {
 
     protected long id;
-    @XmlElement(name = "start_date", required = true)
+    @XmlElement(name = "created_date", required = true)
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar startDate;
-    @XmlElement(name = "end_date", required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar endDate;
+    protected XMLGregorianCalendar createdDate;
     @XmlElement(required = true)
-    protected Book book;
+    protected String email;
     @XmlElement(required = true)
-    protected Client client;
+    protected String state;
+    @XmlElement(required = true)
+    protected Reservation reservation;
 
     /**
      * Gets the value of the id property.
@@ -78,99 +77,99 @@ public class Loans {
     }
 
     /**
-     * Gets the value of the startDate property.
+     * Gets the value of the createdDate property.
      * 
      * @return
      *     possible object is
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getStartDate() {
-        return startDate;
+    public XMLGregorianCalendar getCreatedDate() {
+        return createdDate;
     }
 
     /**
-     * Sets the value of the startDate property.
+     * Sets the value of the createdDate property.
      * 
      * @param value
      *     allowed object is
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setStartDate(XMLGregorianCalendar value) {
-        this.startDate = value;
+    public void setCreatedDate(XMLGregorianCalendar value) {
+        this.createdDate = value;
     }
 
     /**
-     * Gets the value of the endDate property.
+     * Gets the value of the email property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getEndDate() {
-        return endDate;
+    public String getEmail() {
+        return email;
     }
 
     /**
-     * Sets the value of the endDate property.
+     * Sets the value of the email property.
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setEndDate(XMLGregorianCalendar value) {
-        this.endDate = value;
+    public void setEmail(String value) {
+        this.email = value;
     }
 
     /**
-     * Gets the value of the book property.
+     * Gets the value of the state property.
      * 
      * @return
      *     possible object is
-     *     {@link Book }
+     *     {@link String }
      *     
      */
-    public Book getBook() {
-        return book;
+    public String getState() {
+        return state;
     }
 
     /**
-     * Sets the value of the book property.
+     * Sets the value of the state property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Book }
+     *     {@link String }
      *     
      */
-    public void setBook(Book value) {
-        this.book = value;
+    public void setState(String value) {
+        this.state = value;
     }
 
     /**
-     * Gets the value of the client property.
+     * Gets the value of the reservation property.
      * 
      * @return
      *     possible object is
-     *     {@link Client }
+     *     {@link Reservation }
      *     
      */
-    public Client getClient() {
-        return client;
+    public Reservation getReservation() {
+        return reservation;
     }
 
     /**
-     * Sets the value of the client property.
+     * Sets the value of the reservation property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Client }
+     *     {@link Reservation }
      *     
      */
-    public void setClient(Client value) {
-        this.client = value;
+    public void setReservation(Reservation value) {
+        this.reservation = value;
     }
 
 }

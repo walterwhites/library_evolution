@@ -17,7 +17,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date created_date;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne()
     private Reservation reservation;
     private String email;
     private String state;

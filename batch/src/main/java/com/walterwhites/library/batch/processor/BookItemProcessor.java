@@ -45,18 +45,16 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
             reservation.setCreated_date(new Date());
             reservation.setBook(transformedBook);
             reservation.setClient(client);
-            reservation.setState("activated");
+            reservation.setState("pending");
 
             // create a notification on book
-            List<Notification> notifications = new LinkedList<Notification>();
             Notification notification = new Notification();
             notification.setCreated_date(new Date());
             notification.setEmail("hopemagie@gmail.com");
             notification.setReservation(reservation);
-            notification.setState("activated");
-            notifications.add(notification);
+            notification.setState("pending");
 
-            reservation.setNotifications(notifications);
+            reservation.setNotification(notification);
             reservations.add(reservation);
             transformedBook.setReservations(reservations);
         }
