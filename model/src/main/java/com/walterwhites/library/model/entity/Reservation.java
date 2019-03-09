@@ -24,4 +24,5 @@ public class Reservation {
     private Client client;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Notification> notifications;
+    private String state;
 }

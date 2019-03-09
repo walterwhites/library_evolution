@@ -20,4 +20,5 @@ public class Notification {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Reservation reservation;
     private String email;
+    private String state;
 }
