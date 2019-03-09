@@ -20,10 +20,13 @@ public class Book {
     private String author;
     private String languages;
     private Integer number;
+    private Integer max_number;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Library> libraries;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Loan> loans;
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Reservation> reservations;
 
     public Book(String title, String author, String language, Integer number) {
         super();

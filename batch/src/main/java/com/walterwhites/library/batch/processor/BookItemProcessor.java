@@ -1,10 +1,7 @@
 package com.walterwhites.library.batch.processor;
 
 import com.walterwhites.library.business.utils.DateUtils;
-import com.walterwhites.library.model.entity.Book;
-import com.walterwhites.library.model.entity.Client;
-import com.walterwhites.library.model.entity.Library;
-import com.walterwhites.library.model.entity.Loan;
+import com.walterwhites.library.model.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -39,6 +36,28 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
         List<Book> bookList = new LinkedList<Book>();
         final Book transformedBook = new Book(title, author, language, number);
+        transformedBook.setMax_number(number + 1);
+        if (transformedBook.getNumber() == 0) {
+            // create a reservation on book
+            transformedBook.setMax_number(number + 2);
+            List<Reservation> reservations = new LinkedList<Reservation>();
+            Reservation reservation = new Reservation();
+            reservation.setCreated_date(new Date());
+            reservation.setBook(transformedBook);
+            reservation.setClient(client);
+
+            // create a notification on book
+            List<Notification> notifications = new LinkedList<Notification>();
+            Notification notification = new Notification();
+            notification.setCreated_date(new Date());
+            notification.setEmail("hopemagie@gmail.com");
+            notification.setReservation(reservation);
+            notifications.add(notification);
+
+            reservation.setNotifications(notifications);
+            reservations.add(reservation);
+            transformedBook.setReservations(reservations);
+        }
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
         i++;
