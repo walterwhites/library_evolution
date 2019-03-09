@@ -1,6 +1,5 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import library.io.github.walterwhites.client.Client;
 import library.io.github.walterwhites.client.Loans;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.List;
 @ComponentScan
 @Configuration
 @Transactional
-public class ClientsRepositoryImpl implements ClientRepository, ClientRepositoryJPA {
+public class ClientRepositoryImpl implements ClientRepository, ClientRepositoryJPA {
 
     private static List<Loans> clients = new LinkedList<>();
 

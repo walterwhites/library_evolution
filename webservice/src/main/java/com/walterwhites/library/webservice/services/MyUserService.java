@@ -2,7 +2,7 @@ package com.walterwhites.library.webservice.services;
 
 import com.walterwhites.library.business.utils.RoleEnum;
 import com.walterwhites.library.consumer.repository.entity.AdminRepositoryImpl;
-import com.walterwhites.library.consumer.repository.entity.ClientRepositoryImpl;
+import com.walterwhites.library.consumer.repository.entity.ClientRepositoryEntityImpl;
 import com.walterwhites.library.model.entity.AbstractUser;
 import com.walterwhites.library.model.entity.Admin;
 import com.walterwhites.library.model.entity.Client;
@@ -28,10 +28,10 @@ import java.util.Set;
 public class MyUserService implements UserDetailsService {
 
     private final AdminRepositoryImpl adminRepository;
-    private final ClientRepositoryImpl clientRepository;
+    private final ClientRepositoryEntityImpl clientRepository;
 
     @Autowired
-    public MyUserService(AdminRepositoryImpl adminRepository, ClientRepositoryImpl clientRepository) {
+    public MyUserService(AdminRepositoryImpl adminRepository, ClientRepositoryEntityImpl clientRepository) {
         this.adminRepository = adminRepository;
         this.clientRepository = clientRepository;
     }

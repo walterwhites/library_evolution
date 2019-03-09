@@ -34,7 +34,7 @@ public class LoanRepositoryEntityImpl implements LoanRepositoryEntity {
     private BookRepositoryEntityImpl bookRepositoryEntity;
 
     @Autowired
-    private ClientRepositoryImpl clientRepositoryImpl;
+    private ClientRepositoryEntityImpl clientRepositoryImpl;
 
 
     @Override

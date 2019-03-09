@@ -18,8 +18,8 @@ import java.util.Optional;
 @Repository
 @Configuration
 @EnableAutoConfiguration
-@EnableTransactionManagement
-public class ClientRepositoryImpl implements ClientEntity {
+@Transactional
+public class ClientRepositoryEntityImpl implements ClientEntity {
 
     @PersistenceContext()
     private EntityManager em;
