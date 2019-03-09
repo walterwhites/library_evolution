@@ -1,7 +1,7 @@
 package com.walterwhites.library.batch_remind_expiration.apiClient;
 
-import library.io.github.walterwhites.loans.GetAllNotReturnedBookRequest;
-import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
+import library.io.github.walterwhites.loans.GetAllSoonExpiredLoanRequest;
+import library.io.github.walterwhites.loans.GetAllSoonExpiredLoanResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
@@ -11,9 +11,9 @@ public class LoanClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(LoanClient.class);
 
-    public GetAllNotReturnedBookResponse getAllNotReturnedBook() {
-        GetAllNotReturnedBookRequest request = new GetAllNotReturnedBookRequest();
-        return (GetAllNotReturnedBookResponse) getWebServiceTemplate()
+    public GetAllSoonExpiredLoanResponse getAllSoonExpiredLoanResponse() {
+        GetAllSoonExpiredLoanRequest request = new GetAllSoonExpiredLoanRequest();
+        return (GetAllSoonExpiredLoanResponse) getWebServiceTemplate()
                 .marshalSendAndReceive("http://localhost:8081/ws/loans", request,
                         new SoapActionCallback(
                                 "http://localhost:8080/dashboard"));

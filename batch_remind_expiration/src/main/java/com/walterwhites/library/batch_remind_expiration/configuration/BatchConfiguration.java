@@ -3,6 +3,7 @@ package com.walterwhites.library.batch_remind_expiration.configuration;
 import com.walterwhites.library.batch_remind_expiration.apiClient.LoanClient;
 import com.walterwhites.library.batch_remind_expiration.processor.LoanItemProcessor;
 import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
+import library.io.github.walterwhites.loans.GetAllSoonExpiredLoanResponse;
 import library.io.github.walterwhites.loans.Loans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +66,8 @@ public class BatchConfiguration {
     @Bean
     @StepScope
     public ItemReader<Loans> loanReader(){
-        GetAllNotReturnedBookResponse getAllNotReturnedBookResponse = loanClient.getAllNotReturnedBook();
-        ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllNotReturnedBookResponse.getLoan());
+        GetAllSoonExpiredLoanResponse getAllSoonExpiredLoanResponse = loanClient.getAllSoonExpiredLoanResponse();
+        ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllSoonExpiredLoanResponse.getLoan());
         return itemReader;
     }
 
