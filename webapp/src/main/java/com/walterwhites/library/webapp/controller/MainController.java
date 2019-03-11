@@ -4,7 +4,10 @@ import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.pojo.MyUser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
+import com.walterwhites.library.webapp.apiClient.UserClient;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
+import library.io.github.walterwhites.client.PostAlertEmailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -38,6 +41,9 @@ public class MainController {
 
     @Autowired
     private BookClient bookClient;
+
+    @Autowired
+    private UserClient userClient;
 
     @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -154,12 +160,48 @@ public class MainController {
         return new ModelAndView("auth/loans");
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ModelAndView profile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        model.addAttribute("appName", appName);
+        if (!hasUserRole) {
+            return new ModelAndView("redirect:/login");
+        }
+        this.getClient(auth, model);
+        return new ModelAndView("auth/profile");
+    }
+
+    @RequestMapping(value = "/alert-email", method = RequestMethod.POST)
+    public String alertEmail(RedirectAttributes redirectAttributes, @RequestParam("alertActive") Boolean alertActive) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User client = (User) auth.getPrincipal();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            PostAlertEmailResponse postAlertEmailResponse = userClient.postAlertEmail(client.getUsername(), alertActive);
+            redirectAttributes.addFlashAttribute("message", "You profile has been updated");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
+        return "redirect:/profile";
+    }
+
     private void getAllBooksFromClient(Authentication auth, Model model) {
         if (auth != null) {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
             GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
             model.addAttribute("books_client", getAllBookResponseFromClient);
+        }
+    }
+
+    private void getClient(Authentication auth, Model model) {
+        if (auth != null) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetClientFromUsernameResponse getClientFromUsernameResponse = userClient.getClientFromUsername(username);
+            model.addAttribute("client", getClientFromUsernameResponse.getClient());
         }
     }
 }

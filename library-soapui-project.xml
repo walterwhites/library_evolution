@@ -402,15 +402,15 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="updateAllNotificationRequest">
+      <xs:element name="getAllSoonExpiredLoanRequest">
         <xs:complexType>
           <xs:sequence></xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="updateAllNotificationResponse">
+      <xs:element name="getAllSoonExpiredLoanResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="loan" type="tns:notification"/>
+            <xs:element maxOccurs="unbounded" name="loan" type="tns:loans"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -435,65 +435,47 @@
           <xs:element name="email" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="notification">
-        <xs:sequence>
-          <xs:element name="id" type="xs:long"/>
-          <xs:element name="created_date" type="xs:date"/>
-          <xs:element name="email" type="xs:string"/>
-          <xs:element name="state" type="xs:string"/>
-          <xs:element name="reservation" type="tns:reservation"/>
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="reservation">
-        <xs:sequence>
-          <xs:element name="id" type="xs:long"/>
-          <xs:element name="created_date" type="xs:date"/>
-          <xs:element name="state" type="xs:string"/>
-          <xs:element name="book_title" type="xs:string"/>
-          <xs:element name="client_id" type="xs:long"/>
-        </xs:sequence>
-      </xs:complexType>
     </xs:schema>
   </wsdl:types>
+  <wsdl:message name="getAllSoonExpiredLoanRequest">
+    <wsdl:part element="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllSoonExpiredLoanResponse">
+    <wsdl:part element="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllNotReturnedBookRequest">
     <wsdl:part element="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateAllNotificationResponse">
-    <wsdl:part element="tns:updateAllNotificationResponse" name="updateAllNotificationResponse"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllNotReturnedBookResponse">
     <wsdl:part element="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateAllNotificationRequest">
-    <wsdl:part element="tns:updateAllNotificationRequest" name="updateAllNotificationRequest"></wsdl:part>
-  </wsdl:message>
   <wsdl:portType name="LoansPort">
+    <wsdl:operation name="getAllSoonExpiredLoan">
+      <wsdl:input message="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:input>
+      <wsdl:output message="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllNotReturnedBook">
       <wsdl:input message="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:input>
       <wsdl:output message="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="updateAllNotification">
-      <wsdl:input message="tns:updateAllNotificationRequest" name="updateAllNotificationRequest"></wsdl:input>
-      <wsdl:output message="tns:updateAllNotificationResponse" name="updateAllNotificationResponse"></wsdl:output>
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LoansPortSoap11" type="tns:LoansPort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAllSoonExpiredLoan">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getAllSoonExpiredLoanRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllSoonExpiredLoanResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllNotReturnedBook">
       <soap:operation soapAction=""/>
       <wsdl:input name="getAllNotReturnedBookRequest">
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getAllNotReturnedBookResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="updateAllNotification">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="updateAllNotificationRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateAllNotificationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -508,10 +490,10 @@
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c6e3cb8d-b216-4f2d-8b43-e0dfd5c29e68" isOneWay="false" action="" name="updateAllNotification" bindingOperationName="updateAllNotification" type="Request-Response" outputName="updateAllNotificationResponse" inputName="updateAllNotificationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0da57b13-fcd3-47a6-885e-fcc743b38d0c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="c6e3cb8d-b216-4f2d-8b43-e0dfd5c29e68" isOneWay="false" action="" name="getAllSoonExpiredLoan" bindingOperationName="getAllSoonExpiredLoan" type="Request-Response" outputName="getAllSoonExpiredLoanResponse" inputName="getAllSoonExpiredLoanRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0da57b13-fcd3-47a6-885e-fcc743b38d0c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
    <soapenv:Header/>
    <soapenv:Body>
-      <lib:updateAllNotificationRequest/>
+      <lib:getAllSoonExpiredLoanRequest/>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllSoonExpiredLoanRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
   <wsdl:types>
@@ -637,7 +619,7 @@
    <soapenv:Body>
       <lib:getAllNotReturnedBookRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="af1948f8-962e-44fe-a5be-f46b97d83481" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllSoonExpiredLoan TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="eaf93acb-fac8-4f95-b844-d13e45285b17" name="getAllSoonExpiredLoan"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LoansPortSoap11</con:interface><con:operation>updateAllNotification</con:operation><con:request name="getAllSoonExpiredLoan" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="1401847d-1ecc-49fe-ad25-e03d3877d0f6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllNotReturnedBookRequest"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="af1948f8-962e-44fe-a5be-f46b97d83481" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getAllSoonExpiredLoan TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="eaf93acb-fac8-4f95-b844-d13e45285b17" name="getAllSoonExpiredLoan"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>LoansPortSoap11</con:interface><con:operation>getAllSoonExpiredLoan</con:operation><con:request name="getAllSoonExpiredLoan" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="1401847d-1ecc-49fe-ad25-e03d3877d0f6"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getAllSoonExpiredLoanRequest/>

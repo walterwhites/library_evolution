@@ -52,6 +52,7 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
     }
 
     @Override
+
     public List<Notification> updateAllNotification() {
         notifications = (List<Notification>) operations.query(
                 "SELECT notification.id as notification_id, notification.state as notification_state, notification.email, " +
@@ -69,6 +70,24 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                     return result;
                 });
         return notifications;
+
+    }
+
+    public List<Loans> findAllSoonLoanExpired() {
+        loans = (List<Loans>) operations.query(
+                "SELECT loan.id, loan.end_date, loan.start_date, client.email, client.firstname, client.lastname, book.title " +
+                        "FROM loan LEFT JOIN client_loans ON loan.id = client_loans.loans_id " +
+                        "LEFT JOIN client ON client_loans.client_id = client.id " +
+                        "LEFT JOIN book " +
+                        "ON loan.book_id = book.id " +
+                        "WHERE loan.state = 'borrowed' AND " +
+                        "DATE(loan.end_date) <= DATE(NOW()) + INTERVAL '5' DAY AND " +
+                        "client.alert_email = TRUE",
+
+        (rs, rownumber) -> {
+                    return getLoanData(rs);
+                });
+        return loans;
     }
 
     private Loans getLoanData(ResultSet rs) throws SQLException {

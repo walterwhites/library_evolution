@@ -18,7 +18,15 @@
         </xs:complexType>
     </xs:element>
 
+
     <xs:element name="updateAllNotificationRequest">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllSoonExpiredLoanRequest">
         <xs:complexType>
             <xs:sequence>
             </xs:sequence>
@@ -29,6 +37,14 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element maxOccurs="unbounded"  name="loan" type="tns:notification"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllSoonExpiredLoanResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded"  name="loan" type="tns:loans"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

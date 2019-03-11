@@ -1,0 +1,63 @@
+<xs:schema elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.client"
+           xmlns:tns="library.io.github.walterwhites.client">
+
+    <xs:element name="getClientFromUsernameRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getClientFromUsernameResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="client" type="tns:client"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postAlertEmailRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="alert_email" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postAlertEmailResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="alert_email" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="loans">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="start_date" type="xs:date"/>
+            <xs:element name="end_date" type="xs:date"/>
+            <xs:element name="book" type="tns:book"/>
+            <xs:element name="client" type="tns:client"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="book">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="client">
+        <xs:sequence>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="alert_email" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
