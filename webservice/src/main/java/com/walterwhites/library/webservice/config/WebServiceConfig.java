@@ -52,4 +52,19 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     public XsdSchema loansSchema() {
         return new SimpleXsdSchema(new ClassPathResource("loans.xsd"));
     }
+
+    @Bean(name = "client")
+    public DefaultWsdl11Definition defaultWsdlClientDefinition() {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("ClientPort");
+        wsdl11Definition.setLocationUri("/ws/client");
+        wsdl11Definition.setTargetNamespace("library.io.github.walterwhites.client");
+        wsdl11Definition.setSchema(clientSchema());
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema clientSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("client.xsd"));
+    }
 }

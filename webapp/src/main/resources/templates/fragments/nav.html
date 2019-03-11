@@ -20,7 +20,7 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user dropdown-content">
-                    <li><a href="#">[[${#httpServletRequest.remoteUser}]]</a></li>
+                    <li><a th:href="@{/profile}">[[${#httpServletRequest.remoteUser}]]</a></li>
                     <li sec:authorize="!isAuthenticated()"><a href="/login"><i class="fa fa-gear fa-fw"></i> Login</a></li>
                     <li sec:authorize="isAuthenticated()"><a>
                         <form th:action="@{/logout}" method="post">
