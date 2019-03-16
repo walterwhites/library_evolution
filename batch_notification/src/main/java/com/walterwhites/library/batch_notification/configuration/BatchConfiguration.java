@@ -1,9 +1,9 @@
 package com.walterwhites.library.batch_notification.configuration;
 
-import com.walterwhites.library.batch_notification.apiClient.LoanClient;
-import com.walterwhites.library.batch_notification.processor.LoanItemProcessor;
-import library.io.github.walterwhites.loans.GetAllNotReturnedBookResponse;
-import library.io.github.walterwhites.loans.Loans;
+import com.walterwhites.library.batch_notification.apiClient.NotificationClient;
+import com.walterwhites.library.batch_notification.processor.NotificationItemProcessor;
+import library.io.github.walterwhites.loans.Notification;
+import library.io.github.walterwhites.loans.UpdateAllNotificationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -35,7 +35,7 @@ import java.util.List;
 @ComponentScan("com.walterwhites.library")
 public class BatchConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(LoanItemProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(NotificationItemProcessor.class);
 
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -44,41 +44,41 @@ public class BatchConfiguration {
     public StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    public LoanClient loanClient;
+    public NotificationClient notificationClient;
 
     @Bean
     @StepScope
-    public LoanItemProcessor loanProcessor() {
-        return new LoanItemProcessor();
+    public NotificationItemProcessor notificationProcessor() {
+        return new NotificationItemProcessor();
     }
 
     @Bean
-    public Job importLoanJob(JobCompletionNotificationListener listener, Step stepLoan) {
-        return jobBuilderFactory.get("importLoanJob")
+    public Job importNotificationJob(JobCompletionNotificationListener listener, Step stepNotification) {
+        return jobBuilderFactory.get("importNotificationJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(stepLoan)
+                .flow(stepNotification())
                 .end()
                 .build();
     }
 
     @Bean
     @StepScope
-    public ItemReader<Loans> loanReader(){
-        GetAllNotReturnedBookResponse getAllNotReturnedBookResponse = loanClient.getAllNotReturnedBook();
-        ItemReader<Loans> itemReader = new ListItemReader<Loans>(getAllNotReturnedBookResponse.getLoan());
+    public ItemReader<Notification> notificationReader(){
+        UpdateAllNotificationResponse updateAllNotificationResponse = notificationClient.updateOutdatedReservations();
+        ItemReader<Notification> itemReader = new ListItemReader<Notification>(updateAllNotificationResponse.getNotification());
         return itemReader;
     }
 
     @Bean
-    public Step stepLoan() {
-        return stepBuilderFactory.get("stepLoan")
-                .<Loans, Loans> chunk(10)
-                .reader(loanReader())
-                .processor(loanProcessor())
-                .writer(new ItemWriter<Loans>() {
+    public Step stepNotification() {
+        return stepBuilderFactory.get("stepNotification")
+                .<Notification, Notification> chunk(10)
+                .reader(notificationReader())
+                .processor(notificationProcessor())
+                .writer(new ItemWriter<Notification>() {
                     @Override
-                    public void write(List<? extends Loans> items) throws Exception {
+                    public void write(List<? extends Notification> items) throws Exception {
                     }
                 })
                 .build();

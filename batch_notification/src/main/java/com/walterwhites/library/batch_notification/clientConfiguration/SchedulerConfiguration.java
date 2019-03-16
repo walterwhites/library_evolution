@@ -20,17 +20,17 @@ import java.util.Date;
 @AllArgsConstructor
 public class SchedulerConfiguration {
     private final JobLauncher jobLauncher;
-    private final Job importLoanJob;
+    private final Job importNotificationJob;
 
     @Autowired
     private JobCompletionNotificationListener listener;
 
     @Autowired
-    private Step stepLoan;
+    private Step stepNotification;
 
     @Scheduled(cron = "${batch.cron}")
     public void schedule() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-        jobLauncher.run(importLoanJob, new JobParametersBuilder()
+        jobLauncher.run(importNotificationJob, new JobParametersBuilder()
                 .addDate("date", new Date())
                 .toJobParameters());
     }

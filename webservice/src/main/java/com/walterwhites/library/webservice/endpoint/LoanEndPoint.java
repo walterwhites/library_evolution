@@ -35,7 +35,7 @@ public class LoanEndPoint {
     @ResponsePayload
     public UpdateAllNotificationResponse updateAllNotificationRequest(@RequestPayload UpdateAllNotificationRequest request) {
         UpdateAllNotificationResponse response = new UpdateAllNotificationResponse();
-        response.getLoan().addAll(loanRepository.updateAllNotification());
+        response.getNotification().addAll(loanRepository.updateAllNotification());
         return response;
     }
 

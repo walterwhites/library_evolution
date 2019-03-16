@@ -52,21 +52,24 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
     }
 
     @Override
-
     public List<Notification> updateAllNotification() {
-        notifications = (List<Notification>) operations.query(
-                "SELECT notification.id as notification_id, notification.state as notification_state, notification.email, " +
-                        "notification.created_date as notification_created_date, notification.reservation_id, " +
-                        "reservation.created_date as reservation_created_date, reservation.state as reservation_state, " +
-                        "reservation.book_id, book.title FROM notification LEFT JOIN reservation ON notification.id = " +
-                        "reservation.notification_id LEFT JOIN book ON reservation.book_id = book.id WHERE notification.state = " +
-                        "'pending' AND reservation.state = 'pending' AND DATE(notification.created_date) >= DATE(NOW()) - " +
-                        "INTERVAL '2' day;\n",
+        String sql = "SELECT client.firstname, client.lastname, reservation.client_id, notification.id as notification_id, notification.state as notification_state, notification.email, " +
+                "notification.created_date as notification_created_date, notification.reservation_id, " +
+                "reservation.created_date as reservation_created_date, reservation.state as reservation_state, " +
+                "reservation.book_id, book.title FROM notification LEFT JOIN reservation ON notification.id = " +
+                "reservation.notification_id LEFT JOIN book ON reservation.book_id = book.id " +
+                "LEFT JOIN client ON reservation.client_id = client.id WHERE notification.state = " +
+                "'pending' AND reservation.state = 'pending' AND notification.created_date + INTERVAL '2' DAY <= NOW() \n";
+        notifications = (List<Notification>) operations.query(sql,
                 (rs, rownumber) -> {
                     Notification result = getNotificationData(rs);
-                    operations.update(
+                    operations.batchUpdate(
                             "UPDATE notification SET state = 'archived' WHERE notification.id = " +
-                                    result.getId(), result);
+                                    result.getId());
+                    operations.batchUpdate(
+                            "UPDATE reservation SET state = 'archived' WHERE reservation.notification_id = " +
+                                    result.getId());
+                    result.setState("archived");
                     return result;
                 });
         return notifications;
@@ -121,11 +124,14 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         notification.setCreatedDate(notification_created_date);
         notification.setEmail(rs.getString("email"));
         notification.setState(rs.getString("notification_state"));
+        notification.setFirstname(rs.getString("firstname"));
+        notification.setLastname(rs.getString("lastname"));
 
-        reservation.setBookTitle("title");
+        reservation.setBookTitle(rs.getString("title"));
         XMLGregorianCalendar reservation_created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("reservation_created_date"));
-        notification.setCreatedDate(reservation_created_date);
-        reservation.setState("reservation_state");
+        reservation.setCreatedDate(reservation_created_date);
+        reservation.setId(rs.getLong("reservation_id"));
+        reservation.setClientId(rs.getLong("client_id"));
         notification.setReservation(reservation);
 
         return notification;

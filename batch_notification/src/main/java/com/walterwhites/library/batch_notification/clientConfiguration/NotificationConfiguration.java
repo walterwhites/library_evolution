@@ -1,12 +1,12 @@
 package com.walterwhites.library.batch_notification.clientConfiguration;
 
-import com.walterwhites.library.batch_notification.apiClient.LoanClient;
+import com.walterwhites.library.batch_notification.apiClient.NotificationClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
-public class LoanConfiguration {
+public class NotificationConfiguration {
 
     @Bean
     public Jaxb2Marshaller marshaller() {
@@ -17,11 +17,11 @@ public class LoanConfiguration {
     }
 
     @Bean
-    public LoanClient loanClient(Jaxb2Marshaller marshaller) {
-        LoanClient loanClient = new LoanClient();
-        loanClient.setDefaultUri("http://localhost:8081/ws/loans");
-        loanClient.setMarshaller(marshaller);
-        loanClient.setUnmarshaller(marshaller);
-        return loanClient;
+    public NotificationClient loanClient(Jaxb2Marshaller marshaller) {
+        NotificationClient notificationClient = new NotificationClient();
+        notificationClient.setDefaultUri("http://localhost:8081/ws/loans");
+        notificationClient.setMarshaller(marshaller);
+        notificationClient.setUnmarshaller(marshaller);
+        return notificationClient;
     }
 }

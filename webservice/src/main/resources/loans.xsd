@@ -36,7 +36,7 @@
     <xs:element name="updateAllNotificationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded"  name="loan" type="tns:notification"/>
+                <xs:element maxOccurs="unbounded"  name="notification" type="tns:notification"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -79,6 +79,8 @@
             <xs:element name="id" type="xs:long"/>
             <xs:element name="created_date" type="xs:date"/>
             <xs:element name="email" type="xs:string"/>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
             <xs:element name="state" type="xs:string"/>
             <xs:element name="reservation" type="tns:reservation"/>
         </xs:sequence>
