@@ -160,6 +160,19 @@ public class MainController {
         return new ModelAndView("auth/loans");
     }
 
+    @RequestMapping(value = "/reservations", method = RequestMethod.GET)
+    public ModelAndView reservations(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        model.addAttribute("appName", appName);
+        if (!hasUserRole) {
+            return new ModelAndView("redirect:/login");
+        }
+        this.getAllReservationsFromClient(auth, model);
+        return new ModelAndView("auth/reservations");
+    }
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -188,6 +201,15 @@ public class MainController {
     }
 
     private void getAllBooksFromClient(Authentication auth, Model model) {
+        if (auth != null) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
+            model.addAttribute("books_client", getAllBookResponseFromClient);
+        }
+    }
+
+    private void getAllReservationsFromClient(Authentication auth, Model model) {
         if (auth != null) {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();

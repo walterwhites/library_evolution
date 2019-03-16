@@ -150,6 +150,35 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         return books;
     }
 
+    public List<Book> findAllBooksFromReservation(String username) {
+        books = (List<Book>) operations.query(
+                "SELECT\n" +
+                        "    book.* AS book,\n" +
+                        "    book_loans.loans_id AS loan_id,\n" +
+                        "    library_books.library_id AS library_id,\n" +
+                        "    loan.end_date AS loan_end_date,\n" +
+                        "    loan.renewed AS loan_renewed,\n" +
+                        "    loan.start_date AS loan_start_date,\n" +
+                        "    loan.updated_date AS loan_updated_date,\n" +
+                        "    loan.client_id AS loan_client_id,\n" +
+                        "    loan.state AS loan_state,\n" +
+                        "    library.address AS library_address,\n" +
+                        "    library.name AS library_name,\n" +
+                        "    library.phone_number AS library_phone_number\n" +
+                        "FROM\n" +
+                        "    book\n" +
+                        "    LEFT JOIN book_loans ON book.id = book_loans.book_id\n" +
+                        "    LEFT JOIN loan ON book_loans.loans_id = loan.id\n" +
+                        "    LEFT JOIN library_books ON book.id = library_books.books_id\n" +
+                        "    LEFT JOIN library ON library_books.library_id = library.id\n" +
+                        "    LEFT JOIN client ON loan.client_id = client.id\n" +
+                        "   WHERE client.username = ?",
+                (rs, rownumber) -> {
+                    return getBookData(rs);
+                }, username);
+        return books;
+    }
+
     @Override
     public List<Book> findAllBorrowedBooksFromClient(String username) {
         books = (List<Book>) operations.query(
