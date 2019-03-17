@@ -75,6 +75,19 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     }
 
     @Override
+    public BigInteger countAllPendingReservationsOfBook(BigInteger id_of_book) {
+        Integer count = (Integer) operations.queryForObject(
+                "SELECT COUNT(*) AS nb_reservations FROM reservation\n" +
+                        "LEFT JOIN book ON reservation.book_id = book.id\n" +
+                        "WHERE book.id = ? and reservation.state = 'pending'\n",
+                (rs, rownumber) -> {
+                    return countReservation(rs);
+                }, id_of_book);
+        BigInteger bigInteger = BigInteger.valueOf(count);
+        return bigInteger;
+    }
+
+    @Override
     public Book findById(Long idOfBook) {
         Book book = (Book) operations.queryForObject(
                 "SELECT\n" +
@@ -180,6 +193,11 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                     return getBookData(rs);
                 }, username);
         return books;
+    }
+
+    private Integer countReservation(ResultSet rs) throws SQLException {
+        Integer count = rs.getInt("nb_reservations");
+        return count;
     }
 
     private Book getAllBookData(ResultSet rs) throws SQLException {

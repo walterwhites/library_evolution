@@ -21,6 +21,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="countAllPendingReservationsOfBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="countAllPendingReservationsOfBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nb_reservations" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="postBookRenewedRequest">
         <xs:complexType>
             <xs:sequence>

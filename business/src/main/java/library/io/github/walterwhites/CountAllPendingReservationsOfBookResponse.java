@@ -8,8 +8,10 @@
 
 package library.io.github.walterwhites;
 
+import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="nb_reservations" type="{http://www.w3.org/2001/XMLSchema}integer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,27 +37,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "id"
+    "nbReservations"
 })
-@XmlRootElement(name = "getBookFromIdRequest")
-public class GetBookFromIdRequest {
+@XmlRootElement(name = "countAllPendingReservationsOfBookResponse")
+public class CountAllPendingReservationsOfBookResponse {
 
-    protected long id;
+    @XmlElement(name = "nb_reservations", required = true)
+    protected BigInteger nbReservations;
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the nbReservations property.
      * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
      */
-    public long getId() {
-        return id;
+    public BigInteger getNbReservations() {
+        return nbReservations;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the nbReservations property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
      */
-    public void setId(long value) {
-        this.id = value;
+    public void setNbReservations(BigInteger value) {
+        this.nbReservations = value;
     }
 
 }

@@ -53,19 +53,26 @@
                                 <td th:text="${r.getState()}"></td>
                                 <td th:text="${r.getBookTitle()}"></td>
                                 <td th:text="${r.getMaxNumber()}"></td>
-                                <div th:if="${r.getState().toString().equals('pending')}">
+                                <div th:if="${r.getState().toString().equals('cancelled')}">
                                     <th>
-                                        <form th:action="@{/cancel-reservation}" method="post">
-                                            <input type="hidden" name="id" th:value="${r.getId()}" />
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                            <button class="btn btn-danger" type="submit">Cancel reservation</button>
-                                        </form>
+                                        <button class="btn btn-default" type="submit" disabled>This reservation is already cancelled</button>
                                     </th>
                                 </div>
-                                <div th:unless="${r.getState().toString().equals('pending')}">
-                                    <th>
-                                        <button class="btn btn-default" type="submit" disabled>This reservation is already archived</button>
-                                    </th>
+                                <div th:unless="${r.getState().toString().equals('cancelled')}">
+                                    <div th:if="${r.getState().toString().equals('pending')}">
+                                        <th>
+                                            <form th:action="@{/cancel-reservation}" method="post">
+                                                <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                            </form>
+                                        </th>
+                                    </div>
+                                    <div th:unless="${r.getState().toString().equals('pending')}">
+                                        <th>
+                                            <button class="btn btn-default" type="submit" disabled>This reservation is already archived</button>
+                                        </th>
+                                    </div>
                                 </div>
                             </tr>
                             <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
