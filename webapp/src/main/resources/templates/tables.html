@@ -41,6 +41,9 @@
                                         <th>Language</th>
                                         <th>Number of copies</th>
                                         <th>Borrow</th>
+                                        <th>Number of current reservations</th>
+                                        <th>Number of maximum reservations possible</th>
+                                        <th>Make a reservation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,6 +85,22 @@
                                                     </th>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                            <td th:text="${book.getNbReservations()}"></td>
+                                            <td th:text="${book.getMaxNumber()}"></td>
+                                        </div>
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                            <td></td>
+                                            <td></td>
+                                        </div>
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                            <td>
+                                                <button class="btn btn-success" type="submit">Make a reservation on this book</button>
+                                            </td>
+                                        </div>
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                            <td></td>
                                         </div>
                                     </tr>
                                     <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>

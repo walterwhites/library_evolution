@@ -8,11 +8,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
+import java.math.BigInteger;
+
 public class BookClient extends WebServiceGatewaySupport {
 
     private static final Logger log = LoggerFactory.getLogger(BookClient.class);
 
     private static final String ENDPOINT = "http://localhost:8081/ws/books";
+
+    public CountAllPendingReservationsOfBookResponse countAllPendingReservationsOfBook(BigInteger id) {
+        CountAllPendingReservationsOfBookRequest request = new CountAllPendingReservationsOfBookRequest();
+        request.setId(id);
+        return (CountAllPendingReservationsOfBookResponse) getWebServiceTemplate()
+                .marshalSendAndReceive(ENDPOINT, request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+    }
 
     public PostBookRenewedResponse postBookRenewed(long loan_id) {
         PostBookRenewedRequest request = new PostBookRenewedRequest();

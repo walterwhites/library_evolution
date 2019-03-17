@@ -217,6 +217,13 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
         b.setNumber(rs.getInt("number"));
 
+        Long book_id = rs.getLong("id");
+        BigInteger bookId = BigInteger.valueOf(book_id.intValue());
+        BigInteger countReservations = this.countAllPendingReservationsOfBook(bookId);
+        b.setNbReservations(countReservations);
+
+        BigInteger bigIntegerMaxNumber = BigInteger.valueOf(rs.getInt("max_number"));
+        b.setMaxNumber(bigIntegerMaxNumber);
         b.setLibraries(library);
         return b;
     }
