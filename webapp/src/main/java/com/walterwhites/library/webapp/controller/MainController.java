@@ -4,10 +4,13 @@ import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.pojo.MyUser;
 import com.walterwhites.library.webapp.apiClient.BookClient;
+import com.walterwhites.library.webapp.apiClient.LoanClient;
 import com.walterwhites.library.webapp.apiClient.UserClient;
 import library.io.github.walterwhites.*;
 import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import library.io.github.walterwhites.client.PostAlertEmailResponse;
+import library.io.github.walterwhites.loans.GetAllReservationFromClientResponse;
+import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -44,6 +47,9 @@ public class MainController {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private LoanClient loanClient;
 
     @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -173,6 +179,21 @@ public class MainController {
         return new ModelAndView("auth/reservations");
     }
 
+    @RequestMapping(value = "/cancel-reservation", method = {RequestMethod.POST})
+    public String cancelReservation(@ModelAttribute("reservation") Reservation reservation, RedirectAttributes redirectAttributes, @RequestParam("id") String title) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            /*
+            PostBookRenewedResponse postBookRenewedResponse = bookClient.postBookRenewed(loans.getId());
+            redirectAttributes.addFlashAttribute("message", "You have renewed " + title + " for 4 weeks");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-warning");
+            */
+        }
+        return "redirect:/reservation";
+    }
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -213,8 +234,8 @@ public class MainController {
         if (auth != null) {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
-            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
-            model.addAttribute("books_client", getAllBookResponseFromClient);
+            GetAllReservationFromClientResponse getAllReservationFromClientResponse = loanClient.getAllReservationFromClientResponse(username);
+            model.addAttribute("all_reservations", getAllReservationFromClientResponse);
         }
     }
 
