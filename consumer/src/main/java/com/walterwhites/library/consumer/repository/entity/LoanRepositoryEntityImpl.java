@@ -4,6 +4,7 @@ import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.entity.Book;
 import com.walterwhites.library.model.entity.Client;
 import com.walterwhites.library.model.entity.Loan;
+import com.walterwhites.library.model.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;

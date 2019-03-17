@@ -37,8 +37,6 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
     private static List<Book> books = new LinkedList<>();
 
-    private static List<Reservation> reservations = new LinkedList<>();
-
     @Autowired
     public void BookRepositoryImpl(JdbcOperations jdbcOperations, BookRepositoryEntityImpl bookRepositoryEntity) {
         this.bookRepositoryEntity = bookRepositoryEntity;
@@ -155,27 +153,6 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     }
 
     @Override
-    public List<Reservation> findAllReservationFromClient(String username) {
-        reservations = (List<Reservation>) operations.query(
-                "SELECT\n" +
-                        "  reservation.* AS reservation,\n" +
-                        "  client.firstname AS firstname,\n" +
-                        "  client.lastname AS lastname,\n" +
-                        "  client.username AS username,\n" +
-                        "  book.max_number AS max_number,\n" +
-                        "  book.title AS book_title\n" +
-                        "FROM\n" +
-                        "  reservation\n" +
-                        "    LEFT JOIN client ON reservation.client_id = client.id\n" +
-                        "    LEFT JOIN book ON reservation.book_id = book.id\n" +
-                        "WHERE username = ?",
-                (rs, rownumber) -> {
-                    return getReservationData(rs);
-                }, username);
-        return reservations;
-    }
-
-    @Override
     public List<Book> findAllBorrowedBooksFromClient(String username) {
         books = (List<Book>) operations.query(
                 "SELECT\n" +
@@ -259,42 +236,4 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         b.setLibraries(library);
         return b;
     }
-
-    private Reservation getReservationData(ResultSet rs) throws SQLException {
-        Reservation r = new Reservation();
-        r.setClientId(rs.getLong("client_id"));
-        r.setId(rs.getLong("id"));
-        r.setState(rs.getString("state"));
-        r.setMaxNumber(new BigInteger(Integer.valueOf(rs.getInt("max_number")).toString()));
-        XMLGregorianCalendar created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("created_date"));
-        r.setCreatedDate(created_date);
-        r.setBookTitle(rs.getString("book_title"));
-
-        return r;
-    }
 }
-
-/**
- SELECT
- book.* AS book,
- loan_books.loan_id AS loan_id,
- library_books.library_id AS library_id,
- loan.end_date AS loan_end_date,
- loan.renewed AS loan_renewed,
- loan.start_date AS loan_start_date,
- loan.state AS loan_state,
- loan.updated_date AS loan_updated_date,
- loan.client_id AS loan_client_id,
- library.address AS library_address,
- library.name AS library_name,
- library.phone_number AS library_phone_number
- FROM
- book
- LEFT JOIN loan_books ON book.id = loan_books.books_id
- LEFT JOIN loan ON loan_books.loan_id = loan.id
- LEFT JOIN library_books ON book.id = library_books.books_id
- LEFT JOIN library ON library_books.library_id = library.id
- WHERE
- book.id = 1
-
- **/

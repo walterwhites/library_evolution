@@ -16,5 +16,4 @@ public interface BookRepository {
     List<Book> findAllBooks();
     List<Book> findAllBorrowedBooksFromClient(String id);
     List<Book> findAllBooksFromClient(String username);
-    List<Reservation> findAllReservationFromClient(String username);
 }

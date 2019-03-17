@@ -1,5 +1,7 @@
 package com.walterwhites.library.webservice.endpoint;
 
+import com.walterwhites.library.consumer.repository.entity.LoanRepositoryEntityImpl;
+import com.walterwhites.library.consumer.repository.entity.ReservationRepositoryEntityImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.LoanRepositoryImpl;
 
@@ -18,11 +20,14 @@ public class LoanEndPoint {
 
     private final LoanRepositoryImpl loanRepository;
     private final BookRepositoryImpl bookRepository;
+    private final ReservationRepositoryEntityImpl reservationRepositoryEntity;
+
 
     @Autowired
-    public LoanEndPoint(LoanRepositoryImpl loanRepository, BookRepositoryImpl bookRepository) {
+    public LoanEndPoint(LoanRepositoryImpl loanRepository, BookRepositoryImpl bookRepository, ReservationRepositoryEntityImpl reservationRepositoryEntity) {
         this.loanRepository = loanRepository;
         this.bookRepository = bookRepository;
+        this.reservationRepositoryEntity = reservationRepositoryEntity;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllNotReturnedBookRequest")
@@ -54,7 +59,16 @@ public class LoanEndPoint {
     @ResponsePayload
     public GetAllReservationFromClientResponse getAllReservationFromClientRequest(@RequestPayload GetAllReservationFromClientRequest request) {
         GetAllReservationFromClientResponse response = new GetAllReservationFromClientResponse();
-        response.getReservation().addAll(bookRepository.findAllReservationFromClient(request.getUsername()));
+        response.getReservation().addAll(loanRepository.findAllReservationFromClient(request.getUsername()));
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postCancelReservationRequest")
+    @ResponsePayload
+    public PostCancelReservationResponse postCancelReservationResponse(@RequestPayload PostCancelReservationRequest request) {
+        PostCancelReservationResponse response = new PostCancelReservationResponse();
+        com.walterwhites.library.model.entity.Reservation reservation = reservationRepositoryEntity.findById(request.getId()).get();
+        response.setId(reservationRepositoryEntity.cancelReservation(reservation));
         return response;
     }
 }

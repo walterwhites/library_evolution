@@ -10,4 +10,5 @@ public interface LoanRepository {
     public List<Loans> findAllNotReturnedBook();
     public List<Notification> updateAllNotification();
     public List<Loans> findAllSoonLoanExpired();
+    public List<Reservation> findAllReservationFromClient(String username);
 }

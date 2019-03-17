@@ -18,6 +18,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postCancelReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postCancelReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getAllReservationFromClientRequest">
         <xs:complexType>
             <xs:sequence>

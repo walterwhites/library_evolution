@@ -36,10 +36,9 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
         List<Book> bookList = new LinkedList<Book>();
         final Book transformedBook = new Book(title, author, language, number);
-        transformedBook.setMax_number(number + 1);
+        transformedBook.setMax_number((number + 1) * 2);
         if (transformedBook.getNumber() == 0) {
             // create a reservation on book
-            transformedBook.setMax_number(number + 2);
             List<Reservation> reservations = new LinkedList<Reservation>();
             Reservation reservation = new Reservation();
             reservation.setCreated_date(new Date());

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
     private static List<Loans> loans = new LinkedList<>();
 
     private static List<Notification> notifications = new LinkedList<>();
+    private static List<Reservation> reservations = new LinkedList<>();
 
     @PersistenceContext
     private EntityManager em;
@@ -49,6 +51,27 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                     return getLoanData(rs);
                 });
         return loans;
+    }
+
+    @Override
+    public List<Reservation> findAllReservationFromClient(String username) {
+        reservations = (List<Reservation>) operations.query(
+                "SELECT\n" +
+                        "  reservation.* AS reservation,\n" +
+                        "  client.firstname AS firstname,\n" +
+                        "  client.lastname AS lastname,\n" +
+                        "  client.username AS username,\n" +
+                        "  book.max_number AS max_number,\n" +
+                        "  book.title AS book_title\n" +
+                        "FROM\n" +
+                        "  reservation\n" +
+                        "    LEFT JOIN client ON reservation.client_id = client.id\n" +
+                        "    LEFT JOIN book ON reservation.book_id = book.id\n" +
+                        "WHERE username = ?",
+                (rs, rownumber) -> {
+                    return getReservationData(rs);
+                }, username);
+        return reservations;
     }
 
     @Override
@@ -135,5 +158,18 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         notification.setReservation(reservation);
 
         return notification;
+    }
+
+    private Reservation getReservationData(ResultSet rs) throws SQLException {
+        Reservation r = new Reservation();
+        r.setClientId(rs.getLong("client_id"));
+        r.setId(rs.getLong("id"));
+        r.setState(rs.getString("state"));
+        r.setMaxNumber(new BigInteger(Integer.valueOf(rs.getInt("max_number")).toString()));
+        XMLGregorianCalendar created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("created_date"));
+        r.setCreatedDate(created_date);
+        r.setBookTitle(rs.getString("book_title"));
+
+        return r;
     }
 }

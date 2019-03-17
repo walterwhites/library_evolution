@@ -10,6 +10,7 @@ import library.io.github.walterwhites.*;
 import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import library.io.github.walterwhites.client.PostAlertEmailResponse;
 import library.io.github.walterwhites.loans.GetAllReservationFromClientResponse;
+import library.io.github.walterwhites.loans.PostCancelReservationResponse;
 import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -180,18 +181,16 @@ public class MainController {
     }
 
     @RequestMapping(value = "/cancel-reservation", method = {RequestMethod.POST})
-    public String cancelReservation(@ModelAttribute("reservation") Reservation reservation, RedirectAttributes redirectAttributes, @RequestParam("id") String title) {
+    public String cancelReservation(@ModelAttribute("reservation") Reservation reservation, RedirectAttributes redirectAttributes, @RequestParam("id") Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("USER"));
         if (hasUserRole) {
-            /*
-            PostBookRenewedResponse postBookRenewedResponse = bookClient.postBookRenewed(loans.getId());
-            redirectAttributes.addFlashAttribute("message", "You have renewed " + title + " for 4 weeks");
+            PostCancelReservationResponse postCancelReservationResponse = loanClient.postCancelReservation(id);
+            redirectAttributes.addFlashAttribute("message", "You have cancelled the reservation number " + id);
             redirectAttributes.addFlashAttribute("alertClass", "alert-warning");
-            */
         }
-        return "redirect:/reservation";
+        return "redirect:/reservations";
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
