@@ -35,7 +35,6 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Identifiant</th>
                                         <th>Title</th>
                                         <th>Author</th>
                                         <th>Language</th>
@@ -53,7 +52,6 @@
                                     <tr class="odd gradeX"
                                         th:each="book, iStat : ${books.getBook()}"
                                         th:alt-title="${iStat.even}? 'even' : 'odd'">
-                                        <td th:text="${book.getId()}"></td>
                                         <td th:text="${book.getTitle()}"></td>
                                         <td th:text="${book.getAuthor()}"></td>
                                         <td th:text="${book.getLanguages()}"></td>
