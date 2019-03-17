@@ -1,5 +1,6 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.consumer.repository.entity.BookRepositoryEntityImpl;
 import library.io.github.walterwhites.*;
@@ -18,6 +19,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,6 +89,18 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                 }, id_of_book);
         BigInteger bigInteger = BigInteger.valueOf(count);
         return bigInteger;
+    }
+
+    @Override
+    public Date getExpectedReturnDateOfReservation(Long id_of_book) {
+        Date return_end_date = (Date) operations.queryForObject(
+                "SELECT loan.end_date FROM loan\n" +
+                        "LEFT JOIN book ON loan.book_id = book.id\n" +
+                        "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id DESC LIMIT 1;",
+                (rs, rownumber) -> {
+                    return getLastReservation(rs);
+                }, id_of_book);
+        return return_end_date;
     }
 
     @Override
@@ -200,6 +216,11 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         return count;
     }
 
+    private Date getLastReservation(ResultSet rs) throws SQLException {
+        Date end_date = rs.getTimestamp("end_date");
+        return end_date;
+    }
+
     private Book getAllBookData(ResultSet rs) throws SQLException {
         Book b = new Book();
         Libraries library = new Libraries();
@@ -220,6 +241,12 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         Long book_id = rs.getLong("id");
         BigInteger bookId = BigInteger.valueOf(book_id.intValue());
         BigInteger countReservations = this.countAllPendingReservationsOfBook(bookId);
+
+        Date end_date = this.getExpectedReturnDateOfReservation(book_id);
+
+        XMLGregorianCalendar last_reservation_end_date = DateUtils.toXmlGregorianCalendar(end_date);
+        b.setLastReservationEndDate(last_reservation_end_date);
+
         b.setNbReservations(countReservations);
 
         BigInteger bigIntegerMaxNumber = BigInteger.valueOf(rs.getInt("max_number"));

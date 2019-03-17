@@ -42,6 +42,7 @@
                                         <th>Borrow</th>
                                         <th>Number of current reservations</th>
                                         <th>Number of maximum reservations possible</th>
+                                        <th>Expected return date</th>
                                         <th>Make a reservation</th>
                                     </tr>
                                 </thead>
@@ -84,20 +85,26 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() == book.getMaxNumber()}">
                                             <td th:text="${book.getNbReservations()}"></td>
                                             <td th:text="${book.getMaxNumber()}"></td>
+                                            <td th:text="|${book.getLastReservationEndDate().getDay()}/${book.getLastReservationEndDate().getMonth()}/${book.getLastReservationEndDate().getYear()} ${book.getLastReservationEndDate().getHour()}:${book.getLastReservationEndDate().getMinute()}|"></td>
                                         </div>
-                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() == book.getMaxNumber()}">
                                             <td></td>
                                             <td></td>
+                                            <td></td>
                                         </div>
-                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber()}">
                                             <td>
                                                 <button class="btn btn-success" type="submit">Make a reservation on this book</button>
                                             </td>
                                         </div>
-                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)}">
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber()}">
                                             <td></td>
                                         </div>
                                     </tr>

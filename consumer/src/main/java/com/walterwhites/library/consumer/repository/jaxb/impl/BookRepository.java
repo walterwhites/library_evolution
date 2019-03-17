@@ -6,6 +6,7 @@ import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,4 +19,5 @@ public interface BookRepository {
     List<Book> findAllBorrowedBooksFromClient(String id);
     List<Book> findAllBooksFromClient(String username);
     BigInteger countAllPendingReservationsOfBook(BigInteger id_of_book);
+    Date getExpectedReturnDateOfReservation(Long id_of_book);
 }

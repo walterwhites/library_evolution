@@ -154,6 +154,7 @@
             <xs:element name="loans" type="tns:loans"/>
             <xs:element name="nb_reservations" type="xs:integer"/>
             <xs:element name="max_number" type="xs:integer"/>
+            <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
 
