@@ -96,7 +96,7 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         Date return_end_date = (Date) operations.queryForObject(
                 "SELECT loan.end_date FROM loan\n" +
                         "LEFT JOIN book ON loan.book_id = book.id\n" +
-                        "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id DESC LIMIT 1;",
+                        "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
                 (rs, rownumber) -> {
                     return getLastReservation(rs);
                 }, id_of_book);
