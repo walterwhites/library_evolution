@@ -18,6 +18,21 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getAllReservationFromClientRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllReservationFromClientResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="reservation" type="tns:reservation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="updateAllNotificationRequest">
         <xs:complexType>
@@ -93,6 +108,7 @@
             <xs:element name="state" type="xs:string"/>
             <xs:element name="book_title" type="xs:string"/>
             <xs:element name="client_id" type="xs:long"/>
+            <xs:element name="max_number" type="xs:integer"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="loan" type="{library.io.github.walterwhites.loans}loans" maxOccurs="unbounded"/>
+ *         &lt;element name="reservation" type="{library.io.github.walterwhites.loans}reservation" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,41 +38,41 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "loan"
+    "reservation"
 })
-@XmlRootElement(name = "getAllNotReturnedBookResponse")
-public class GetAllNotReturnedBookResponse {
+@XmlRootElement(name = "getAllReservationFromClientResponse")
+public class GetAllReservationFromClientResponse {
 
     @XmlElement(required = true)
-    protected List<Loans> loan;
+    protected List<Reservation> reservation;
 
     /**
-     * Gets the value of the loan property.
+     * Gets the value of the reservation property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the loan property.
+     * This is why there is not a <CODE>set</CODE> method for the reservation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getLoan().add(newItem);
+     *    getReservation().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Loans }
+     * {@link Reservation }
      * 
      * 
      */
-    public List<Loans> getLoan() {
-        if (loan == null) {
-            loan = new ArrayList<Loans>();
+    public List<Reservation> getReservation() {
+        if (reservation == null) {
+            reservation = new ArrayList<Reservation>();
         }
-        return this.loan;
+        return this.reservation;
     }
 
 }

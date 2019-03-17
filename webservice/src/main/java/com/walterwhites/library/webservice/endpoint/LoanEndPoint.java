@@ -1,5 +1,6 @@
 package com.walterwhites.library.webservice.endpoint;
 
+import com.walterwhites.library.consumer.repository.jaxb.impl.BookRepositoryImpl;
 import com.walterwhites.library.consumer.repository.jaxb.impl.LoanRepositoryImpl;
 
 import library.io.github.walterwhites.loans.*;
@@ -16,10 +17,12 @@ public class LoanEndPoint {
     private static final String NAMESPACE_URI = "library.io.github.walterwhites.loans";
 
     private final LoanRepositoryImpl loanRepository;
+    private final BookRepositoryImpl bookRepository;
 
     @Autowired
-    public LoanEndPoint(LoanRepositoryImpl loanRepository) {
+    public LoanEndPoint(LoanRepositoryImpl loanRepository, BookRepositoryImpl bookRepository) {
         this.loanRepository = loanRepository;
+        this.bookRepository = bookRepository;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllNotReturnedBookRequest")
@@ -44,6 +47,14 @@ public class LoanEndPoint {
     public GetAllSoonExpiredLoanResponse getAllSoonExpiredLoanRequest(@RequestPayload GetAllSoonExpiredLoanRequest request) {
         GetAllSoonExpiredLoanResponse response = new GetAllSoonExpiredLoanResponse();
         response.getLoan().addAll(loanRepository.findAllSoonLoanExpired());
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllReservationFromClientRequest")
+    @ResponsePayload
+    public GetAllReservationFromClientResponse getAllReservationFromClientRequest(@RequestPayload GetAllReservationFromClientRequest request) {
+        GetAllReservationFromClientResponse response = new GetAllReservationFromClientResponse();
+        response.getReservation().addAll(bookRepository.findAllReservationFromClient(request.getUsername()));
         return response;
     }
 }

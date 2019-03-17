@@ -3,6 +3,7 @@ package com.walterwhites.library.consumer.repository.jaxb.impl;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.consumer.repository.entity.BookRepositoryEntityImpl;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -34,6 +36,8 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
     private BookRepositoryEntityImpl bookRepositoryEntity;
 
     private static List<Book> books = new LinkedList<>();
+
+    private static List<Reservation> reservations = new LinkedList<>();
 
     @Autowired
     public void BookRepositoryImpl(JdbcOperations jdbcOperations, BookRepositoryEntityImpl bookRepositoryEntity) {
@@ -150,33 +154,25 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         return books;
     }
 
-    public List<Book> findAllBooksFromReservation(String username) {
-        books = (List<Book>) operations.query(
+    @Override
+    public List<Reservation> findAllReservationFromClient(String username) {
+        reservations = (List<Reservation>) operations.query(
                 "SELECT\n" +
-                        "    book.* AS book,\n" +
-                        "    book_loans.loans_id AS loan_id,\n" +
-                        "    library_books.library_id AS library_id,\n" +
-                        "    loan.end_date AS loan_end_date,\n" +
-                        "    loan.renewed AS loan_renewed,\n" +
-                        "    loan.start_date AS loan_start_date,\n" +
-                        "    loan.updated_date AS loan_updated_date,\n" +
-                        "    loan.client_id AS loan_client_id,\n" +
-                        "    loan.state AS loan_state,\n" +
-                        "    library.address AS library_address,\n" +
-                        "    library.name AS library_name,\n" +
-                        "    library.phone_number AS library_phone_number\n" +
+                        "  reservation.* AS reservation,\n" +
+                        "  client.firstname AS firstname,\n" +
+                        "  client.lastname AS lastname,\n" +
+                        "  client.username AS username,\n" +
+                        "  book.max_number AS max_number,\n" +
+                        "  book.title AS book_title\n" +
                         "FROM\n" +
-                        "    book\n" +
-                        "    LEFT JOIN book_loans ON book.id = book_loans.book_id\n" +
-                        "    LEFT JOIN loan ON book_loans.loans_id = loan.id\n" +
-                        "    LEFT JOIN library_books ON book.id = library_books.books_id\n" +
-                        "    LEFT JOIN library ON library_books.library_id = library.id\n" +
-                        "    LEFT JOIN client ON loan.client_id = client.id\n" +
-                        "   WHERE client.username = ?",
+                        "  reservation\n" +
+                        "    LEFT JOIN client ON reservation.client_id = client.id\n" +
+                        "    LEFT JOIN book ON reservation.book_id = book.id\n" +
+                        "WHERE username = ?",
                 (rs, rownumber) -> {
-                    return getBookData(rs);
+                    return getReservationData(rs);
                 }, username);
-        return books;
+        return reservations;
     }
 
     @Override
@@ -262,6 +258,19 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         b.setLoans(loan);
         b.setLibraries(library);
         return b;
+    }
+
+    private Reservation getReservationData(ResultSet rs) throws SQLException {
+        Reservation r = new Reservation();
+        r.setClientId(rs.getLong("client_id"));
+        r.setId(rs.getLong("id"));
+        r.setState(rs.getString("state"));
+        r.setMaxNumber(new BigInteger(Integer.valueOf(rs.getInt("max_number")).toString()));
+        XMLGregorianCalendar created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("created_date"));
+        r.setCreatedDate(created_date);
+        r.setBookTitle(rs.getString("book_title"));
+
+        return r;
     }
 }
 

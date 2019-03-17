@@ -2,6 +2,7 @@ package com.walterwhites.library.consumer.repository.jaxb.impl;
 
 import com.walterwhites.library.business.debug.MyLogger;
 import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface BookRepository {
     List<Book> findAllBooks();
     List<Book> findAllBorrowedBooksFromClient(String id);
     List<Book> findAllBooksFromClient(String username);
+    List<Reservation> findAllReservationFromClient(String username);
 }

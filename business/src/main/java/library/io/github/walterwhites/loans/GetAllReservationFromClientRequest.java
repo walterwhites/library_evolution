@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.loans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="loan_id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,28 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "loanId"
+    "username"
 })
-@XmlRootElement(name = "postBookReturnedRequest")
-public class PostBookReturnedRequest {
+@XmlRootElement(name = "getAllReservationFromClientRequest")
+public class GetAllReservationFromClientRequest {
 
-    @XmlElement(name = "loan_id")
-    protected long loanId;
+    @XmlElement(required = true)
+    protected String username;
 
     /**
-     * Gets the value of the loanId property.
+     * Gets the value of the username property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public long getLoanId() {
-        return loanId;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * Sets the value of the loanId property.
+     * Sets the value of the username property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setLoanId(long value) {
-        this.loanId = value;
+    public void setUsername(String value) {
+        this.username = value;
     }
 
 }
