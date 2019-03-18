@@ -37,26 +37,26 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         List<Book> bookList = new LinkedList<Book>();
         final Book transformedBook = new Book(title, author, language, number);
         transformedBook.setMax_number((number + 1) * 2);
-        if (transformedBook.getNumber() == 0) {
-            // create a reservation on book
-            List<Reservation> reservations = new LinkedList<Reservation>();
-            Reservation reservation = new Reservation();
-            reservation.setCreated_date(new Date());
-            reservation.setBook(transformedBook);
-            reservation.setClient(client);
-            reservation.setState("pending");
 
-            // create a notification on book
-            Notification notification = new Notification();
-            notification.setCreated_date(new Date());
-            notification.setEmail("hopemagie@gmail.com");
-            notification.setReservation(reservation);
-            notification.setState("pending");
+        // create a reservation on book
+        List<Reservation> reservations = new LinkedList<Reservation>();
+        Reservation reservation = new Reservation();
+        reservation.setCreated_date(new Date());
+        reservation.setBook(transformedBook);
+        reservation.setClient(client);
+        reservation.setState("pending");
 
-            reservation.setNotification(notification);
-            reservations.add(reservation);
-            transformedBook.setReservations(reservations);
-        }
+        // create a notification on book
+        Notification notification = new Notification();
+        notification.setCreated_date(new Date());
+        notification.setEmail("hopemagie@gmail.com");
+        notification.setReservation(reservation);
+        notification.setState("pending");
+
+        reservation.setNotification(notification);
+        reservations.add(reservation);
+        transformedBook.setReservations(reservations);
+
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
         i++;

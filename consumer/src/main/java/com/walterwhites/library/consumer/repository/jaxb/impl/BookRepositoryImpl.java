@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,27 +81,33 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
     @Override
     public BigInteger countAllPendingReservationsOfBook(BigInteger id_of_book) {
-        Integer count = (Integer) operations.queryForObject(
-                "SELECT COUNT(*) AS nb_reservations FROM reservation\n" +
-                        "LEFT JOIN book ON reservation.book_id = book.id\n" +
-                        "WHERE book.id = ? and reservation.state = 'pending'\n",
-                (rs, rownumber) -> {
-                    return countReservation(rs);
-                }, id_of_book);
-        BigInteger bigInteger = BigInteger.valueOf(count);
-        return bigInteger;
+        try {
+            Integer count = (Integer) operations.queryForObject(
+                    "SELECT COUNT(*) AS nb_reservations FROM reservation\n" +
+                            "LEFT JOIN book ON reservation.book_id = book.id\n" +
+                            "WHERE book.id = ? and reservation.state = 'pending'\n",
+                    (rs, rownumber) -> {
+                        return countReservation(rs);
+                    }, id_of_book);
+            BigInteger bigInteger = BigInteger.valueOf(count);
+            return bigInteger;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
     }
 
     @Override
     public Date getExpectedReturnDateOfReservation(Long id_of_book) {
-        Date return_end_date = (Date) operations.queryForObject(
-                "SELECT loan.end_date FROM loan\n" +
-                        "LEFT JOIN book ON loan.book_id = book.id\n" +
-                        "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
-                (rs, rownumber) -> {
-                    return getLastReservation(rs);
-                }, id_of_book);
-        return return_end_date;
+        try {
+            Date return_end_date = (Date) operations.queryForObject(
+                    "SELECT loan.end_date FROM loan\n" +
+                            "LEFT JOIN book ON loan.book_id = book.id\n" +
+                            "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
+                    (rs, rownumber) -> {
+                        return getLastReservation(rs);
+                    }, id_of_book);
+            return return_end_date;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
     }
 
     @Override
@@ -240,14 +247,17 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
         Long book_id = rs.getLong("id");
         BigInteger bookId = BigInteger.valueOf(book_id.intValue());
-        BigInteger countReservations = this.countAllPendingReservationsOfBook(bookId);
 
         Date end_date = this.getExpectedReturnDateOfReservation(book_id);
+        if (end_date != null) {
+            XMLGregorianCalendar last_reservation_end_date = DateUtils.toXmlGregorianCalendar(end_date);
+            b.setLastReservationEndDate(last_reservation_end_date);
+        }
 
-        XMLGregorianCalendar last_reservation_end_date = DateUtils.toXmlGregorianCalendar(end_date);
-        b.setLastReservationEndDate(last_reservation_end_date);
-
-        b.setNbReservations(countReservations);
+        BigInteger countReservations = this.countAllPendingReservationsOfBook(bookId);
+        if (countReservations != null) {
+            b.setNbReservations(countReservations);
+        }
 
         BigInteger bigIntegerMaxNumber = BigInteger.valueOf(rs.getInt("max_number"));
         b.setMaxNumber(bigIntegerMaxNumber);

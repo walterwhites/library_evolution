@@ -77,7 +77,7 @@ public class MainController {
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.add(Calendar.DATE, 28);
             String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
-            redirectAttributes.addFlashAttribute("message", "You have renewed " + book.getTitle()
+            redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
                     + " until to " + calendar);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         }
