@@ -283,18 +283,20 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
         b.setNumber(rs.getInt("number"));
 
-        State state = State.fromValue(rs.getString("loan_state"));
-        loan.setState(state);
-        loan.setId(rs.getLong("loan_id"));
-        XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
-        loan.setEndDate(end_date);
-        XMLGregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));
-        loan.setStartDate(start_date);
-        loan.setRenewed(rs.getBoolean("loan_renewed"));
-        XMLGregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_updated_date"));
-        loan.setUpdatedDate(updated_date);
+        if (rs.getString("loan_id") != null) {
+            State state = State.fromValue(rs.getString("loan_state"));
+            loan.setState(state);
+            loan.setId(rs.getLong("loan_id"));
+            XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
+            loan.setEndDate(end_date);
+            XMLGregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));
+            loan.setStartDate(start_date);
+            loan.setRenewed(rs.getBoolean("loan_renewed"));
+            XMLGregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_updated_date"));
+            loan.setUpdatedDate(updated_date);
 
-        b.setLoans(loan);
+            b.setLoans(loan);
+        }
         b.setLibraries(library);
         return b;
     }

@@ -38,7 +38,8 @@
                                 <th>Created date *</th>
                                 <th>State</th>
                                 <th>Book</th>
-                                <th>Number of maximum reservations possible</th>
+                                <th>Expected return date of next book</th>
+                                <th>Rank in the list</th>
                                 <th>Cancel the reservation</th>
                             </tr>
                             </thead>
@@ -52,21 +53,47 @@
                                 <td th:text="|${r.getCreatedDate().getDay()}/${r.getCreatedDate().getMonth()}/${r.getCreatedDate().getYear()}|"></td>
                                 <td th:text="${r.getState()}"></td>
                                 <td th:text="${r.getBookTitle()}"></td>
-                                <td th:text="${r.getMaxNumber()}"></td>
                                 <div th:if="${r.getState().toString().equals('cancelled')}">
+                                    <td></td>
+                                    <td></td>
                                     <th>
                                         <button class="btn btn-default" type="submit" disabled>This reservation is already cancelled</button>
                                     </th>
                                 </div>
                                 <div th:unless="${r.getState().toString().equals('cancelled')}">
                                     <div th:if="${r.getState().toString().equals('pending')}">
-                                        <th>
-                                            <form th:action="@{/cancel-reservation}" method="post">
-                                                <input type="hidden" name="id" th:value="${r.getId()}" />
-                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                <button class="btn btn-danger" type="submit">Cancel reservation</button>
-                                            </form>
-                                        </th>
+                                        <div th:if="${r.getLastReservationEndDate() != null}">
+                                            <td th:text="|${r.getLastReservationEndDate().getDay()}/${r.getLastReservationEndDate().getMonth()}/${r.getLastReservationEndDate().getYear()} ${r.getLastReservationEndDate().getHour()}:${r.getLastReservationEndDate().getMinute()}|"></td>
+                                        </div>
+                                        <div th:unless="${r.getLastReservationEndDate() != null}">
+                                            <td></td>
+                                        </div>
+                                        <td th:text="${r.getRank()}"></td>
+                                        <div th:if="${r.getRank() == 1}">
+                                            <th>
+                                                <form th:action="@{/reserved-book}" method="post">
+                                                    <input type="hidden" name="id" th:value="${r.getBookId()}" />
+                                                    <input type="hidden" name="title" th:value="${r.getBookTitle()}" />
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                    <button class="btn btn-success" type="submit">Borrow this book</button>
+                                                </form>
+                                                <br>
+                                                <form th:action="@{/cancel-reservation}" method="post">
+                                                    <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                    <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                </form>
+                                            </th>
+                                        </div>
+                                        <div th:unless="${r.getRank() == 1}">
+                                            <th>
+                                                <form th:action="@{/cancel-reservation}" method="post">
+                                                    <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                    <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                </form>
+                                            </th>
+                                        </div>
                                     </div>
                                     <div th:unless="${r.getState().toString().equals('pending')}">
                                         <th>

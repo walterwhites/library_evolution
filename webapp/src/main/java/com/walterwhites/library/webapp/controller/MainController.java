@@ -11,6 +11,7 @@ import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import library.io.github.walterwhites.client.PostAlertEmailResponse;
 import library.io.github.walterwhites.loans.GetAllReservationFromClientResponse;
 import library.io.github.walterwhites.loans.PostCancelReservationResponse;
+import library.io.github.walterwhites.loans.PostCreateReservationResponse;
 import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,6 +83,20 @@ public class MainController {
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         }
         return "redirect:/tables";
+    }
+
+    @RequestMapping(value = "/make-reservation", method = {RequestMethod.POST})
+    public String makeReservation(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            UserDetails client = (UserDetails) auth.getPrincipal();
+            PostCreateReservationResponse postCreateReservationResponse = loanClient.postCreateReservation(book.getId(),  ((MyUser) client).getId());
+            redirectAttributes.addFlashAttribute("message", "You have make a reservation for " + book.getTitle());
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
+        return "redirect:/reservations";
     }
 
     @RequestMapping(value = "/renewed-book", method = {RequestMethod.POST})

@@ -3,6 +3,8 @@ package com.walterwhites.library.webapp.apiClient;
 import library.io.github.walterwhites.*;
 import library.io.github.walterwhites.loans.GetAllReservationFromClientRequest;
 import library.io.github.walterwhites.loans.GetAllReservationFromClientResponse;
+import library.io.github.walterwhites.loans.PostCreateReservationRequest;
+import library.io.github.walterwhites.loans.PostCreateReservationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;

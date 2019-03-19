@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,6 +76,35 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                 }, username);
         return reservations;
     }
+
+    private LinkedList<Integer> requestRankReservation(Long book_id) {
+        LinkedList<Integer> linkedList = new LinkedList();
+        List<Integer> rank = (List<Integer>) operations.query(
+                "SELECT\n" +
+                        "  reservation.id AS reservation,\n" +
+                        "  client.id AS client_id,\n" +
+                        "  book.id AS book_id\n" +
+                        "FROM\n" +
+                        "  reservation\n" +
+                        "    LEFT JOIN client ON reservation.client_id = client.id\n" +
+                        "    LEFT JOIN book ON reservation.book_id = book.id\n" +
+                        "WHERE book_id  = ? AND reservation.state = 'pending'",
+                (rs, rownumber) -> {
+                    Integer client  = rs.getInt("client_id");
+                    linkedList.add(client);
+                    return client;
+                }, book_id);
+        return linkedList;
+    }
+
+    private BigInteger findRankOfReservation(Integer client_id, Long book_id){
+        Integer i = 0;
+        LinkedList<Integer> rank = this.requestRankReservation(book_id);
+        Integer integer = rank.indexOf(client_id) + 1;
+        BigInteger bigInteger = BigInteger.valueOf(integer.intValue());
+        return bigInteger;
+    }
+
 
     @Override
     public List<Notification> updateAllNotification() {
@@ -171,6 +202,39 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         r.setCreatedDate(created_date);
         r.setBookTitle(rs.getString("book_title"));
 
+        Long book_id = rs.getLong("book_id");
+        Date end_date = this.getExpectedReturnDateOfReservation(book_id);
+        if (end_date != null) {
+            XMLGregorianCalendar last_reservation_end_date = DateUtils.toXmlGregorianCalendar(end_date);
+            r.setLastReservationEndDate(last_reservation_end_date);
+        }
+
+        BigInteger rank = this.findRankOfReservation(rs.getInt("client_id"), rs.getLong("book_id"));
+        r.setRank(rank);
+
+        BigInteger bigIntegerBookId = BigInteger.valueOf(book_id);
+        r.setBookId(bigIntegerBookId);
+
         return r;
+    }
+
+    private Date getLastReservation(ResultSet rs) throws SQLException {
+        Date end_date = rs.getTimestamp("end_date");
+        return end_date;
+    }
+
+    @Override
+    public Date getExpectedReturnDateOfReservation(Long id_of_book) {
+        try {
+            Date return_end_date = (Date) operations.queryForObject(
+                    "SELECT loan.end_date FROM loan\n" +
+                            "LEFT JOIN book ON loan.book_id = book.id\n" +
+                            "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
+                    (rs, rownumber) -> {
+                        return getLastReservation(rs);
+                    }, id_of_book);
+            return return_end_date;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
     }
 }

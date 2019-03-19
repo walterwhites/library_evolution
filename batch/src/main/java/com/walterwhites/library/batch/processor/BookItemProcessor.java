@@ -33,33 +33,12 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         client.setPassword(passwordEncoder().encode("password"));
         client.setLanguage("fr");
         client.setLastname("flo");
-
-        List<Book> bookList = new LinkedList<Book>();
-        final Book transformedBook = new Book(title, author, language, number);
-        transformedBook.setMax_number((number + 1) * 2);
-
-        // create a reservation on book
-        List<Reservation> reservations = new LinkedList<Reservation>();
-        Reservation reservation = new Reservation();
-        reservation.setCreated_date(new Date());
-        reservation.setBook(transformedBook);
-        reservation.setClient(client);
-        reservation.setState("pending");
-
-        // create a notification on book
-        Notification notification = new Notification();
-        notification.setCreated_date(new Date());
-        notification.setEmail("hopemagie@gmail.com");
-        notification.setReservation(reservation);
-        notification.setState("pending");
-
-        reservation.setNotification(notification);
-        reservations.add(reservation);
-        transformedBook.setReservations(reservations);
-
         client.setEmail("client" + i + "@gmail.com");
         client.setUsername("flo" + i);
-        i++;
+
+        List<Book> bookList = new LinkedList<Book>();
+        Book transformedBook = new Book(title, author, language, number);
+        transformedBook.setMax_number((number + 1) * 2);
 
         // library
         List<Library> libraries = new LinkedList<Library>();
@@ -72,28 +51,50 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         library.setBooks(bookList);
         transformedBook.setLibraries(libraries);
 
+        if (title.equals("game of thrones")) {
+            // create a reservation on book
+
+            List<Reservation> reservations = new LinkedList<Reservation>();
+            Reservation reservation = new Reservation();
+            reservation.setCreated_date(new Date());
+            reservation.setBook(transformedBook);
+            reservation.setClient(client);
+            reservation.setState("pending");
+
+            // create a notification on book
+            Notification notification = new Notification();
+            notification.setCreated_date(new Date());
+            notification.setEmail("hopemagie@gmail.com");
+            notification.setReservation(reservation);
+            notification.setState("pending");
+
+            reservation.setNotification(notification);
+            reservations.add(reservation);
+            transformedBook.setReservations(reservations);
+        }
+        else {
+            // loan
+            List<Loan> loans = new LinkedList<Loan>();
+            Loan loan = new Loan();
+            final Date loan_start_date = new Date();
+            GregorianCalendar loan_end_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+            loan_end_date.add(Calendar.DATE, 28);
+            final Date loan_updated_date = new Date();
+            loan.setStart_date(loan_start_date);
+            loan.setEnd_date(loan_end_date.getTime());
+            loan.setUpdated_date(loan_updated_date);
+            loan.setRenewed(false);
+            loan.setClient(client);
+            loan.setBook(transformedBook);
+            loans.add(loan);
+            transformedBook.setLoans(loans);
+            loan.setState("borrowed");
+            client.setLoans(loans);
+
+            log.info("Converting (" + item + ") into (" + transformedBook + ")");
+            i++;
+        }
         bookList.add(transformedBook);
-
-        // loan
-        List<Loan> loans = new LinkedList<Loan>();
-        Loan loan = new Loan();
-        final Date loan_start_date = new Date();
-        GregorianCalendar loan_end_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
-        loan_end_date.add(Calendar.DATE, 28);
-        final Date loan_updated_date = new Date();
-        loan.setStart_date(loan_start_date);
-        loan.setEnd_date(loan_end_date.getTime());
-        loan.setUpdated_date(loan_updated_date);
-        loan.setRenewed(false);
-        loan.setClient(client);
-        loan.setBook(transformedBook);
-        loans.add(loan);
-        transformedBook.setLoans(loans);
-        loan.setState("borrowed");
-        client.setLoans(loans);
-
-        log.info("Converting (" + item + ") into (" + transformedBook + ")");
-
         return transformedBook;
     }
 }

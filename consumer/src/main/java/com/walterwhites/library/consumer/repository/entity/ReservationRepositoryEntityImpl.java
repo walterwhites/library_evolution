@@ -1,5 +1,8 @@
 package com.walterwhites.library.consumer.repository.entity;
 
+import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.model.entity.Book;
+import com.walterwhites.library.model.entity.Client;
 import com.walterwhites.library.model.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,6 +28,12 @@ public class ReservationRepositoryEntityImpl implements ReservationRepositoryEnt
     private EntityManager em;
 
     @Autowired
+    private BookRepositoryEntityImpl bookRepositoryEntity;
+
+    @Autowired
+    private ClientRepositoryEntityImpl clientRepositoryImpl;
+
+    @Autowired
     private JdbcOperations operations;
 
 
@@ -38,6 +47,26 @@ public class ReservationRepositoryEntityImpl implements ReservationRepositoryEnt
         entityReservation.setState("cancelled");
         this.em.merge(entityReservation);
         return entityReservation.getId();
+    }
+
+    public Long saveNewReservation(library.io.github.walterwhites.Book book, Long client_id) {
+        Reservation entityReservation = addReservation(book, client_id);
+        this.em.persist(entityReservation);
+        Long entityReservation_id = this.findById(entityReservation.getId()).get().getId();
+        return entityReservation_id;
+    }
+
+    private Reservation addReservation(library.io.github.walterwhites.Book book, long client_id) {
+        Reservation entityReservation = new Reservation();
+        Book entityBook = bookRepositoryEntity.findBookById(book.getId());
+        GregorianCalendar created_date = DateUtils.toXmlGregorianCalendar(new Date()).toGregorianCalendar();
+        entityReservation.setCreated_date(created_date.getTime());
+        entityReservation.setState("pending");
+        Client client = clientRepositoryImpl.findById(client_id).get();
+        entityReservation.setClient(client);
+        entityReservation.setBook(entityBook);
+
+        return entityReservation;
     }
 
     @Override

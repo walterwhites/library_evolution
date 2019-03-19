@@ -71,4 +71,15 @@ public class LoanEndPoint {
         response.setId(reservationRepositoryEntity.cancelReservation(reservation));
         return response;
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "postCreateReservationRequest")
+    @ResponsePayload
+    public PostCreateReservationResponse postCreateReservationResponse(@RequestPayload PostCreateReservationRequest request) {
+        PostCreateReservationResponse response = new PostCreateReservationResponse();
+        library.io.github.walterwhites.Book book = bookRepository.findById(request.getId());
+        Long reservation_id = reservationRepositoryEntity.saveNewReservation(book, request.getClientId());
+        response.setClientId(request.getClientId());
+        response.setId(reservation_id);
+        return response;
+    }
 }

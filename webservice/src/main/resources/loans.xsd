@@ -10,6 +10,24 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postCreateReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postCreateReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getAllNotReturnedBookResponse">
         <xs:complexType>
             <xs:sequence>
@@ -125,6 +143,9 @@
             <xs:element name="book_title" type="xs:string"/>
             <xs:element name="client_id" type="xs:long"/>
             <xs:element name="max_number" type="xs:integer"/>
+            <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
+            <xs:element name="rank" type="xs:integer"/>
+            <xs:element name="book_id" type="xs:integer"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
