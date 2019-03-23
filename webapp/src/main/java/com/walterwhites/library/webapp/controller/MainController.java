@@ -2,19 +2,29 @@ package com.walterwhites.library.webapp.controller;
 
 import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.business.utils.EmailService;
 import com.walterwhites.library.model.pojo.MyUser;
+import com.walterwhites.library.webapp.LibraryApplication;
 import com.walterwhites.library.webapp.apiClient.BookClient;
 import com.walterwhites.library.webapp.apiClient.LoanClient;
 import com.walterwhites.library.webapp.apiClient.UserClient;
+import com.walterwhites.library.webapp.security.WebMvcConfig;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.Loans;
 import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import library.io.github.walterwhites.client.PostAlertEmailResponse;
-import library.io.github.walterwhites.loans.GetAllReservationFromClientResponse;
-import library.io.github.walterwhites.loans.PostCancelReservationResponse;
-import library.io.github.walterwhites.loans.PostCreateReservationResponse;
-import library.io.github.walterwhites.loans.Reservation;
+import library.io.github.walterwhites.loans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -33,6 +43,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
+@EnableAutoConfiguration
+@Configuration
 public class MainController {
 
     @Value("${error.message}")
@@ -52,6 +64,9 @@ public class MainController {
 
     @Autowired
     private LoanClient loanClient;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -121,6 +136,13 @@ public class MainController {
             PostBookReturnedResponse postBookReturnedResponse = bookClient.postBookReturned(loans.getId());
             redirectAttributes.addFlashAttribute("message", "You have returned " + title);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+            GetLastReservationResponse getLastReservationResponse = loanClient.getLastReservationResponse(title);
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            if (getLastReservationResponse.getReservation() != null) {
+                String message = "Hello, the book " + getLastReservationResponse.getReservation().getBookTitle() + " is available now, come to the site to borrow it (you have 48 hours)";
+                emailService.sendSimpleMessage("hopemagie@gmail.com", "A book is available", message);
+            }
         }
         return "redirect:/loans";
     }

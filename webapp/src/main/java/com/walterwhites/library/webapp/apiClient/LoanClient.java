@@ -11,6 +11,15 @@ public class LoanClient extends WebServiceGatewaySupport {
 
     private static final String ENDPOINT = "http://localhost:8081/ws/loans";
 
+    public GetLastReservationResponse getLastReservationResponse(String title) {
+        GetLastReservationRequest request = new GetLastReservationRequest();
+        request.setBookTitle(title);
+        return (GetLastReservationResponse) getWebServiceTemplate()
+                .marshalSendAndReceive(ENDPOINT, request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+    }
+
     public GetAllReservationFromClientResponse getAllReservationFromClientResponse(String username) {
         GetAllReservationFromClientRequest request = new GetAllReservationFromClientRequest();
         request.setUsername(username);

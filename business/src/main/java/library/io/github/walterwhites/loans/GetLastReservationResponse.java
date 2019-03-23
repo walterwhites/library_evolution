@@ -6,7 +6,7 @@
 //
 
 
-package library.io.github.walterwhites;
+package library.io.github.walterwhites.loans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="title" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="reservation" type="{library.io.github.walterwhites.loans}reservation"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "title"
+    "reservation"
 })
-@XmlRootElement(name = "getBookRequest")
-public class GetBookRequest {
+@XmlRootElement(name = "getLastReservationResponse")
+public class GetLastReservationResponse {
 
     @XmlElement(required = true)
-    protected String title;
+    protected Reservation reservation;
 
     /**
-     * Gets the value of the title property.
+     * Gets the value of the reservation property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Reservation }
      *     
      */
-    public String getTitle() {
-        return title;
+    public Reservation getReservation() {
+        return reservation;
     }
 
     /**
-     * Sets the value of the title property.
+     * Sets the value of the reservation property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Reservation }
      *     
      */
-    public void setTitle(String value) {
-        this.title = value;
+    public void setReservation(Reservation value) {
+        this.reservation = value;
     }
 
 }

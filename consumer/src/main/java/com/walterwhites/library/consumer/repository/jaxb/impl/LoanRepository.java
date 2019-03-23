@@ -13,4 +13,5 @@ public interface LoanRepository {
     public List<Loans> findAllSoonLoanExpired();
     public List<Reservation> findAllReservationFromClient(String username);
     public Date getExpectedReturnDateOfReservation(Long id_of_book);
+    public Reservation findLastReservation(String book_title);
 }

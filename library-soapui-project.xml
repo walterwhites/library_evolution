@@ -49,6 +49,20 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="countAllPendingReservationsOfBookRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="countAllPendingReservationsOfBookResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="nb_reservations" type="xs:integer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="postBookRenewedRequest">
         <xs:complexType>
           <xs:sequence>
@@ -151,6 +165,9 @@
           <xs:element name="number" type="xs:int"/>
           <xs:element name="libraries" type="tns:libraries"/>
           <xs:element name="loans" type="tns:loans"/>
+          <xs:element name="nb_reservations" type="xs:integer"/>
+          <xs:element name="max_number" type="xs:integer"/>
+          <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
         </xs:sequence>
       </xs:complexType>
       <xs:simpleType name="language">
@@ -210,6 +227,9 @@
   <wsdl:message name="postBookReturnedRequest">
     <wsdl:part element="tns:postBookReturnedRequest" name="postBookReturnedRequest"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="countAllPendingReservationsOfBookRequest">
+    <wsdl:part element="tns:countAllPendingReservationsOfBookRequest" name="countAllPendingReservationsOfBookRequest"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getBookFromIdResponse">
     <wsdl:part element="tns:getBookFromIdResponse" name="getBookFromIdResponse"></wsdl:part>
   </wsdl:message>
@@ -221,6 +241,9 @@
   </wsdl:message>
   <wsdl:message name="getBookResponse">
     <wsdl:part element="tns:getBookResponse" name="getBookResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="countAllPendingReservationsOfBookResponse">
+    <wsdl:part element="tns:countAllPendingReservationsOfBookResponse" name="countAllPendingReservationsOfBookResponse"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllBookResponse">
     <wsdl:part element="tns:getAllBookResponse" name="getAllBookResponse"></wsdl:part>
@@ -253,6 +276,10 @@
     <wsdl:operation name="postBookReturned">
       <wsdl:input message="tns:postBookReturnedRequest" name="postBookReturnedRequest"></wsdl:input>
       <wsdl:output message="tns:postBookReturnedResponse" name="postBookReturnedResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countAllPendingReservationsOfBook">
+      <wsdl:input message="tns:countAllPendingReservationsOfBookRequest" name="countAllPendingReservationsOfBookRequest"></wsdl:input>
+      <wsdl:output message="tns:countAllPendingReservationsOfBookResponse" name="countAllPendingReservationsOfBookResponse"></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getBookFromId">
       <wsdl:input message="tns:getBookFromIdRequest" name="getBookFromIdRequest"></wsdl:input>
@@ -302,6 +329,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="postBookReturnedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="countAllPendingReservationsOfBook">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="countAllPendingReservationsOfBookRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="countAllPendingReservationsOfBookResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -362,7 +398,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getBookFromIdRequest>
-         <lib:id>9</lib:id>
+         <lib:id>5</lib:id>
       </lib:getBookFromIdRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/getBookFromIdRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="d1990d32-8cfb-49a2-8d1b-be7384c8931c" isOneWay="false" action="" name="postBookBorrowed" bindingOperationName="postBookBorrowed" type="Request-Response" outputName="postBookBorrowedResponse" inputName="postBookBorrowedRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="294b1e91-2f41-4739-9950-fbfbcd679593" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
@@ -387,12 +423,35 @@
          <lib:loan_id>3</lib:loan_id>
       </lib:postBookReturnedRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/postBookReturnedRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="a49c52d4-9909-4b52-819a-aef31b165ffc" wsaVersion="NONE" name="LoansPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.loans}LoansPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/loans.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/loans.wsdl"><con:part><con:url>http://localhost:8081/ws/loans.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.loans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.loans" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.loans">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/postBookReturnedRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="f6434fd1-85cd-44c0-97fa-27c93239f336" isOneWay="false" action="" name="countAllPendingReservationsOfBook" bindingOperationName="countAllPendingReservationsOfBook" type="Request-Response" outputName="countAllPendingReservationsOfBookResponse" inputName="countAllPendingReservationsOfBookRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="6a51d5a1-9e40-434d-91b7-e8145a1f0457" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/books</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:countAllPendingReservationsOfBookRequest>
+         <lib:id>5</lib:id>
+      </lib:countAllPendingReservationsOfBookRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/countAllPendingReservationsOfBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="a49c52d4-9909-4b52-819a-aef31b165ffc" wsaVersion="NONE" name="LoansPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.loans}LoansPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/loans.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/loans.wsdl"><con:part><con:url>http://localhost:8081/ws/loans.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.loans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.loans" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.loans">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.loans" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="getAllNotReturnedBookRequest">
         <xs:complexType>
           <xs:sequence></xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="postCreateReservationRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="client_id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="postCreateReservationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="client_id" type="xs:long"/>
+          </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="getAllNotReturnedBookResponse">
@@ -402,9 +461,49 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="postCancelReservationRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="postCancelReservationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAllReservationFromClientRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAllReservationFromClientResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="reservation" type="tns:reservation"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="updateAllNotificationRequest">
+        <xs:complexType>
+          <xs:sequence></xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="getAllSoonExpiredLoanRequest">
         <xs:complexType>
           <xs:sequence></xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="updateAllNotificationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="notification" type="tns:notification"/>
+          </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="getAllSoonExpiredLoanResponse">
@@ -435,8 +534,38 @@
           <xs:element name="email" type="xs:string"/>
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="notification">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="created_date" type="xs:date"/>
+          <xs:element name="email" type="xs:string"/>
+          <xs:element name="firstname" type="xs:string"/>
+          <xs:element name="lastname" type="xs:string"/>
+          <xs:element name="state" type="xs:string"/>
+          <xs:element name="reservation" type="tns:reservation"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="reservation">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="created_date" type="xs:date"/>
+          <xs:element name="state" type="xs:string"/>
+          <xs:element name="book_title" type="xs:string"/>
+          <xs:element name="client_id" type="xs:long"/>
+          <xs:element name="max_number" type="xs:integer"/>
+          <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
+          <xs:element name="rank" type="xs:integer"/>
+          <xs:element name="book_id" type="xs:integer"/>
+        </xs:sequence>
+      </xs:complexType>
     </xs:schema>
   </wsdl:types>
+  <wsdl:message name="postCreateReservationResponse">
+    <wsdl:part element="tns:postCreateReservationResponse" name="postCreateReservationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllReservationFromClientResponse">
+    <wsdl:part element="tns:getAllReservationFromClientResponse" name="getAllReservationFromClientResponse"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllSoonExpiredLoanRequest">
     <wsdl:part element="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:part>
   </wsdl:message>
@@ -446,10 +575,36 @@
   <wsdl:message name="getAllNotReturnedBookRequest">
     <wsdl:part element="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="postCancelReservationRequest">
+    <wsdl:part element="tns:postCancelReservationRequest" name="postCancelReservationRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllReservationFromClientRequest">
+    <wsdl:part element="tns:getAllReservationFromClientRequest" name="getAllReservationFromClientRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="postCreateReservationRequest">
+    <wsdl:part element="tns:postCreateReservationRequest" name="postCreateReservationRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAllNotificationResponse">
+    <wsdl:part element="tns:updateAllNotificationResponse" name="updateAllNotificationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="postCancelReservationResponse">
+    <wsdl:part element="tns:postCancelReservationResponse" name="postCancelReservationResponse"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllNotReturnedBookResponse">
     <wsdl:part element="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateAllNotificationRequest">
+    <wsdl:part element="tns:updateAllNotificationRequest" name="updateAllNotificationRequest"></wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="LoansPort">
+    <wsdl:operation name="postCreateReservation">
+      <wsdl:input message="tns:postCreateReservationRequest" name="postCreateReservationRequest"></wsdl:input>
+      <wsdl:output message="tns:postCreateReservationResponse" name="postCreateReservationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllReservationFromClient">
+      <wsdl:input message="tns:getAllReservationFromClientRequest" name="getAllReservationFromClientRequest"></wsdl:input>
+      <wsdl:output message="tns:getAllReservationFromClientResponse" name="getAllReservationFromClientResponse"></wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllSoonExpiredLoan">
       <wsdl:input message="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:input>
       <wsdl:output message="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:output>
@@ -458,9 +613,35 @@
       <wsdl:input message="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:input>
       <wsdl:output message="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="postCancelReservation">
+      <wsdl:input message="tns:postCancelReservationRequest" name="postCancelReservationRequest"></wsdl:input>
+      <wsdl:output message="tns:postCancelReservationResponse" name="postCancelReservationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAllNotification">
+      <wsdl:input message="tns:updateAllNotificationRequest" name="updateAllNotificationRequest"></wsdl:input>
+      <wsdl:output message="tns:updateAllNotificationResponse" name="updateAllNotificationResponse"></wsdl:output>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LoansPortSoap11" type="tns:LoansPort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="postCreateReservation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="postCreateReservationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="postCreateReservationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllReservationFromClient">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getAllReservationFromClientRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllReservationFromClientResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getAllSoonExpiredLoan">
       <soap:operation soapAction=""/>
       <wsdl:input name="getAllSoonExpiredLoanRequest">
@@ -476,6 +657,24 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getAllNotReturnedBookResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="postCancelReservation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="postCancelReservationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="postCancelReservationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAllNotification">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updateAllNotificationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateAllNotificationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -495,7 +694,34 @@
    <soapenv:Body>
       <lib:getAllSoonExpiredLoanRequest/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllSoonExpiredLoanRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllSoonExpiredLoanRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="caa7e6ae-46f9-4463-ae1e-01943a655a8f" isOneWay="false" action="" name="getAllReservationFromClient" bindingOperationName="getAllReservationFromClient" type="Request-Response" outputName="getAllReservationFromClientResponse" inputName="getAllReservationFromClientRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="93573bd3-c540-496c-8028-5ad0cf57698c" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getAllReservationFromClientRequest>
+         <lib:username>flo4</lib:username>
+      </lib:getAllReservationFromClientRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllReservationFromClientRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="29a737c8-2aa0-4f29-b407-fe2de4d952f8" isOneWay="false" action="" name="updateAllNotification" bindingOperationName="updateAllNotification" type="Request-Response" outputName="updateAllNotificationResponse" inputName="updateAllNotificationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f198c2f9-4adf-40b2-b414-9090a55aeb0b" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:updateAllNotificationRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/updateAllNotificationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="5611a854-40c8-4e9b-ba34-3131743ea0bd" isOneWay="false" action="" name="postCancelReservation" bindingOperationName="postCancelReservation" type="Request-Response" outputName="postCancelReservationResponse" inputName="postCancelReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2606d337-c3a3-47a3-a12b-dff77abf94ef" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:postCancelReservationRequest>
+         <lib:id>4</lib:id>
+      </lib:postCancelReservationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/postCancelReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="ca48f5f8-63fb-453c-afac-c64ef7102032" isOneWay="false" action="" name="postCreateReservation" bindingOperationName="postCreateReservation" type="Request-Response" outputName="postCreateReservationResponse" inputName="postCreateReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="464bbe46-513d-46c7-8d40-1621b836b742" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:postCreateReservationRequest>
+         <lib:id>13</lib:id>
+         <lib:client_id>16</lib:client_id>
+      </lib:postCreateReservationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/postCreateReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.client" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="getClientFromUsernameRequest">
@@ -603,7 +829,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getClientFromUsernameRequest>
-         <lib:username>flo1</lib:username>
+         <lib:username>flo2</lib:username>
       </lib:getClientFromUsernameRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.client/ClientPort/getClientFromIdRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="b968dab2-bb6f-4906-bfb6-d6d41b07a93c" isOneWay="false" action="" name="postAlertEmail" bindingOperationName="postAlertEmail" type="Request-Response" outputName="postAlertEmailResponse" inputName="postAlertEmailRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="6259515c-d2e0-4e36-9095-c4443f8d671a" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/client</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.client">

@@ -218,9 +218,19 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         return r;
     }
 
-    private Date getLastReservation(ResultSet rs) throws SQLException {
+    private Date getLastReservationDate(ResultSet rs) throws SQLException {
         Date end_date = rs.getTimestamp("end_date");
         return end_date;
+    }
+
+    private Reservation getLastReservationData(ResultSet rs) throws SQLException {
+        Reservation r = new Reservation();
+        Client c = new Client();
+        r.setClientId(rs.getInt("client_id"));
+        r.setBookTitle(rs.getString("title"));
+        c.setEmail(rs.getString("email"));
+        r.setClient(c);
+        return r;
     }
 
     @Override
@@ -231,9 +241,25 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                             "LEFT JOIN book ON loan.book_id = book.id\n" +
                             "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
                     (rs, rownumber) -> {
-                        return getLastReservation(rs);
+                        return getLastReservationDate(rs);
                     }, id_of_book);
             return return_end_date;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
+    }
+
+    @Override
+    public Reservation findLastReservation(String book_title) {
+        try {
+            Reservation reservation = (Reservation) operations.queryForObject(
+                    "SELECT reservation.client_id, client.email, book.title FROM reservation\n" +
+                            "LEFT JOIN client ON reservation.client_id = client.id\n" +
+                            "LEFT JOIN book ON reservation.book_id = book.id\n" +
+                            "WHERE reservation.state = 'pending' AND book.title = ? ORDER BY reservation.created_date ASC LIMIT 1;",
+                    (rs, rownumber) -> {
+                        return getLastReservationData(rs);
+                    }, book_title);
+            return reservation;
         }
         catch(EmptyResultDataAccessException exception){ return null; }
     }
