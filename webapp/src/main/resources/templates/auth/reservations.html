@@ -69,33 +69,44 @@
                                             <td></td>
                                         </div>
                                         <td th:text="${r.getRank()}"></td>
-                                        <div th:if="${r.getRank() == 1}">
+                                        <div th:if="${bookNames != null and #lists.contains(bookNames, r.getBookTitle())}">
                                             <th>
-                                                <form th:action="@{/reserved-book}" method="post">
-                                                    <input type="hidden" name="id" th:value="${r.getBookId()}" />
-                                                    <input type="hidden" name="title" th:value="${r.getBookTitle()}" />
-                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                    <button class="btn btn-success" type="submit">Borrow this book</button>
-                                                </form>
-                                                <br>
-                                                <form th:action="@{/cancel-reservation}" method="post">
-                                                    <input type="hidden" name="id" th:value="${r.getId()}" />
-                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                    <button class="btn btn-danger" type="submit">Cancel reservation</button>
-                                                </form>
+                                                <button class="btn btn-default" type="submit" disabled>Already taken</button>
                                             </th>
                                         </div>
-                                        <div th:unless="${r.getRank() == 1}">
-                                            <th>
-                                                <form th:action="@{/cancel-reservation}" method="post">
-                                                    <input type="hidden" name="id" th:value="${r.getId()}" />
-                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                    <button class="btn btn-danger" type="submit">Cancel reservation</button>
-                                                </form>
-                                            </th>
+                                        <div th:unless="${bookNames != null and #lists.contains(bookNames, r.getBookTitle())}">
+                                            <div th:if="${r.getRank() == 1}">
+                                                <th>
+                                                    <div th:if="${r.getBookNumber() != 0}">
+                                                        <form th:action="@{/reserved-book}" method="post">
+                                                            <input type="hidden" name="id" th:value="${r.getBookId()}" />
+                                                            <input type="hidden" name="title" th:value="${r.getBookTitle()}" />
+                                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                            <button class="btn btn-success" type="submit">Borrow this book</button>
+                                                        </form>
+                                                        <br>
+                                                    </div>
+                                                    <form th:action="@{/cancel-reservation}" method="post">
+                                                        <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                        <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                    </form>
+                                                </th>
+                                            </div>
+                                            <div th:unless="${r.getRank() == 1}">
+                                                <th>
+                                                    <form th:action="@{/cancel-reservation}" method="post">
+                                                        <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                        <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                    </form>
+                                                </th>
+                                            </div>
                                         </div>
                                     </div>
                                     <div th:unless="${r.getState().toString().equals('pending')}">
+                                        <td></td>
+                                        <td></td>
                                         <th>
                                             <button class="btn btn-default" type="submit" disabled>This reservation is already archived</button>
                                         </th>

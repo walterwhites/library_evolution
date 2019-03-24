@@ -30,6 +30,14 @@ public class LoanEndPoint {
         this.reservationRepositoryEntity = reservationRepositoryEntity;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateArchivedReservationRequest")
+    @ResponsePayload
+    public UpdateArchivedReservationResponse updateArchivedReservationResponse(@RequestPayload UpdateArchivedReservationRequest request) {
+        UpdateArchivedReservationResponse response = new UpdateArchivedReservationResponse();
+        response.setHasBeenArchived(loanRepository.updateArchivedReservation(request.getUsername(), request.getBookTitle()));
+        return response;
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLastReservationRequest")
     @ResponsePayload
     public GetLastReservationResponse getLastReservationRequest(@RequestPayload GetLastReservationRequest request) {

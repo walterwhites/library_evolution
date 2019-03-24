@@ -3,6 +3,23 @@
            xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.loans"
            xmlns:tns="library.io.github.walterwhites.loans">
 
+    <xs:element name="updateArchivedReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="book_title" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateArchivedReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="has_been_archived" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getLastReservationRequest">
         <xs:complexType>
             <xs:sequence>
@@ -159,6 +176,7 @@
             <xs:element name="book_title" type="xs:string"/>
             <xs:element name="client_id" type="xs:long"/>
             <xs:element name="max_number" type="xs:integer"/>
+            <xs:element name="book_number" type="xs:integer"/>
             <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
             <xs:element name="rank" type="xs:integer"/>
             <xs:element name="book_id" type="xs:integer"/>

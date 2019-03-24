@@ -6,10 +6,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
+import java.math.BigInteger;
+
 public class LoanClient extends WebServiceGatewaySupport {
     private static final Logger log = LoggerFactory.getLogger(UserClient.class);
 
     private static final String ENDPOINT = "http://localhost:8081/ws/loans";
+
+    public UpdateArchivedReservationResponse updateArchivedReservation(String username, String book_title) {
+        UpdateArchivedReservationRequest request = new UpdateArchivedReservationRequest();
+        request.setUsername(username);
+        request.setBookTitle(book_title);
+        return (UpdateArchivedReservationResponse) getWebServiceTemplate()
+                .marshalSendAndReceive(ENDPOINT, request,
+                        new SoapActionCallback(
+                                "http://localhost:8080/dashboard"));
+    }
 
     public GetLastReservationResponse getLastReservationResponse(String title) {
         GetLastReservationRequest request = new GetLastReservationRequest();

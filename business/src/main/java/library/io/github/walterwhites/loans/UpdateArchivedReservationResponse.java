@@ -10,6 +10,7 @@ package library.io.github.walterwhites.loans;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="has_been_archived" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,9 +35,29 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "getAllSoonExpiredLoanRequest")
-public class GetAllSoonExpiredLoanRequest {
+@XmlType(name = "", propOrder = {
+    "hasBeenArchived"
+})
+@XmlRootElement(name = "updateArchivedReservationResponse")
+public class UpdateArchivedReservationResponse {
 
+    @XmlElement(name = "has_been_archived")
+    protected boolean hasBeenArchived;
+
+    /**
+     * Gets the value of the hasBeenArchived property.
+     * 
+     */
+    public boolean isHasBeenArchived() {
+        return hasBeenArchived;
+    }
+
+    /**
+     * Sets the value of the hasBeenArchived property.
+     * 
+     */
+    public void setHasBeenArchived(boolean value) {
+        this.hasBeenArchived = value;
+    }
 
 }

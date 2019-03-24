@@ -65,7 +65,8 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                         "  client.lastname AS lastname,\n" +
                         "  client.username AS username,\n" +
                         "  book.max_number AS max_number,\n" +
-                        "  book.title AS book_title\n" +
+                        "  book.title AS book_title,\n" +
+                        "  book.number AS book_number\n" +
                         "FROM\n" +
                         "  reservation\n" +
                         "    LEFT JOIN client ON reservation.client_id = client.id\n" +
@@ -75,6 +76,39 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
                     return getReservationData(rs);
                 }, username);
         return reservations;
+    }
+
+    @Override
+    public Boolean updateArchivedReservation(String username, String book_title) {
+        BigInteger number_reservation = this.checkedIfBookIsReserved(username, book_title);
+        if (number_reservation != null) {
+            this.archivedAReservation(number_reservation);
+            return true;
+        }
+        return false;
+    }
+
+    private BigInteger archivedAReservation(BigInteger number_reservation) {
+        operations.batchUpdate(
+                "UPDATE reservation SET state = 'archived' WHERE reservation.id = " +  number_reservation);
+        return number_reservation;
+    }
+
+    private BigInteger checkedIfBookIsReserved(String username, String book_title) {
+        try {
+            BigInteger number_reservation = operations.queryForObject(
+                    "SELECT reservation.id\n" +
+                            "FROM reservation\n" +
+                            "LEFT JOIN client ON reservation.client_id = client.id\n" +
+                            "LEFT JOIN book ON reservation.book_id = book.id\n" +
+                            "WHERE book.title = ? AND client.username = ? AND reservation.state = 'pending';",
+                    (rs, rownumber) -> {
+                        BigInteger result = new BigInteger(Integer.valueOf(rs.getInt("id")).toString());
+                        return result;
+                    }, book_title, username);
+            return number_reservation;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
     }
 
     private LinkedList<Integer> requestRankReservation(Long book_id) {
@@ -201,7 +235,7 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
         XMLGregorianCalendar created_date = DateUtils.toXmlGregorianCalendar(rs.getDate("created_date"));
         r.setCreatedDate(created_date);
         r.setBookTitle(rs.getString("book_title"));
-
+        r.setBookNumber(new BigInteger(Integer.valueOf(rs.getInt("book_number")).toString()));
         Long book_id = rs.getLong("book_id");
         Date end_date = this.getExpectedReturnDateOfReservation(book_id);
         if (end_date != null) {

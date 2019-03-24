@@ -96,6 +96,7 @@ public class MainController {
             redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
                     + " until to " + calendar);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+            loanClient.updateArchivedReservation(client.getUsername(), book.getTitle());
         }
         return "redirect:/tables";
     }
@@ -212,9 +213,15 @@ public class MainController {
         model.addAttribute("appName", appName);
         if (!hasUserRole) {
             return new ModelAndView("redirect:/login");
+        } else {
+            this.getAllReservationsFromClient(auth, model);
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBorrowedBooksFromClient(username);
+            List<String> bookNames = BookParser.getBookNamesAvailable(getAllBookResponseFromClient.getBook());
+            model.addAttribute("bookNames", bookNames);
+            return new ModelAndView("auth/reservations");
         }
-        this.getAllReservationsFromClient(auth, model);
-        return new ModelAndView("auth/reservations");
     }
 
     @RequestMapping(value = "/cancel-reservation", method = {RequestMethod.POST})
