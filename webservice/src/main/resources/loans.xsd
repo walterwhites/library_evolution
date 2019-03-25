@@ -3,9 +3,60 @@
            xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="library.io.github.walterwhites.loans"
            xmlns:tns="library.io.github.walterwhites.loans">
 
+    <xs:element name="updateArchivedReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="book_title" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateArchivedReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="has_been_archived" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getLastReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="book_title" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getLastReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservation" type="tns:reservation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getAllNotReturnedBookRequest">
         <xs:complexType>
             <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postCreateReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postCreateReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -18,9 +69,56 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="postCancelReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="postCancelReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllReservationFromClientRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getAllReservationFromClientResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="reservation" type="tns:reservation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateAllNotificationRequest">
+        <xs:complexType>
+            <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="getAllSoonExpiredLoanRequest">
         <xs:complexType>
             <xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateAllNotificationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded"  name="notification" type="tns:notification"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -55,6 +153,34 @@
             <xs:element name="firstname" type="xs:string"/>
             <xs:element name="lastname" type="xs:string"/>
             <xs:element name="email" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="notification">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="created_date" type="xs:date"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
+            <xs:element name="state" type="xs:string"/>
+            <xs:element name="reservation" type="tns:reservation"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reservation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="created_date" type="xs:date"/>
+            <xs:element name="state" type="xs:string"/>
+            <xs:element name="book_title" type="xs:string"/>
+            <xs:element name="client_id" type="xs:long"/>
+            <xs:element name="max_number" type="xs:integer"/>
+            <xs:element name="book_number" type="xs:integer"/>
+            <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
+            <xs:element name="rank" type="xs:integer"/>
+            <xs:element name="book_id" type="xs:integer"/>
+            <xs:element name="client" type="tns:client"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

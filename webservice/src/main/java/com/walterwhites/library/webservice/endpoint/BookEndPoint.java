@@ -10,6 +10,8 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.math.BigInteger;
+
 @Endpoint
 @Configuration
 public class BookEndPoint {
@@ -92,6 +94,15 @@ public class BookEndPoint {
         else {
             response.getBook().addAll(bookRepository.findAllBooksFromClient(request.getUsername()));
         }
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "countAllPendingReservationsOfBookRequest")
+    @ResponsePayload
+    public CountAllPendingReservationsOfBookResponse countAllPendingReservationsOfBook(@RequestPayload CountAllPendingReservationsOfBookRequest request) {
+        CountAllPendingReservationsOfBookResponse response = new CountAllPendingReservationsOfBookResponse();
+        BigInteger bigInteger = request.getId();
+        response.setNbReservations(bookRepository.countAllPendingReservationsOfBook(bigInteger));
         return response;
     }
 }

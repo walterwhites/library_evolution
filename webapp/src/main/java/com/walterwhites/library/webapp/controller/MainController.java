@@ -2,14 +2,29 @@ package com.walterwhites.library.webapp.controller;
 
 import com.walterwhites.library.business.parser.BookParser;
 import com.walterwhites.library.business.utils.DateUtils;
+import com.walterwhites.library.business.utils.EmailService;
 import com.walterwhites.library.model.pojo.MyUser;
+import com.walterwhites.library.webapp.LibraryApplication;
 import com.walterwhites.library.webapp.apiClient.BookClient;
+import com.walterwhites.library.webapp.apiClient.LoanClient;
 import com.walterwhites.library.webapp.apiClient.UserClient;
+import com.walterwhites.library.webapp.security.WebMvcConfig;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.Loans;
 import library.io.github.walterwhites.client.GetClientFromUsernameResponse;
 import library.io.github.walterwhites.client.PostAlertEmailResponse;
+import library.io.github.walterwhites.loans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -28,6 +43,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
+@EnableAutoConfiguration
+@Configuration
 public class MainController {
 
     @Value("${error.message}")
@@ -44,6 +61,12 @@ public class MainController {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private LoanClient loanClient;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
     public String dashboard(Model model) {
@@ -70,11 +93,26 @@ public class MainController {
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.add(Calendar.DATE, 28);
             String calendar = DateUtils.formatDayMonthYear(gregorianCalendar);
-            redirectAttributes.addFlashAttribute("message", "You have renewed " + book.getTitle()
+            redirectAttributes.addFlashAttribute("message", "You have borrowed " + book.getTitle()
                     + " until to " + calendar);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+            loanClient.updateArchivedReservation(client.getUsername(), book.getTitle());
         }
         return "redirect:/tables";
+    }
+
+    @RequestMapping(value = "/make-reservation", method = {RequestMethod.POST})
+    public String makeReservation(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            UserDetails client = (UserDetails) auth.getPrincipal();
+            PostCreateReservationResponse postCreateReservationResponse = loanClient.postCreateReservation(book.getId(),  ((MyUser) client).getId());
+            redirectAttributes.addFlashAttribute("message", "You have make a reservation for " + book.getTitle());
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        }
+        return "redirect:/reservations";
     }
 
     @RequestMapping(value = "/renewed-book", method = {RequestMethod.POST})
@@ -99,6 +137,13 @@ public class MainController {
             PostBookReturnedResponse postBookReturnedResponse = bookClient.postBookReturned(loans.getId());
             redirectAttributes.addFlashAttribute("message", "You have returned " + title);
             redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+            GetLastReservationResponse getLastReservationResponse = loanClient.getLastReservationResponse(title);
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            if (getLastReservationResponse.getReservation() != null) {
+                String message = "Hello, the book " + getLastReservationResponse.getReservation().getBookTitle() + " is available now, come to the site to borrow it (you have 48 hours)";
+                emailService.sendSimpleMessage("hopemagie@gmail.com", "A book is available", message);
+            }
         }
         return "redirect:/loans";
     }
@@ -160,6 +205,38 @@ public class MainController {
         return new ModelAndView("auth/loans");
     }
 
+    @RequestMapping(value = "/reservations", method = RequestMethod.GET)
+    public ModelAndView reservations(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        model.addAttribute("appName", appName);
+        if (!hasUserRole) {
+            return new ModelAndView("redirect:/login");
+        } else {
+            this.getAllReservationsFromClient(auth, model);
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBorrowedBooksFromClient(username);
+            List<String> bookNames = BookParser.getBookNamesAvailable(getAllBookResponseFromClient.getBook());
+            model.addAttribute("bookNames", bookNames);
+            return new ModelAndView("auth/reservations");
+        }
+    }
+
+    @RequestMapping(value = "/cancel-reservation", method = {RequestMethod.POST})
+    public String cancelReservation(@ModelAttribute("reservation") Reservation reservation, RedirectAttributes redirectAttributes, @RequestParam("id") Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+        if (hasUserRole) {
+            PostCancelReservationResponse postCancelReservationResponse = loanClient.postCancelReservation(id);
+            redirectAttributes.addFlashAttribute("message", "You have cancelled the reservation number " + id);
+            redirectAttributes.addFlashAttribute("alertClass", "alert-warning");
+        }
+        return "redirect:/reservations";
+    }
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profile(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -193,6 +270,15 @@ public class MainController {
             String username = client.getUsername();
             GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBooksFromClient(username);
             model.addAttribute("books_client", getAllBookResponseFromClient);
+        }
+    }
+
+    private void getAllReservationsFromClient(Authentication auth, Model model) {
+        if (auth != null) {
+            User client = (User) auth.getPrincipal();
+            String username = client.getUsername();
+            GetAllReservationFromClientResponse getAllReservationFromClientResponse = loanClient.getAllReservationFromClientResponse(username);
+            model.addAttribute("all_reservations", getAllReservationFromClientResponse);
         }
     }
 

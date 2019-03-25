@@ -21,6 +21,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="countAllPendingReservationsOfBookRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="countAllPendingReservationsOfBookResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nb_reservations" type="xs:integer"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="postBookRenewedRequest">
         <xs:complexType>
             <xs:sequence>
@@ -136,6 +152,9 @@
             <xs:element name="number" type="xs:int"/>
             <xs:element name="libraries" type="tns:libraries"/>
             <xs:element name="loans" type="tns:loans"/>
+            <xs:element name="nb_reservations" type="xs:integer"/>
+            <xs:element name="max_number" type="xs:integer"/>
+            <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
 

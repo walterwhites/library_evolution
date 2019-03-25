@@ -1,5 +1,7 @@
 package com.walterwhites.library.webapp.security;
 
+import com.walterwhites.library.business.utils.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 

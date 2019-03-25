@@ -25,6 +25,9 @@ public class Client extends AbstractUser {
     private String language;
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Loan> loans;
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Reservation> reservations;
     @Column(name = "alert_email", nullable = false)
     private boolean alert_email =  true;
 

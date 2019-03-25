@@ -1,12 +1,15 @@
 package com.walterwhites.library.consumer.repository.jaxb.impl;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.consumer.repository.entity.BookRepositoryEntityImpl;
 import library.io.github.walterwhites.*;
+import library.io.github.walterwhites.loans.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,6 +77,37 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
                     return getBookData(rs);
                 }, titleOfBook);
         return books;
+    }
+
+    @Override
+    public BigInteger countAllPendingReservationsOfBook(BigInteger id_of_book) {
+        try {
+            Integer count = (Integer) operations.queryForObject(
+                    "SELECT COUNT(*) AS nb_reservations FROM reservation\n" +
+                            "LEFT JOIN book ON reservation.book_id = book.id\n" +
+                            "WHERE book.id = ? and reservation.state = 'pending'\n",
+                    (rs, rownumber) -> {
+                        return countReservation(rs);
+                    }, id_of_book);
+            BigInteger bigInteger = BigInteger.valueOf(count);
+            return bigInteger;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
+    }
+
+    @Override
+    public Date getExpectedReturnDateOfReservation(Long id_of_book) {
+        try {
+            Date return_end_date = (Date) operations.queryForObject(
+                    "SELECT loan.end_date FROM loan\n" +
+                            "LEFT JOIN book ON loan.book_id = book.id\n" +
+                            "WHERE loan.state = 'borrowed' AND book.id = ? ORDER BY loan.id ASC LIMIT 1;",
+                    (rs, rownumber) -> {
+                        return getLastReservation(rs);
+                    }, id_of_book);
+            return return_end_date;
+        }
+        catch(EmptyResultDataAccessException exception){ return null; }
     }
 
     @Override
@@ -180,6 +218,16 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
         return books;
     }
 
+    private Integer countReservation(ResultSet rs) throws SQLException {
+        Integer count = rs.getInt("nb_reservations");
+        return count;
+    }
+
+    private Date getLastReservation(ResultSet rs) throws SQLException {
+        Date end_date = rs.getTimestamp("end_date");
+        return end_date;
+    }
+
     private Book getAllBookData(ResultSet rs) throws SQLException {
         Book b = new Book();
         Libraries library = new Libraries();
@@ -197,6 +245,22 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
         b.setNumber(rs.getInt("number"));
 
+        Long book_id = rs.getLong("id");
+        BigInteger bookId = BigInteger.valueOf(book_id.intValue());
+
+        Date end_date = this.getExpectedReturnDateOfReservation(book_id);
+        if (end_date != null) {
+            XMLGregorianCalendar last_reservation_end_date = DateUtils.toXmlGregorianCalendar(end_date);
+            b.setLastReservationEndDate(last_reservation_end_date);
+        }
+
+        BigInteger countReservations = this.countAllPendingReservationsOfBook(bookId);
+        if (countReservations != null) {
+            b.setNbReservations(countReservations);
+        }
+
+        BigInteger bigIntegerMaxNumber = BigInteger.valueOf(rs.getInt("max_number"));
+        b.setMaxNumber(bigIntegerMaxNumber);
         b.setLibraries(library);
         return b;
     }
@@ -219,44 +283,21 @@ public class BookRepositoryImpl implements BookRepository, BookRepositoryJPA {
 
         b.setNumber(rs.getInt("number"));
 
-        State state = State.fromValue(rs.getString("loan_state"));
-        loan.setState(state);
-        loan.setId(rs.getLong("loan_id"));
-        XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
-        loan.setEndDate(end_date);
-        XMLGregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));
-        loan.setStartDate(start_date);
-        loan.setRenewed(rs.getBoolean("loan_renewed"));
-        XMLGregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_updated_date"));
-        loan.setUpdatedDate(updated_date);
+        if (rs.getString("loan_id") != null) {
+            State state = State.fromValue(rs.getString("loan_state"));
+            loan.setState(state);
+            loan.setId(rs.getLong("loan_id"));
+            XMLGregorianCalendar end_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_end_date"));
+            loan.setEndDate(end_date);
+            XMLGregorianCalendar start_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_start_date"));
+            loan.setStartDate(start_date);
+            loan.setRenewed(rs.getBoolean("loan_renewed"));
+            XMLGregorianCalendar updated_date = DateUtils.toXmlGregorianCalendar(rs.getDate("loan_updated_date"));
+            loan.setUpdatedDate(updated_date);
 
-        b.setLoans(loan);
+            b.setLoans(loan);
+        }
         b.setLibraries(library);
         return b;
     }
 }
-
-/**
- SELECT
- book.* AS book,
- loan_books.loan_id AS loan_id,
- library_books.library_id AS library_id,
- loan.end_date AS loan_end_date,
- loan.renewed AS loan_renewed,
- loan.start_date AS loan_start_date,
- loan.state AS loan_state,
- loan.updated_date AS loan_updated_date,
- loan.client_id AS loan_client_id,
- library.address AS library_address,
- library.name AS library_name,
- library.phone_number AS library_phone_number
- FROM
- book
- LEFT JOIN loan_books ON book.id = loan_books.books_id
- LEFT JOIN loan ON loan_books.loan_id = loan.id
- LEFT JOIN library_books ON book.id = library_books.books_id
- LEFT JOIN library ON library_books.library_id = library.id
- WHERE
- book.id = 1
-
- **/

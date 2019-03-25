@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--/*@thymesVar id="appName" type="String"*/-->
+    <title th:text="${'Reservations - ' + appName}"></title>
+</head>
+<header lang="en" th:replace="fragments/header :: header">
+</header>
+<body>
+<div id="wrapper">
+    <nav lang="en" th:replace="fragments/nav :: nav">
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">My Reservations </h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Reservation number</th>
+                                <th>Created date *</th>
+                                <th>State</th>
+                                <th>Book</th>
+                                <th>Expected return date of next book</th>
+                                <th>Rank in the list</th>
+                                <th>Cancel the reservation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--/*@thymesVar id="r" type="library.io.github.walterwhites.loans.Reservation"*/-->
+                            <!--/*@thymesVar id="all_reservations" type="library.io.github.walterwhites.loans.GetAllReservationFromClientResponse"*/-->
+                            <tr class="odd gradeX"
+                                th:each="r, iStat : ${all_reservations.getReservation()}"
+                                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                                <td th:text="${r.getId()}"></td>
+                                <td th:text="|${r.getCreatedDate().getDay()}/${r.getCreatedDate().getMonth()}/${r.getCreatedDate().getYear()}|"></td>
+                                <td th:text="${r.getState()}"></td>
+                                <td th:text="${r.getBookTitle()}"></td>
+                                <div th:if="${r.getState().toString().equals('cancelled')}">
+                                    <td></td>
+                                    <td></td>
+                                    <th>
+                                        <button class="btn btn-default" type="submit" disabled>This reservation is already cancelled</button>
+                                    </th>
+                                </div>
+                                <div th:unless="${r.getState().toString().equals('cancelled')}">
+                                    <div th:if="${r.getState().toString().equals('pending')}">
+                                        <div th:if="${r.getLastReservationEndDate() != null}">
+                                            <td th:text="|${r.getLastReservationEndDate().getDay()}/${r.getLastReservationEndDate().getMonth()}/${r.getLastReservationEndDate().getYear()} ${r.getLastReservationEndDate().getHour()}:${r.getLastReservationEndDate().getMinute()}|"></td>
+                                        </div>
+                                        <div th:unless="${r.getLastReservationEndDate() != null}">
+                                            <td></td>
+                                        </div>
+                                        <td th:text="${r.getRank()}"></td>
+                                        <div th:if="${bookNames != null and #lists.contains(bookNames, r.getBookTitle())}">
+                                            <th>
+                                                <button class="btn btn-default" type="submit" disabled>Already taken</button>
+                                            </th>
+                                        </div>
+                                        <div th:unless="${bookNames != null and #lists.contains(bookNames, r.getBookTitle())}">
+                                            <div th:if="${r.getRank() == 1}">
+                                                <th>
+                                                    <div th:if="${r.getBookNumber() != 0}">
+                                                        <form th:action="@{/reserved-book}" method="post">
+                                                            <input type="hidden" name="id" th:value="${r.getBookId()}" />
+                                                            <input type="hidden" name="title" th:value="${r.getBookTitle()}" />
+                                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                            <button class="btn btn-success" type="submit">Borrow this book</button>
+                                                        </form>
+                                                        <br>
+                                                    </div>
+                                                    <form th:action="@{/cancel-reservation}" method="post">
+                                                        <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                        <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                    </form>
+                                                </th>
+                                            </div>
+                                            <div th:unless="${r.getRank() == 1}">
+                                                <th>
+                                                    <form th:action="@{/cancel-reservation}" method="post">
+                                                        <input type="hidden" name="id" th:value="${r.getId()}" />
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                        <button class="btn btn-danger" type="submit">Cancel reservation</button>
+                                                    </form>
+                                                </th>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div th:unless="${r.getState().toString().equals('pending')}">
+                                        <td></td>
+                                        <td></td>
+                                        <th>
+                                            <button class="btn btn-default" type="submit" disabled>This reservation is already archived</button>
+                                        </th>
+                                    </div>
+                                </div>
+                            </tr>
+                            <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
+                            </tbody>
+                        </table>
+                        <div>
+                            *Reservation of a book: A reservation is available 48 hours after the notification by email
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+</body>
+<footer lang="en" th:replace="fragments/footer :: footer"> </footer>
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+</html>

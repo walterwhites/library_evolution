@@ -35,12 +35,15 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Identifiant</th>
                                         <th>Title</th>
                                         <th>Author</th>
                                         <th>Language</th>
                                         <th>Number of copies</th>
                                         <th>Borrow</th>
+                                        <th>Number of current reservations</th>
+                                        <th>Number of maximum reservations possible</th>
+                                        <th>Expected return date of next book</th>
+                                        <th>Make a reservation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +53,6 @@
                                     <tr class="odd gradeX"
                                         th:each="book, iStat : ${books.getBook()}"
                                         th:alt-title="${iStat.even}? 'even' : 'odd'">
-                                        <td th:text="${book.getId()}"></td>
                                         <td th:text="${book.getTitle()}"></td>
                                         <td th:text="${book.getAuthor()}"></td>
                                         <td th:text="${book.getLanguages()}"></td>
@@ -70,7 +72,12 @@
                                                 </div>
                                                 <div th:unless="${bookNames != null and #lists.contains(bookNames, book.title)}">
                                                     <th th:if="${book.getNumber() == 0}">
-                                                        <button class="btn btn-default" type="submit" disabled>Not available</button>
+                                                        <div th:if="${book.getNbReservations() == book.getMaxNumber()}">
+                                                            <button class="btn btn-default" type="submit" disabled>Not available</button>
+                                                        </div>
+                                                        <div th:unless="${book.getNbReservations() == book.getMaxNumber()}">
+                                                            <button class="btn btn-default" type="submit" disabled>Available for reservation</button>
+                                                        </div>
                                                     </th>
                                                     <th th:unless="${book.getNumber() == 0}">
                                                         <form th:action="@{/reserved-book}" method="post">
@@ -82,6 +89,38 @@
                                                     </th>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() == book.getMaxNumber()}">
+                                            <td th:text="${book.getNbReservations()}"></td>
+                                            <td th:text="${book.getMaxNumber()}"></td>
+                                            <div th:if="${book.getLastReservationEndDate() != null}">
+                                                <td th:text="|${book.getLastReservationEndDate().getDay()}/${book.getLastReservationEndDate().getMonth()}/${book.getLastReservationEndDate().getYear()} ${book.getLastReservationEndDate().getHour()}:${book.getLastReservationEndDate().getMinute()}|"></td>
+                                            </div>
+                                            <div th:unless="${book.getLastReservationEndDate() != null}">
+                                                <td></td>
+                                            </div>
+                                        </div>
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() == book.getMaxNumber()}">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </div>
+                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber()}">
+                                            <td>
+                                                <form th:action="@{/make-reservation}" method="post">
+                                                    <input type="hidden" name="id" th:value="${book.getId()}" />
+                                                    <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                    <button class="btn btn-success" type="submit">Make a reservation on this book</button>
+                                                </form>
+                                            </td>
+                                        </div>
+                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber()}">
+                                            <td></td>
                                         </div>
                                     </tr>
                                     <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"/>
