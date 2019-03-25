@@ -433,6 +433,35 @@
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites/BooksPort/countAllPendingReservationsOfBookRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="a49c52d4-9909-4b52-819a-aef31b165ffc" wsaVersion="NONE" name="LoansPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.loans}LoansPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/loans.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/loans.wsdl"><con:part><con:url>http://localhost:8081/ws/loans.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.loans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.loans" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.loans">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.loans" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="updateArchivedReservationRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="book_title" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="updateArchivedReservationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="has_been_archived" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getLastReservationRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="book_title" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getLastReservationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="reservation" type="tns:reservation"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="getAllNotReturnedBookRequest">
         <xs:complexType>
           <xs:sequence></xs:sequence>
@@ -553,9 +582,11 @@
           <xs:element name="book_title" type="xs:string"/>
           <xs:element name="client_id" type="xs:long"/>
           <xs:element name="max_number" type="xs:integer"/>
+          <xs:element name="book_number" type="xs:integer"/>
           <xs:element name="last_reservation_end_date" type="xs:dateTime"/>
           <xs:element name="rank" type="xs:integer"/>
           <xs:element name="book_id" type="xs:integer"/>
+          <xs:element name="client" type="tns:client"/>
         </xs:sequence>
       </xs:complexType>
     </xs:schema>
@@ -566,20 +597,17 @@
   <wsdl:message name="getAllReservationFromClientResponse">
     <wsdl:part element="tns:getAllReservationFromClientResponse" name="getAllReservationFromClientResponse"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllSoonExpiredLoanRequest">
-    <wsdl:part element="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAllSoonExpiredLoanResponse">
     <wsdl:part element="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllNotReturnedBookRequest">
-    <wsdl:part element="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:part>
+  <wsdl:message name="getLastReservationRequest">
+    <wsdl:part element="tns:getLastReservationRequest" name="getLastReservationRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLastReservationResponse">
+    <wsdl:part element="tns:getLastReservationResponse" name="getLastReservationResponse"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="postCancelReservationRequest">
     <wsdl:part element="tns:postCancelReservationRequest" name="postCancelReservationRequest"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllReservationFromClientRequest">
-    <wsdl:part element="tns:getAllReservationFromClientRequest" name="getAllReservationFromClientRequest"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="postCreateReservationRequest">
     <wsdl:part element="tns:postCreateReservationRequest" name="postCreateReservationRequest"></wsdl:part>
@@ -589,6 +617,21 @@
   </wsdl:message>
   <wsdl:message name="postCancelReservationResponse">
     <wsdl:part element="tns:postCancelReservationResponse" name="postCancelReservationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateArchivedReservationRequest">
+    <wsdl:part element="tns:updateArchivedReservationRequest" name="updateArchivedReservationRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateArchivedReservationResponse">
+    <wsdl:part element="tns:updateArchivedReservationResponse" name="updateArchivedReservationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllSoonExpiredLoanRequest">
+    <wsdl:part element="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllNotReturnedBookRequest">
+    <wsdl:part element="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllReservationFromClientRequest">
+    <wsdl:part element="tns:getAllReservationFromClientRequest" name="getAllReservationFromClientRequest"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllNotReturnedBookResponse">
     <wsdl:part element="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:part>
@@ -609,9 +652,9 @@
       <wsdl:input message="tns:getAllSoonExpiredLoanRequest" name="getAllSoonExpiredLoanRequest"></wsdl:input>
       <wsdl:output message="tns:getAllSoonExpiredLoanResponse" name="getAllSoonExpiredLoanResponse"></wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getAllNotReturnedBook">
-      <wsdl:input message="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:input>
-      <wsdl:output message="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:output>
+    <wsdl:operation name="getLastReservation">
+      <wsdl:input message="tns:getLastReservationRequest" name="getLastReservationRequest"></wsdl:input>
+      <wsdl:output message="tns:getLastReservationResponse" name="getLastReservationResponse"></wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="postCancelReservation">
       <wsdl:input message="tns:postCancelReservationRequest" name="postCancelReservationRequest"></wsdl:input>
@@ -620,6 +663,14 @@
     <wsdl:operation name="updateAllNotification">
       <wsdl:input message="tns:updateAllNotificationRequest" name="updateAllNotificationRequest"></wsdl:input>
       <wsdl:output message="tns:updateAllNotificationResponse" name="updateAllNotificationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateArchivedReservation">
+      <wsdl:input message="tns:updateArchivedReservationRequest" name="updateArchivedReservationRequest"></wsdl:input>
+      <wsdl:output message="tns:updateArchivedReservationResponse" name="updateArchivedReservationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllNotReturnedBook">
+      <wsdl:input message="tns:getAllNotReturnedBookRequest" name="getAllNotReturnedBookRequest"></wsdl:input>
+      <wsdl:output message="tns:getAllNotReturnedBookResponse" name="getAllNotReturnedBookResponse"></wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LoansPortSoap11" type="tns:LoansPort">
@@ -651,12 +702,12 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getAllNotReturnedBook">
+    <wsdl:operation name="getLastReservation">
       <soap:operation soapAction=""/>
-      <wsdl:input name="getAllNotReturnedBookRequest">
+      <wsdl:input name="getLastReservationRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="getAllNotReturnedBookResponse">
+      <wsdl:output name="getLastReservationResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -675,6 +726,24 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="updateAllNotificationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateArchivedReservation">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updateArchivedReservationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateArchivedReservationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllNotReturnedBook">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getAllNotReturnedBookRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllNotReturnedBookResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -698,7 +767,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getAllReservationFromClientRequest>
-         <lib:username>flo4</lib:username>
+         <lib:username>flo1</lib:username>
       </lib:getAllReservationFromClientRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllReservationFromClientRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="29a737c8-2aa0-4f29-b407-fe2de4d952f8" isOneWay="false" action="" name="updateAllNotification" bindingOperationName="updateAllNotification" type="Request-Response" outputName="updateAllNotificationResponse" inputName="updateAllNotificationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f198c2f9-4adf-40b2-b414-9090a55aeb0b" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
@@ -721,7 +790,22 @@
          <lib:client_id>16</lib:client_id>
       </lib:postCreateReservationRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/postCreateReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/postCreateReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="6f160804-8bbe-43f9-8b26-f11ab8527eeb" isOneWay="false" action="" name="getLastReservation" bindingOperationName="getLastReservation" type="Request-Response" outputName="getLastReservationResponse" inputName="getLastReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e4dc85c9-180c-4d72-a0e1-f0f5f6350c6d" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:getLastReservationRequest>
+         <lib:book_title>eragon</lib:book_title>
+      </lib:getLastReservationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getLastReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="3673f937-ca3c-42a2-b9dd-691c3cf93fcc" isOneWay="false" action="" name="updateArchivedReservation" bindingOperationName="updateArchivedReservation" type="Request-Response" outputName="updateArchivedReservationResponse" inputName="updateArchivedReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="aaecfc18-b048-4fc1-b932-70d7e141be4f" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <lib:updateArchivedReservationRequest>
+         <lib:username>flo4</lib:username>
+         <lib:book_title>game of thrones</lib:book_title>
+      </lib:updateArchivedReservationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/updateArchivedReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="8871d8be-a797-40f2-afc6-02422dfb566b" wsaVersion="NONE" name="ClientPortSoap11" type="wsdl" bindingName="{library.io.github.walterwhites.client}ClientPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8081/ws/client.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/client.wsdl"><con:part><con:url>http://localhost:8081/ws/client.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="library.io.github.walterwhites.client" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="library.io.github.walterwhites.client" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="library.io.github.walterwhites.client">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="library.io.github.walterwhites.client" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
       <xs:element name="getClientFromUsernameRequest">
