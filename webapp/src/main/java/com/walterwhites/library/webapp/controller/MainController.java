@@ -38,9 +38,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @EnableAutoConfiguration
@@ -157,9 +159,12 @@ public class MainController {
             User client = (User) auth.getPrincipal();
             String username = client.getUsername();
             GetAllBookFromClientResponse getAllBookResponseFromClient = bookClient.getAllBorrowedBooksFromClient(username);
+            GetAllReservationFromClientResponse getAllReservationFromClientResponse = loanClient.getAllReservationFromClientResponse(username);
             List<String> bookNames = BookParser.getBookNamesAvailable(getAllBookResponseFromClient.getBook());
+            Map<String, BigInteger> bookNamesOfReservations = BookParser.getBookNamesAvailableExceptReservations(getAllReservationFromClientResponse.getReservation());
             model.addAttribute("bookNames", bookNames);
             model.addAttribute("connected", true);
+            model.addAttribute("bookNamesExceptReservation", bookNamesOfReservations);
         }
         model.addAttribute("appName", appName);
         model.addAttribute("author", author);

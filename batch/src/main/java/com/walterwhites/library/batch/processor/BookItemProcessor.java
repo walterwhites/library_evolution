@@ -15,6 +15,8 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
 
     private static final Logger log = LoggerFactory.getLogger(BookItemProcessor.class);
     static int i = 1;
+    static LinkedList<String> usernames = new LinkedList<>(Arrays.asList("flo", "vincent", "virginie", "pierre"));
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,12 +31,12 @@ public class BookItemProcessor implements ItemProcessor<Book, Book> {
         final Integer number = item.getNumber();
         final Client client = new Client();
 
-        client.setFirstname("Flo");
+        client.setFirstname(usernames.get(i - 1));
         client.setPassword(passwordEncoder().encode("password"));
         client.setLanguage("fr");
-        client.setLastname("flo");
+        client.setLastname(usernames.get(i - 1));
         client.setEmail("client" + i + "@gmail.com");
-        client.setUsername("flo" + i);
+        client.setUsername(usernames.get(i - 1));
 
         List<Book> bookList = new LinkedList<Book>();
         Book transformedBook = new Book(title, author, language, number);

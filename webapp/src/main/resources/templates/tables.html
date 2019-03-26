@@ -49,6 +49,7 @@
                                 <tbody>
                                 <!--/*@thymesVar id="book" type="library.io.github.walterwhites.Book"*/-->
                                 <!--/*@thymesVar id="bookNames" type="java.util.List<java.lang.String>"*/-->
+                                <!--/*@thymesVar id="bookNamesExceptReservation" type="java.util.Map<java.lang.String, java.math.BigInteger>"*/-->
                                 <!--/*@thymesVar id="connected" type="java.lang.Boolean"*/-->
                                     <tr class="odd gradeX"
                                         th:each="book, iStat : ${books.getBook()}"
@@ -71,22 +72,36 @@
                                                     </th>
                                                 </div>
                                                 <div th:unless="${bookNames != null and #lists.contains(bookNames, book.title)}">
-                                                    <th th:if="${book.getNumber() == 0}">
-                                                        <div th:if="${book.getNbReservations() == book.getMaxNumber()}">
-                                                            <button class="btn btn-default" type="submit" disabled>Not available</button>
-                                                        </div>
-                                                        <div th:unless="${book.getNbReservations() == book.getMaxNumber()}">
-                                                            <button class="btn btn-default" type="submit" disabled>Available for reservation</button>
-                                                        </div>
-                                                    </th>
-                                                    <th th:unless="${book.getNumber() == 0}">
-                                                        <form th:action="@{/reserved-book}" method="post">
-                                                            <input type="hidden" name="id" th:value="${book.getId()}" />
-                                                            <input type="hidden" name="title" th:value="${book.getTitle()}" />
-                                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                                                            <button class="btn btn-success" type="submit">Borrow this book</button>
-                                                        </form>
-                                                    </th>
+                                                    <div th:if="${bookNamesExceptReservation != null and #maps.containsKey(bookNamesExceptReservation, book.title)}">
+                                                        <th>
+                                                            <button class="btn btn-default" type="submit" disabled>Already reserved</button>
+                                                        </th>
+                                                    </div>
+                                                    <div th:unless="${bookNamesExceptReservation != null and #maps.containsKey(bookNamesExceptReservation, book.title)}">
+                                                        <th th:if="${book.getNumber() == 0}">
+                                                            <div th:if="${book.getNbReservations() == book.getMaxNumber()}">
+                                                                <button class="btn btn-default" type="submit" disabled>Not available</button>
+                                                            </div>
+                                                            <div th:unless="${book.getNbReservations() == book.getMaxNumber()}">
+                                                                <button class="btn btn-default" type="submit" disabled>Available for reservation</button>
+                                                            </div>
+                                                        </th>
+                                                        <th th:unless="${book.getNumber() == 0}">
+                                                            <div th:if="${book.getNbReservations() < book.getNumber()}">
+                                                                <form th:action="@{/reserved-book}" method="post">
+                                                                    <input type="hidden" name="id" th:value="${book.getId()}" />
+                                                                    <input type="hidden" name="title" th:value="${book.getTitle()}" />
+                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                                                    <button class="btn btn-success" type="submit">Borrow this book</button>
+                                                                </form>
+                                                            </div>
+                                                            <div th:unless="${book.getNbReservations() < book.getNumber()}">
+                                                                <button class="btn btn-default" type="submit" disabled>Can't be borrowed because this book have already
+                                                                <p th:text="${book.getNbReservations() +  ' reservation(s)'}"></p>
+                                                                </button>
+                                                            </div>
+                                                        </th>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,8 +122,8 @@
                                             <td></td>
                                             <td></td>
                                         </div>
-                                        <div th:if="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
-                                           and book.getNbReservations() < book.getMaxNumber()}">
+                                        <div th:if="${bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber() and bookNamesExceptReservation != null and !#maps.containsKey(bookNamesExceptReservation, book.title)}">
                                             <td>
                                                 <form th:action="@{/make-reservation}" method="post">
                                                     <input type="hidden" name="id" th:value="${book.getId()}" />
@@ -118,8 +133,8 @@
                                                 </form>
                                             </td>
                                         </div>
-                                        <div th:unless="${book.getNumber() == 0 and bookNames != null and !#lists.contains(bookNames, book.title)
-                                           and book.getNbReservations() < book.getMaxNumber()}">
+                                        <div th:unless="${bookNames != null and !#lists.contains(bookNames, book.title)
+                                           and book.getNbReservations() < book.getMaxNumber() and bookNamesExceptReservation != null and !#maps.containsKey(bookNamesExceptReservation, book.title)}">
                                             <td></td>
                                         </div>
                                     </tr>

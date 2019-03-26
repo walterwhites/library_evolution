@@ -42,7 +42,11 @@ public class LoanEndPoint {
     @ResponsePayload
     public GetLastReservationResponse getLastReservationRequest(@RequestPayload GetLastReservationRequest request) {
         GetLastReservationResponse response = new GetLastReservationResponse();
-        response.setReservation(loanRepository.findLastReservation(request.getBookTitle()));
+        Reservation reservation = loanRepository.findLastReservation(request.getBookTitle());
+        if (reservation != null) {
+            this.reservationRepositoryEntity.saveNewNotification(reservation);
+        }
+        response.setReservation(reservation);
         return response;
     }
 

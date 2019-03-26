@@ -260,6 +260,7 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
     private Reservation getLastReservationData(ResultSet rs) throws SQLException {
         Reservation r = new Reservation();
         Client c = new Client();
+        r.setId(rs.getInt("id"));
         r.setClientId(rs.getInt("client_id"));
         r.setBookTitle(rs.getString("title"));
         c.setEmail(rs.getString("email"));
@@ -286,7 +287,7 @@ public class LoanRepositoryImpl implements LoanRepository, LoanRepositoryJPA {
     public Reservation findLastReservation(String book_title) {
         try {
             Reservation reservation = (Reservation) operations.queryForObject(
-                    "SELECT reservation.client_id, client.email, book.title FROM reservation\n" +
+                    "SELECT reservation.id, reservation.client_id, client.email, book.title FROM reservation\n" +
                             "LEFT JOIN client ON reservation.client_id = client.id\n" +
                             "LEFT JOIN book ON reservation.book_id = book.id\n" +
                             "WHERE reservation.state = 'pending' AND book.title = ? ORDER BY reservation.created_date ASC LIMIT 1;",

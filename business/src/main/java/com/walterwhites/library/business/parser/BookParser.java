@@ -2,11 +2,10 @@ package com.walterwhites.library.business.parser;
 
 import com.walterwhites.library.business.client.SentryJClient;
 import library.io.github.walterwhites.Book;
+import library.io.github.walterwhites.loans.Reservation;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 
 final public class BookParser {
 
@@ -30,6 +29,17 @@ final public class BookParser {
         List<String> bookNames = new LinkedList<String>();
         for (Book book : books) {
             bookNames.add(book.getTitle());
+        }
+        return bookNames;
+    }
+
+    static public Map<String, BigInteger> getBookNamesAvailableExceptReservations(List<Reservation> reservations) {
+
+        Map<String, BigInteger> bookNames = new HashMap<>();
+        for (Reservation reservation : reservations) {
+            if (reservation.getState().equals("pending")) {
+                bookNames.put(reservation.getBookTitle(), reservation.getRank());
+            }
         }
         return bookNames;
     }

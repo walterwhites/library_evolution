@@ -3,6 +3,7 @@ package com.walterwhites.library.consumer.repository.entity;
 import com.walterwhites.library.business.utils.DateUtils;
 import com.walterwhites.library.model.entity.Book;
 import com.walterwhites.library.model.entity.Client;
+import com.walterwhites.library.model.entity.Notification;
 import com.walterwhites.library.model.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.util.*;
 
 @Repository
@@ -54,6 +56,16 @@ public class ReservationRepositoryEntityImpl implements ReservationRepositoryEnt
         this.em.persist(entityReservation);
         Long entityReservation_id = this.findById(entityReservation.getId()).get().getId();
         return entityReservation_id;
+    }
+
+    public void saveNewNotification(library.io.github.walterwhites.loans.Reservation reservation) {
+        Notification entityNotification = new Notification();
+        entityNotification.setState("pending");
+        entityNotification.setEmail(reservation.getClient().getEmail());
+        entityNotification.setCreated_date(new Date());
+        Reservation entityReservation = findById(reservation.getId()).get();
+        entityNotification.setReservation(entityReservation);
+        this.em.persist(entityNotification);
     }
 
     private Reservation addReservation(library.io.github.walterwhites.Book book, long client_id) {
