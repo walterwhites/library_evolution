@@ -7,7 +7,7 @@
   <con:entry key="Save After" value="false"/>
   <con:entry key="Add Settings" value="false"/>
   <con:entry key="WSS Password Type" value=""/>
-  <con:entry key="TestSuite" value="&lt;all>"/>
+  <con:entry key="TestSuite" value="Loans TestSuite"/>
   <con:entry key="Endpoint" value=""/>
   <con:entry key="Select Report Type" value=""/>
   <con:entry key="System Properties" value=""/>
@@ -767,7 +767,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getAllReservationFromClientRequest>
-         <lib:username>flo1</lib:username>
+         <lib:username>flo4</lib:username>
       </lib:getAllReservationFromClientRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getAllReservationFromClientRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="29a737c8-2aa0-4f29-b407-fe2de4d952f8" isOneWay="false" action="" name="updateAllNotification" bindingOperationName="updateAllNotification" type="Request-Response" outputName="updateAllNotificationResponse" inputName="updateAllNotificationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f198c2f9-4adf-40b2-b414-9090a55aeb0b" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
@@ -779,7 +779,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:postCancelReservationRequest>
-         <lib:id>4</lib:id>
+         <lib:id>15</lib:id>
       </lib:postCancelReservationRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/postCancelReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="ca48f5f8-63fb-453c-afac-c64ef7102032" isOneWay="false" action="" name="postCreateReservation" bindingOperationName="postCreateReservation" type="Request-Response" outputName="postCreateReservationResponse" inputName="postCreateReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="464bbe46-513d-46c7-8d40-1621b836b742" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
@@ -794,7 +794,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <lib:getLastReservationRequest>
-         <lib:book_title>eragon</lib:book_title>
+         <lib:book_title>game of thrones</lib:book_title>
       </lib:getLastReservationRequest>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="library.io.github.walterwhites.loans/LoansPort/getLastReservationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="3673f937-ca3c-42a2-b9dd-691c3cf93fcc" isOneWay="false" action="" name="updateArchivedReservation" bindingOperationName="updateArchivedReservation" type="Request-Response" outputName="updateArchivedReservationResponse" inputName="updateArchivedReservationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="aaecfc18-b048-4fc1-b932-70d7e141be4f" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/loans</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lib="library.io.github.walterwhites.loans">
