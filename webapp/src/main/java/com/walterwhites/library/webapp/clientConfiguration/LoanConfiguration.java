@@ -9,7 +9,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 public class LoanConfiguration {
 
     @Bean
-    public Jaxb2Marshaller marshallerClient() {
+    public Jaxb2Marshaller marshallerLoan() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         // this package must match the package in the <generatePackage> specified in
         // pom.xml
@@ -19,11 +19,11 @@ public class LoanConfiguration {
     }
 
     @Bean
-    public LoanClient loanClient(Jaxb2Marshaller marshallerClient) {
+    public LoanClient loanClient(Jaxb2Marshaller marshallerLoan) {
         LoanClient loanClient = new LoanClient();
         loanClient.setDefaultUri("http://localhost:8081/ws/loans");
-        loanClient.setMarshaller(marshallerClient);
-        loanClient.setUnmarshaller(marshallerClient);
+        loanClient.setMarshaller(marshallerLoan);
+        loanClient.setUnmarshaller(marshallerLoan);
         return loanClient;
     }
 }
