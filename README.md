@@ -8,6 +8,7 @@ This project is a improvment of library project https://github.com/walterwhites/
 * [What technologies project uses](#what-technologies-project-uses)
 * [Stucture du projet Maven](#stucture-du-projet-maven)
 * [Docker](#docker)
+* [Class diagram](#class-diagram)
 
 ## What technologies project uses
 - Java jdk: JDK10 version
@@ -64,5 +65,5 @@ batch_notification: Batch d'envoi de notification à lors du retour d'un livre
 8) To pull image on docker hub:
 	$ docker pull walterwhites/webservice:latest
 	
-	
+## Class diagram
 ![class diagram](class_diagram.png?raw=true "class diagram")
